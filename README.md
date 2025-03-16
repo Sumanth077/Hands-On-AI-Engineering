@@ -1,6 +1,6 @@
 # **Awesome AI Apps and Agents** 🚀
 
-A curated repository of AI-powered applications and agentic systems, showcasing practical use cases of Large Language Models (LLMs) from providers such as Google, Anthropic, OpenAI, and self-hosted open-source models.  
+A curated repository of AI-powered applications and agentic systems, showcasing practical use cases of Large Language Models (LLMs) from providers such as Google, Anthropic, OpenAI, and Self-Hosted Open-Source models.  
 
 ## **What’s Inside?**  
 - 🤖 **AI Agents & Use Cases** – Explore different agent-based AI applications.  
