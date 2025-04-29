@@ -19,10 +19,10 @@ A Streamlit application demonstrating a Retrieval-Augmented Generation (RAG) wor
 
 ## Setup
 
-1.  **Clone & Navigate:**
+1.  **Clone Repository & Navigate:**
     ```bash
-    # Clone this repo if you haven't already
-    cd agentic_rag 
+    git clone https://github.com/Sumanth077/awesome-ai-apps-and-agents.git
+    cd awesome-ai-apps-and-agents/agentic_rag 
     ```
 
 2.  **Environment & Dependencies:**

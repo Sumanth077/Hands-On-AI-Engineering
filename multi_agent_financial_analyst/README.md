@@ -12,11 +12,11 @@ A powerful multi-agent system that performs comprehensive stock analysis and gen
 
 ## Installation
 
-1. Clone this repository:
-```bash
-git clone <your-repo-url>
-cd financial-analyst
-```
+1.  **Clone Repository & Navigate:**
+    ```bash
+    git clone https://github.com/Sumanth077/awesome-ai-apps-and-agents.git
+    cd awesome-ai-apps-and-agents/multi_agent_financial_analyst
+    ```
 
 2. Install dependencies:
 ```bash
