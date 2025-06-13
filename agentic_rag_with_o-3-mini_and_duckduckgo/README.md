@@ -1,4 +1,4 @@
-# PDF RAG Agent with Milvus, Agno and OpenAI
+# PDF RAG Agent using Milvus, Agno, OpenAI & DuckDuckGo
 
 A Streamlit application demonstrating a Retrieval-Augmented Generation (RAG) workflow using OpenAI (`gpt-4o-mini`), Agno, Milvus, and DuckDuckGo for web search.
 
@@ -22,13 +22,16 @@ A Streamlit application demonstrating a Retrieval-Augmented Generation (RAG) wor
 1.  **Clone Repository & Navigate:**
     ```bash
     git clone https://github.com/Sumanth077/awesome-ai-apps-and-agents.git
-    cd awesome-ai-apps-and-agents/agentic_rag 
+
+    cd awesome-ai-apps-and-agents/agentic_rag_with_o-3-mini_and_duckduckgo
     ```
 
 2.  **Environment & Dependencies:**
     ```bash
     python3 -m venv venv
-    source venv/bin/activate # Or .env\Scripts\activate on Windows
+
+    source venv/bin/activate # or venv\Scripts\activate on Windows
+
     pip install -r requirements.txt
     ```
 
