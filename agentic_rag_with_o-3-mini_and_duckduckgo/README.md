@@ -34,6 +34,8 @@ A Streamlit application demonstrating a Retrieval-Augmented Generation (RAG) wor
 
     pip install -r requirements.txt
     ```
+    Ensure ollama is installed, with which you would need to download the corresponding model
+    `ollama pull qwen3:1.7b`
 
 3.  **OpenAI API Key:**
     Set the `OPENAI_API_KEY` environment variable or add it to your Streamlit secrets (`.streamlit/secrets.toml`).
