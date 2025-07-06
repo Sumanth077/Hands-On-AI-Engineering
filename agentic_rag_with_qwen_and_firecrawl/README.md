@@ -1,19 +1,20 @@
-# PDF RAG Agent with Milvus, Agno and OpenAI
+# PDF RAG Agent with Milvus, Agno, Qwen and FireCrawl
 
-A Streamlit application demonstrating a Retrieval-Augmented Generation (RAG) workflow using OpenAI (`gpt-4o-mini`), Agno, Milvus, and DuckDuckGo for web search.
+A Streamlit application demonstrating a Retrieval-Augmented Generation (RAG) workflow using Qwen3:8b, Agno, Milvus, and FireCrawl for crawling through relevant websites.
 
 ## Features
 
-- Upload & process PDF documents.
-- OpenAI embeddings & chat completion (`gpt-4o-mini`).
+- Upload PDFs & process PDF documents.
+- Generate BGE embeddings (`bge-small-en-v1.5`).
+- Uses Qwen model (via Ollama) for LLM responses.
 - Milvus vector store for semantic search.
-- DuckDuckGo web search fallback.
+- Firecrawl API integration for structured and up-to-date web search.
 - Interactive Streamlit chat interface.
 
 ## Prerequisites
 
 - Python 3.8+
-- OpenAI API Key
+- FireCrawl API Key
 - Docker (for Milvus)
 - Running Milvus Instance
 
@@ -22,18 +23,21 @@ A Streamlit application demonstrating a Retrieval-Augmented Generation (RAG) wor
 1.  **Clone Repository & Navigate:**
     ```bash
     git clone https://github.com/Sumanth077/awesome-ai-apps-and-agents.git
-    cd awesome-ai-apps-and-agents/agentic_rag 
+
+    cd awesome-ai-apps-and-agents/agentic_rag_with_qwen_and_firecrawl
     ```
 
 2.  **Environment & Dependencies:**
     ```bash
     python3 -m venv venv
-    source venv/bin/activate # Or .env\Scripts\activate on Windows
+
+    source venv/bin/activate # Or venv\Scripts\activate on Windows
+
     pip install -r requirements.txt
     ```
 
-3.  **OpenAI API Key:**
-    Set the `OPENAI_API_KEY` environment variable or add it to your Streamlit secrets (`.streamlit/secrets.toml`).
+3.  **FireCrawl API Key:**
+    Set the `FIRECRAWL_API_KEY` environment variable or add it to your Streamlit secrets (`.streamlit/secrets.toml`).
 
 4.  **Start Milvus:**
     Follow the official Milvus guide to start a standalone instance using Docker:
@@ -52,12 +56,12 @@ A Streamlit application demonstrating a Retrieval-Augmented Generation (RAG) wor
 
 ## How it Works
 
-- PDF text is chunked and embedded using OpenAI.
-- Embeddings stored in Milvus.
+- PDF text is chunked and embedded using `bge-small-en-v1.5` from SentenceTransformers.
+- Embeddings are stored in Milvus for semantic retrieval.
 - User query triggers the Agno Agent:
-    - Searches Milvus knowledge base first.
-    - Uses DuckDuckGo if knowledge base results are insufficient.
-    - `gpt-4o-mini` synthesizes information to generate the final response.
+    - Searches Milvus vector store for relevant context.
+    - Falls back to Firecrawl for live web results if context is weak or missing.
+    - Uses the locally hosted Qwen model via Ollama to synthesize a final response.
 
 ## Contributing
 
