@@ -1,4 +1,4 @@
-# **Awesome AI Apps and Agents** 🚀
+# **Hands-On AI Engineering ** 🚀
 
 A curated repository of AI-powered applications and agentic systems, showcasing practical use cases of Large Language Models (LLMs) from providers such as Google, Anthropic, OpenAI, and Self-Hosted Open-Source models.  
 
