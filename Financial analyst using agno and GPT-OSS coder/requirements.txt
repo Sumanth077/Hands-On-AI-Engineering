@@ -1,0 +1,9 @@
+mcp>=1.0.0
+pandas>=2.0.0
+matplotlib>=3.7.0
+yfinance>=0.2.0
+requests>=2.30.0
+pydantic>=2.0.0
+agno>=0.1.0
+firecrawl-py>=0.0.8
+python-dotenv>=1.0.0
