@@ -28,7 +28,7 @@ except ImportError:
 
 logger = logging.getLogger(__name__)
 
-# Pydantic models
+# Pydantic models for stock analysis and query parsing
 class StockQuery(BaseModel):
     """Structured stock query model"""
     symbol: str = Field(..., description="Stock ticker symbol")
@@ -53,6 +53,8 @@ class AnalysisResult(BaseModel):
     news: List[MarketNews]
     recommendations: str
 
+# ---------------------------------------------------****-----------------------------------------------------
+# GPT-OSS Interface for model inference
 class GPTOSSInterface:
     """Interface to GPT-OSS model via Ollama"""
     
@@ -88,7 +90,8 @@ class GPTOSSInterface:
         except Exception as e:
             logger.error(f"Error querying GPT-OSS: {e}")
             return f"Error: {str(e)}"
-
+# ---------------------------------------------------****-----------------------------------------------------
+# set all the financial tools 
 class FinancialTools:
     """Financial analysis tools for agents"""
     
@@ -165,6 +168,8 @@ class FinancialTools:
             
         return {}
 
+# ---------------------------------------------------****-----------------------------------------------------
+# Query Parser Agent
 class QueryParserAgent:
     """Agent for parsing natural language queries"""
     
@@ -267,7 +272,9 @@ class QueryParserAgent:
             analysis_type=analysis_type,
             time_period=time_period
         )
-
+    
+# ---------------------------------------------------****-----------------------------------------------------
+# Code generation agent for financial analysis
 class CodeGeneratorAgent:
     """Agent for generating Python analysis code"""
     
@@ -446,6 +453,8 @@ except Exception as e:
     print("Please check the stock symbol and try again.")
 """.strip()
 
+# ---------------------------------------------------****-----------------------------------------------------
+# market analysis agent 
 class MarketAnalystAgent:
     """Agent for market analysis and insights"""
     
@@ -507,6 +516,8 @@ class MarketAnalystAgent:
         
         return insights
 
+# ---------------------------------------------------****-----------------------------------------------------
+# FINAL CLASS FOR THE INTERACTION OF ALL AGENTS WITH THE SERVER AND USER QUERY
 class FinancialAnalysisTeam:
     """Orchestrate the financial analysis team using Agno"""
     
