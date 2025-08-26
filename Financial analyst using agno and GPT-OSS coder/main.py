@@ -44,6 +44,7 @@ except ImportError:
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("mcp-financial-agno")
 
+# set upa mcp server
 class MCPFinancialServer:
     """MCP Server for Financial Analysis using Agno Framework"""
     
@@ -175,12 +176,12 @@ class MCPFinancialServer:
             
             formatted_result = f"""# 📈 Comprehensive Financial Analysis
             
-## 🎯 Query Analysis
-**Symbol:** {result.query.symbol}  
-**Analysis Type:** {result.query.analysis_type.title()}  
-**Time Period:** {result.query.time_period.upper()}  
-**Additional Symbols:** {', '.join(result.query.additional_symbols) if result.query.additional_symbols else 'None'}  
-**Technical Indicators:** {', '.join(result.query.indicators) if result.query.indicators else 'None'}
+            ## 🎯 Query Analysis
+            **Symbol:** {result.query.symbol}  
+            **Analysis Type:** {result.query.analysis_type.title()}  
+            **Time Period:** {result.query.time_period.upper()}  
+            **Additional Symbols:** {', '.join(result.query.additional_symbols) if result.query.additional_symbols else 'None'}  
+            **Technical Indicators:** {', '.join(result.query.indicators) if result.query.indicators else 'None'}
 
 ## 💡 Market Insights (GPT-OSS Analysis)
 {result.insights}
@@ -249,9 +250,7 @@ Metadata: {json.dumps(metadata or {}, indent=2)}
                         'features': 'Firecrawl news integration',
                         **metadata
                     }, f, indent=2)
-            
             return [TextContent(type="text", text=f"✅ Code saved successfully!\n\n📁 **Location**: {code_file}\n📄 **Filename**: {filename}\n🗂️ **Directory**: {output_dir}\n\n{f'📋 **Metadata**: Saved to {filename.replace(\".py\", \"_metadata.json\")}' if metadata else ''}")]
-            
         except Exception as e:
             logger.error(f"Error saving code: {e}")
             return [TextContent(type="text", text=f"❌ Error saving code: {str(e)}")]
