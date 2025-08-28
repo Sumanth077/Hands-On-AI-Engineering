@@ -1,0 +1,18 @@
+[project]
+name = "deep-researcher-agent"
+version = "0.1.0"
+description = "A multi-stage research workflow agent powered by agno, firecrawl, and nebius AI cloud"
+authors = [
+    {name = "Avikumar Talaviya", email = "avikumar.talaviya@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "agno",
+    "openai",
+    "firecrawl",
+    "python-dotenv",
+    "mcp",
+    "streamlit",
+    "pydantic",
+]

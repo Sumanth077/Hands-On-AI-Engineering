@@ -1,0 +1,9 @@
+agno
+firecrawl
+mcp
+python-dotenv
+streamlit
+pydantic
+os
+asyncio
+openai

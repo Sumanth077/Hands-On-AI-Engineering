@@ -83,7 +83,7 @@ python-dotenv>=1.0.0
   "mcpServers": {
     "financial-analyst-agno": {
       "command": "python",
-      "args": ["/absolute/path/to/mcp_financial_main.py"],
+      "args": ["/absolute/path/to/main.py"],
       "env": {
         "FIRECRAWL_API_KEY": "your_api_key_here",
         "OLLAMA_BASE_URL": "http://localhost:11434"
@@ -103,7 +103,7 @@ python-dotenv>=1.0.0
   "mcpServers": {
     "financial-analyst-agno": {
       "command": "python",
-      "args": ["/absolute/path/to/mcp_financial_main.py"],
+      "args": ["/absolute/path/to/main.py"],
       "env": {
         "FIRECRAWL_API_KEY": "your_api_key_here"
       }
