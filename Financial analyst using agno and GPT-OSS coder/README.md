@@ -1,7 +1,8 @@
-# MCP Financial Analyst with Agno Framework Setup Guide
+# Financial Analyst using Agno and GPT-OSS Coder
 
-This guide will help you set up the enhanced MCP-powered Financial Analyst that uses the Agno agentic framework with GPT-OSS model and Firecrawl for news integration.
+A smart financial analysis agent powered by Agno and GPT-OSS Coder. This application enables users to perform financial research, analysis, and reporting using agentic workflows and AI models.
 
+<<<<<<< Updated upstream
 ## 🏗️ Architecture Overview
 
 ### File Structure
@@ -389,7 +390,84 @@ if query:
 - **Agents**: Create new specialized agents
 - **Tools**: Add new financial data sources
 - **Documentation**: Improve guides and examples
+=======
+## Features
+- **Agentic Workflow**: Multi-stage financial analysis using Agno agents.
+- **Custom Tools**: Integrates financial tools for data gathering and analysis.
+- **AI-Powered Insights**: Uses GPT-OSS Coder for advanced financial reasoning and report generation.
+- **Streamlined Interface**: Simple Python scripts for easy execution and extension.
+>>>>>>> Stashed changes
 
 ---
 
-*Powered by Agno Framework, GPT-OSS, and Firecrawl for next-generation financial analysis*
+## Setup Guide
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/avikumart/Hands-On-AI-Engineering.git
+cd "Hands-On-AI-Engineering/Financial analyst using agno and GPT-OSS coder"
+```
+
+### 2. Create a Python Virtual Environment (Recommended)
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+### 3. Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Set Up Environment Variables
+Create a `.env` file in this directory if required by your agents or tools (see code for details).
+
+---
+
+## Usage Guide
+
+### 1. Run the Main Application
+```bash
+python main.py
+```
+- Enter your financial analysis queries as prompted or as defined in the script.
+- The agent will process the query, gather data, analyze, and generate a report.
+
+### 2. Customize Financial Agents
+- Edit `financial_agents.py` to add, modify, or extend agent capabilities.
+- Add new tools or models as needed for your financial analysis tasks.
+
+### 3. MCP Integration (if available)
+- If an MCP main/server file is present, you can run it to expose the agent as an MCP tool:
+```bash
+python mcpmain.py
+```
+- This enables integration with Model Context Protocol workflows and external orchestration.
+
+---
+
+## How It Works
+1. **Financial Agent**: Orchestrates the workflow for financial analysis using Agno and custom tools.
+2. **Data Gathering**: Uses integrated tools to collect financial data from various sources.
+3. **Analysis & Reporting**: Applies AI models to analyze data and generate actionable insights and reports.
+
+---
+
+## Troubleshooting
+- Ensure all dependencies are installed (`pip install -r requirements.txt`).
+- Check for required environment variables and API keys.
+- Use Python 3.8 or higher for best compatibility.
+
+---
+
+## License
+MIT
+
+## Author
+Avikumar Talaviya
+
+---
+
+## References
+- [Agno Documentation](https://github.com/agnolabs/agno)
+- [GPT-OSS Coder](https://github.com/open-oss-coder)
