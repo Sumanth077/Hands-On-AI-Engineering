@@ -3,6 +3,7 @@
 A smart financial analysis agent powered by Agno and GPT-OSS Coder. This application enables users to perform financial research, analysis, and reporting using agentic workflows and AI models.
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 ## 🏗️ Architecture Overview
 
 ### File Structure
@@ -391,11 +392,16 @@ if query:
 - **Tools**: Add new financial data sources
 - **Documentation**: Improve guides and examples
 =======
+=======
+>>>>>>> Stashed changes
 ## Features
 - **Agentic Workflow**: Multi-stage financial analysis using Agno agents.
 - **Custom Tools**: Integrates financial tools for data gathering and analysis.
 - **AI-Powered Insights**: Uses GPT-OSS Coder for advanced financial reasoning and report generation.
 - **Streamlined Interface**: Simple Python scripts for easy execution and extension.
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
 ---
