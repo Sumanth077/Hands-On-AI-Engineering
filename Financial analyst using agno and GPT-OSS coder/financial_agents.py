@@ -1,605 +1,412 @@
 #!/usr/bin/env python3
 
 """
-Financial Analysis Agents using Agno Framework with GPT-OSS
-Separate agentic logic for the MCP financial analyst
+Financial Analysis Team using Gemini AI
 """
 
 import json
+import re
+from dataclasses import dataclass, asdict, field
+from typing import List, Optional, Dict, Any
 import logging
-import requests
-from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional
-from pydantic import BaseModel, Field
+import sys
 
-# Firecrawl imports
 try:
-    from firecrawl import FirecrawlApp
+    import google.generativeai as genai
+    from google.generativeai.types import HarmCategory, HarmBlockThreshold
 except ImportError:
-    print("Firecrawl not installed. Install with: pip install firecrawl-py")
+    print("Google Generative AI not installed. Install with: pip install google-generativeai", file=sys.stderr)
+    raise
 
-# Agno imports
 try:
-    from agno import Agent, Team
-    from agno.llm.ollama import OllamaLLM
-    from agno.tools import Tool
+    import yfinance as yf
+    import pandas as pd
 except ImportError:
-    print("Agno not installed. Install with: pip install agno")
+    print("Required packages not installed. Install with: pip install yfinance pandas", file=sys.stderr)
+    raise
 
 logger = logging.getLogger(__name__)
 
-# Pydantic models for stock analysis and query parsing
-class StockQuery(BaseModel):
-    """Structured stock query model"""
-    symbol: str = Field(..., description="Stock ticker symbol")
-    analysis_type: str = Field(..., description="Type of analysis")
-    time_period: str = Field(default="1y", description="Time period")
-    additional_symbols: Optional[List[str]] = Field(default=None)
-    indicators: Optional[List[str]] = Field(default=None)
+@dataclass
+class QueryInfo:
+    symbol: str
+    analysis_type: str = "comprehensive"
+    time_period: str = "6m"
+    additional_symbols: List[str] = field(default_factory=list)
+    indicators: List[str] = field(default_factory=list)
 
-class MarketNews(BaseModel):
-    """Market news structure"""
+@dataclass
+class NewsItem:
     title: str
     summary: str
     url: str
-    published: str
-    relevance_score: float
 
-class AnalysisResult(BaseModel):
-    """Complete analysis result"""
-    query: StockQuery
-    code: str
+@dataclass
+class AnalysisResult:
+    query: QueryInfo
     insights: str
-    news: List[MarketNews]
+    code: str
     recommendations: str
+    news: List[NewsItem] = field(default_factory=list)
 
-# ---------------------------------------------------****-----------------------------------------------------
-# GPT-OSS Interface for model inference
-class GPTOSSInterface:
-    """Interface to GPT-OSS model via Ollama"""
-    
-    def __init__(self, model_name: str = "gpt-oss", base_url: str = "http://localhost:11434"):
-        self.model_name = model_name
-        self.base_url = base_url
-        
-    def query(self, prompt: str, system_prompt: str = "", **kwargs) -> str:
-        """Query GPT-OSS model"""
-        try:
-            payload = {
-                "model": self.model_name,
-                "prompt": prompt,
-                "system": system_prompt,
-                "stream": False,
-                "options": {
-                    "temperature": kwargs.get("temperature", 0.1),
-                    "top_p": kwargs.get("top_p", 0.9),
-                    "num_ctx": kwargs.get("num_ctx", 4096)
-                }
-            }
-            
-            response = requests.post(
-                f"{self.base_url}/api/generate",
-                json=payload,
-                timeout=60
-            )
-            response.raise_for_status()
-            
-            result = response.json()
-            return result.get("response", "")
-            
-        except Exception as e:
-            logger.error(f"Error querying GPT-OSS: {e}")
-            return f"Error: {str(e)}"
-# ---------------------------------------------------****-----------------------------------------------------
-# set all the financial tools 
 class FinancialTools:
-    """Financial analysis tools for agents"""
+    """Financial data and news tools"""
     
     def __init__(self, firecrawl_api_key: Optional[str] = None):
-        self.firecrawl = None
-        if firecrawl_api_key:
-            self.firecrawl = FirecrawlApp(api_key=firecrawl_api_key)
+        self.firecrawl_api_key = firecrawl_api_key
+    
+    def get_stock_data(self, symbol: str, period: str = "6mo") -> pd.DataFrame:
+        """Get stock data from Yahoo Finance"""
+        try:
+            ticker = yf.Ticker(symbol)
+            return ticker.history(period=period)
+        except Exception as e:
+            logger.error(f"Error fetching data for {symbol}: {e}")
+            return pd.DataFrame()
+    
+    def get_stock_info(self, symbol: str) -> Dict:
+        """Get basic stock information"""
+        try:
+            ticker = yf.Ticker(symbol)
+            return ticker.info
+        except Exception as e:
+            logger.error(f"Error fetching info for {symbol}: {e}")
+            return {}
     
     def get_stock_news(self, symbol: str, limit: int = 5) -> List[Dict]:
-        """Fetch recent news for a stock using Firecrawl"""
+        """Get stock news - simplified version"""
         try:
-            if not self.firecrawl:
-                return []
-                
-            # Search for news on financial websites
-            news_urls = [
-                f"https://finance.yahoo.com/quote/{symbol}/news/",
-                f"https://www.marketwatch.com/investing/stock/{symbol}",
-                f"https://seekingalpha.com/symbol/{symbol}/news"
-            ]
-            
-            news_items = []
-            for url in news_urls[:2]:  # Limit to avoid rate limits
-                try:
-                    result = self.firecrawl.scrape_url(
-                        url, 
-                        params={
-                            "formats": ["markdown"],
-                            "onlyMainContent": True
-                        }
-                    )
-                    
-                    if result and result.get('markdown'):
-                        news_items.append({
-                            'url': url,
-                            'content': result['markdown'][:1000],  # Limit content
-                            'title': f"Latest {symbol} News"
-                        })
-                        
-                except Exception as e:
-                    logger.warning(f"Failed to scrape {url}: {e}")
-                    continue
-                    
-            return news_items
-            
+            ticker = yf.Ticker(symbol)
+            news = getattr(ticker, 'news', None)
+            if not news:
+                # Some versions of yfinance may expose news via an attribute or method
+                news = []
+
+            parsed = []
+            for item in news[:limit]:
+                # yfinance news items can vary across versions; be defensive
+                title = item.get('title') if isinstance(item, dict) and 'title' in item else item.get('summary', '') if isinstance(item, dict) else ''
+                url = item.get('link') or item.get('url') or '' if isinstance(item, dict) else ''
+                content = item.get('summary') or item.get('content') or '' if isinstance(item, dict) else ''
+                parsed.append({'title': title, 'url': url, 'content': content})
+
+            return parsed
         except Exception as e:
-            logger.error(f"Error fetching news: {e}")
+            logger.error(f"Error fetching news for {symbol}: {e}")
             return []
+
+
+def _normalize_period(period: str) -> str:
+    """Normalize common period shorthand to yfinance-compatible period strings.
+
+    Examples:
+    - '6m' -> '6mo'
+    - '1y' -> '1y'
+    - '1d' -> '1d'
+    - '3m' -> '3mo'
+    If period is already yfinance-friendly, return it unchanged.
+    """
+    if not period:
+        return '6mo'
+    p = str(period).strip().lower()
+    # Accept formats like '6m', '6mo', '1y', '1d'
+    m = re.match(r'^(\d+)(m|mo|y|d)$', p)
+    if m:
+        num, unit = m.groups()
+        if unit == 'm':
+            unit = 'mo'
+        return f"{num}{unit}"
+    return p
+
+class GeminiAgent:
+    """Base agent using Gemini AI"""
     
-    def get_market_data(self, symbol: str) -> Dict:
-        """Get basic market data (fallback if yfinance not available)"""
+    def __init__(self, api_key: str, role: str, system_prompt: str):
+        genai.configure(api_key=api_key)
+        self.model = genai.GenerativeModel('gemini-pro')
+        self.role = role
+        self.system_prompt = system_prompt
+        
+        # Configure safety settings
+        self.safety_settings = {
+            HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
+            HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
+            HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
+            HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
+        }
+    
+    def generate(self, prompt: str) -> str:
+        """Generate response using Gemini"""
         try:
-            if not self.firecrawl:
-                return {}
-                
-            url = f"https://finance.yahoo.com/quote/{symbol}"
-            result = self.firecrawl.scrape_url(
-                url,
-                params={
-                    "formats": ["markdown"],
-                    "onlyMainContent": True
-                }
+            full_prompt = f"{self.system_prompt}\n\nUser Request: {prompt}"
+            response = self.model.generate_content(
+                full_prompt,
+                safety_settings=self.safety_settings,
+                generation_config=genai.types.GenerationConfig(
+                    temperature=0.7,
+                    max_output_tokens=2000,
+                )
             )
-            
-            if result and result.get('markdown'):
-                return {
-                    'symbol': symbol,
-                    'data': result['markdown'][:500],
-                    'source': url
-                }
-                
+            return response.text
         except Exception as e:
-            logger.error(f"Error fetching market data: {e}")
-            
-        return {}
+            logger.error(f"Error generating response: {e}")
+            return f"Error: Unable to generate response - {str(e)}"
 
-# ---------------------------------------------------****-----------------------------------------------------
-# Query Parser Agent
-class QueryParserAgent:
-    """Agent for parsing natural language queries"""
-    
-    def __init__(self, gpt_interface: GPTOSSInterface):
-        self.gpt = gpt_interface
-        
-        # Create Agno agent
-        self.agent = Agent(
-            name="Query Parser",
-            role="Financial Query Analyzer",
-            goal="Parse natural language financial queries into structured format",
-            backstory="Expert in understanding financial terminology and extracting structured data from user requests",
-            llm=self._create_ollama_llm(),
-            verbose=True
-        )
-    
-    def _create_ollama_llm(self):
-        """Create Ollama LLM interface for Agno"""
-        try:
-            return OllamaLLM(
-                model="gpt-oss",
-                base_url="http://localhost:11434"
-            )
-        except:
-            # Fallback to direct interface
-            return None
-    
-    def parse_query(self, user_query: str) -> StockQuery:
-        """Parse natural language query"""
-        system_prompt = """You are a financial query parser. Extract structured information from user queries.
-        
-        Return ONLY a valid JSON object with these fields:
-        - symbol: main stock ticker symbol (uppercase)
-        - analysis_type: one of [price, trend, comparison, forecast, performance, news]
-        - time_period: one of [1d, 5d, 1mo, 3mo, 6mo, 1y, 2y, 5y, 10y, ytd, max]
-        - additional_symbols: array of additional ticker symbols if mentioned
-        - indicators: array of technical indicators if requested [sma, ema, rsi, macd, bollinger]"""
-        
-        prompt = f"""Parse this financial query into structured JSON: "{user_query}"
-        
-        Examples:
-        Query: "Show me Apple stock performance over 6 months"
-        Output: {{"symbol": "AAPL", "analysis_type": "performance", "time_period": "6mo"}}
-        
-        Query: "Compare Tesla vs Ford with moving averages"
-        Output: {{"symbol": "TSLA", "analysis_type": "comparison", "time_period": "1y", "additional_symbols": ["F"], "indicators": ["sma"]}}"""
-        
-        response = self.gpt.query(prompt, system_prompt, temperature=0.1)
-        
-        try:
-            # Extract JSON from response
-            import re
-            json_match = re.search(r'\{.*\}', response, re.DOTALL)
-            if json_match:
-                data = json.loads(json_match.group())
-                return StockQuery(**data)
-        except Exception as e:
-            logger.warning(f"Failed to parse structured query: {e}")
-        
-        # Fallback parsing
-        return self._fallback_parse(user_query)
-    
-    def _fallback_parse(self, query: str) -> StockQuery:
-        """Fallback parsing logic"""
-        query_upper = query.upper()
-        
-        # Common stock symbols
-        symbols = ["AAPL", "MSFT", "GOOGL", "AMZN", "TSLA", "NVDA", "META", "NFLX", "F"]
-        symbol = "AAPL"  # default
-        
-        for sym in symbols:
-            if sym in query_upper:
-                symbol = sym
-                break
-        
-        # Analysis type detection
-        analysis_type = "price"
-        if any(word in query_upper for word in ["COMPARE", "VS", "VERSUS"]):
-            analysis_type = "comparison"
-        elif any(word in query_upper for word in ["TREND", "TRENDING"]):
-            analysis_type = "trend"
-        elif any(word in query_upper for word in ["NEWS", "LATEST"]):
-            analysis_type = "news"
-        elif any(word in query_upper for word in ["FORECAST", "PREDICT"]):
-            analysis_type = "forecast"
-        
-        # Time period detection
-        time_period = "1y"
-        if "6 MONTH" in query_upper or "6MO" in query_upper:
-            time_period = "6mo"
-        elif "3 MONTH" in query_upper or "3MO" in query_upper:
-            time_period = "3mo"
-        elif "1 MONTH" in query_upper or "1MO" in query_upper:
-            time_period = "1mo"
-        elif "2 YEAR" in query_upper or "2Y" in query_upper:
-            time_period = "2y"
-        
-        return StockQuery(
-            symbol=symbol,
-            analysis_type=analysis_type,
-            time_period=time_period
-        )
-    
-# ---------------------------------------------------****-----------------------------------------------------
-# Code generation agent for financial analysis
-class CodeGeneratorAgent:
-    """Agent for generating Python analysis code"""
-    
-    def __init__(self, gpt_interface: GPTOSSInterface):
-        self.gpt = gpt_interface
-        
-        self.agent = Agent(
-            name="Code Generator",
-            role="Python Financial Code Developer",
-            goal="Generate clean, executable Python code for financial analysis",
-            backstory="Senior Python developer specializing in financial data analysis with pandas, matplotlib, and yfinance",
-            llm=self._create_ollama_llm(),
-            verbose=True
-        )
-    
-    def _create_ollama_llm(self):
-        """Create Ollama LLM interface"""
-        try:
-            return OllamaLLM(model="gpt-oss", base_url="http://localhost:11434")
-        except:
-            return None
-    
-    def generate_code(self, query: StockQuery, news_data: List[Dict] = None) -> str:
-        """Generate Python code for analysis"""
-        
-        system_prompt = """You are a senior Python developer creating financial analysis code.
-        
-        Requirements:
-        - Use yfinance for data fetching
-        - Use pandas for data manipulation
-        - Use matplotlib for visualization
-        - Include error handling
-        - Create professional-looking plots
-        - Add proper titles, labels, and legends
-        - Return clean, executable code without markdown formatting"""
-        
-        news_context = ""
-        if news_data:
-            news_context = f"\nRecent news context: {json.dumps([n.get('title', '') for n in news_data[:2]])}"
-        
-        prompt = f"""Generate Python code for this financial analysis:
-        
-        Symbol: {query.symbol}
-        Analysis Type: {query.analysis_type}
-        Time Period: {query.time_period}
-        Additional Symbols: {query.additional_symbols or []}
-        Technical Indicators: {query.indicators or []}
-        {news_context}
-        
-        Code requirements:
-        1. Fetch data using yfinance
-        2. Create meaningful visualizations
-        3. Calculate relevant metrics
-        4. Handle errors gracefully
-        5. Include comments explaining the analysis
-        6. Use proper plot formatting with titles and labels
-        
-        Return only the Python code, no explanations or markdown."""
-        
-        code = self.gpt.query(prompt, system_prompt, temperature=0.2)
-        
-        # Clean the response
-        return self._clean_code_response(code, query)
-    
-    def _clean_code_response(self, response: str, query: StockQuery) -> str:
-        """Clean and validate code response"""
-        lines = response.split('\n')
-        clean_lines = []
-        in_code_block = False
-        
-        for line in lines:
-            if '```python' in line.lower():
-                in_code_block = True
-                continue
-            elif '```' in line and in_code_block:
-                break
-            elif line.strip():
-                # Keep lines that look like Python code
-                if (in_code_block or 
-                    line.startswith('import ') or 
-                    line.startswith('from ') or 
-                    any(keyword in line for keyword in ['yf.', 'plt.', 'pd.', 'np.']) or
-                    line.startswith('    ') or  # Indented lines
-                    '=' in line or
-                    line.startswith('#')):
-                    clean_lines.append(line)
-        
-        if clean_lines:
-            return '\n'.join(clean_lines)
-        
-        # Fallback code generation
-        return self._generate_fallback_code(query)
-    
-    def _generate_fallback_code(self, query: StockQuery) -> str:
-        """Generate fallback code if AI generation fails"""
-        additional_plots = ""
-        if query.additional_symbols:
-            for symbol in query.additional_symbols[:2]:  # Limit to 2 additional
-                additional_plots += f"""
-# Add {symbol} for comparison
-{symbol.lower()}_data = yf.Ticker('{symbol}').history(period='{query.time_period}')
-if not {symbol.lower()}_data.empty:
-    plt.plot({symbol.lower()}_data.index, {symbol.lower()}_data['Close'], 
-             linewidth=2, label='{symbol} Close Price')
-"""
-        
-        indicators_code = ""
-        if query.indicators:
-            if 'sma' in [i.lower() for i in query.indicators]:
-                indicators_code += """
-# Simple Moving Average
-data['SMA_20'] = data['Close'].rolling(window=20).mean()
-plt.plot(data.index, data['SMA_20'], '--', label='SMA 20', alpha=0.7)
-"""
-        
-        return f"""
-import yfinance as yf
-import pandas as pd
-import matplotlib.pyplot as plt
-from datetime import datetime, timedelta
-import numpy as np
-
-try:
-    # Fetch stock data
-    print(f"Fetching data for {query.symbol}...")
-    ticker = yf.Ticker('{query.symbol}')
-    data = ticker.history(period='{query.time_period}')
-    
-    if data.empty:
-        print(f"No data available for {query.symbol}")
-        exit()
-    
-    # Create visualization
-    plt.figure(figsize=(14, 8))
-    
-    # Main stock price
-    plt.subplot(2, 1, 1)
-    plt.plot(data.index, data['Close'], linewidth=2, label=f'{query.symbol} Close Price', color='blue')
-    {additional_plots}
-    {indicators_code}
-    
-    plt.title(f'{query.symbol} Stock Analysis - {query.analysis_type.title()} ({query.time_period.upper()})', fontsize=16)
-    plt.xlabel('Date')
-    plt.ylabel('Price ($)')
-    plt.legend()
-    plt.grid(True, alpha=0.3)
-    
-    # Volume subplot
-    plt.subplot(2, 1, 2)
-    plt.bar(data.index, data['Volume'], alpha=0.7, color='gray', label='Volume')
-    plt.title('Trading Volume')
-    plt.xlabel('Date')
-    plt.ylabel('Volume')
-    plt.legend()
-    plt.grid(True, alpha=0.3)
-    
-    plt.tight_layout()
-    plt.show()
-    
-    # Calculate metrics
-    current_price = data['Close'].iloc[-1]
-    start_price = data['Close'].iloc[0]
-    total_return = ((current_price / start_price) - 1) * 100
-    volatility = data['Close'].pct_change().std() * np.sqrt(252) * 100
-    
-    print(f"\\n=== {query.symbol} Analysis Results ===")
-    print(f"Period: {query.time_period.upper()}")
-    print(f"Start Price: ${start_price:.2f}")
-    print(f"Current Price: ${current_price:.2f}")
-    print(f"Total Return: {total_return:.2f}%")
-    print(f"Annualized Volatility: {volatility:.2f}%")
-    print(f"Average Volume: {data['Volume'].mean():,.0f}")
-    
-except Exception as e:
-    print(f"Error in analysis: {{e}}")
-    print("Please check the stock symbol and try again.")
-""".strip()
-
-# ---------------------------------------------------****-----------------------------------------------------
-# market analysis agent 
-class MarketAnalystAgent:
-    """Agent for market analysis and insights"""
-    
-    def __init__(self, gpt_interface: GPTOSSInterface, tools: FinancialTools):
-        self.gpt = gpt_interface
-        self.tools = tools
-        
-        self.agent = Agent(
-            name="Market Analyst",
-            role="Financial Market Expert",
-            goal="Provide comprehensive market insights and analysis",
-            backstory="Experienced financial analyst with deep knowledge of market trends, technical analysis, and economic indicators",
-            llm=self._create_ollama_llm(),
-            verbose=True
-        )
-    
-    def _create_ollama_llm(self):
-        """Create Ollama LLM interface"""
-        try:
-            return OllamaLLM(model="gpt-oss", base_url="http://localhost:11434")
-        except:
-            return None
-    
-    def analyze_stock(self, query: StockQuery, news_data: List[Dict] = None) -> str:
-        """Generate market insights"""
-        
-        news_summary = ""
-        if news_data:
-            news_items = [item.get('content', '')[:200] for item in news_data[:3]]
-            news_summary = f"\n\nRecent News Context:\n" + "\n".join(f"- {item}" for item in news_items if item)
-        
-        system_prompt = """You are a professional financial analyst providing market insights.
-        
-        Provide analysis covering:
-        - Current market sentiment
-        - Technical outlook
-        - Key factors affecting the stock
-        - Risk assessment
-        - Investment considerations
-        
-        Keep insights concise but informative (200-300 words)."""
-        
-        prompt = f"""Provide market analysis for {query.symbol} stock:
-        
-        Analysis Focus: {query.analysis_type}
-        Time Period: {query.time_period}
-        Comparison Stocks: {query.additional_symbols or 'None'}
-        Technical Indicators: {query.indicators or 'None'}
-        {news_summary}
-        
-        Include:
-        1. Current market position assessment
-        2. Technical analysis perspective
-        3. Key catalysts or concerns
-        4. Risk factors to consider
-        5. Brief outlook summary"""
-        
-        insights = self.gpt.query(prompt, system_prompt, temperature=0.3)
-        
-        return insights
-
-# ---------------------------------------------------****-----------------------------------------------------
-# FINAL CLASS FOR THE INTERACTION OF ALL AGENTS WITH THE SERVER AND USER QUERY
 class FinancialAnalysisTeam:
-    """Orchestrate the financial analysis team using Agno"""
+    """Multi-agent financial analysis team using Gemini AI"""
     
-    def __init__(self, firecrawl_api_key: Optional[str] = None):
-        self.gpt_interface = GPTOSSInterface()
+    def __init__(self, firecrawl_api_key: Optional[str] = None, gemini_api_key: str = None):
+        if not gemini_api_key:
+            raise ValueError("Gemini API key is required")
+            
         self.tools = FinancialTools(firecrawl_api_key)
         
         # Initialize agents
-        self.query_parser = QueryParserAgent(self.gpt_interface)
-        self.code_generator = CodeGeneratorAgent(self.gpt_interface)
-        self.market_analyst = MarketAnalystAgent(self.gpt_interface, self.tools)
+        self.query_parser = GeminiAgent(
+            api_key=gemini_api_key,
+            role="Query Parser",
+            system_prompt="""You are a financial query parser. Extract key information from user queries:
+- Stock symbol (primary focus)
+- Analysis type (technical, fundamental, comprehensive)
+- Time period (1d, 1w, 1m, 3m, 6m, 1y, 2y)
+- Additional symbols for comparison
+- Technical indicators requested
+
+Return a JSON object with: symbol, analysis_type, time_period, additional_symbols, indicators.
+If information is unclear, use reasonable defaults."""
+        )
         
-        logger.info("Financial Analysis Team initialized with GPT-OSS and Firecrawl")
+        self.code_generator = GeminiAgent(
+            api_key=gemini_api_key,
+            role="Code Generator",
+            system_prompt="""You are a Python code generator for financial analysis. Generate clean, executable Python code using:
+- yfinance for data
+- pandas for analysis
+- matplotlib for visualization
+- numpy for calculations
+
+Requirements:
+- Include proper imports
+- Add error handling
+- Create informative plots
+- Use professional styling
+- Include data validation
+- Add comments explaining key sections
+
+Focus on creating practical, working code that provides valuable insights."""
+        )
+        
+        self.market_analyst = GeminiAgent(
+            api_key=gemini_api_key,
+            role="Market Analyst",
+            system_prompt="""You are a senior financial analyst. Provide expert market insights and investment recommendations based on:
+- Technical analysis patterns
+- Market trends and sentiment
+- Risk assessment
+- Investment opportunities
+
+Be professional, balanced, and provide actionable insights. Always include risk warnings and mention this is not financial advice."""
+        )
     
-    def analyze(self, user_query: str) -> AnalysisResult:
-        """Perform complete financial analysis"""
+    def parse_query(self, query: str) -> QueryInfo:
+        """Parse natural language query"""
         try:
-            # Step 1: Parse the query
-            logger.info(f"Parsing query: {user_query}")
-            parsed_query = self.query_parser.parse_query(user_query)
+            response = None
+            try:
+                response = self.query_parser.generate(query)
+            except Exception as gen_err:
+                # Log and continue to heuristic fallback below
+                logger.warning(f"Gemini generation failed, falling back to heuristic parsing: {gen_err}")
+
+            data = None
+            if response:
+                # Extract JSON from response if present
+                json_match = re.search(r'\{.*\}', response, re.DOTALL)
+                if json_match:
+                    try:
+                        data = json.loads(json_match.group())
+                    except Exception:
+                        # Invalid JSON in model output; ignore and use heuristic fallback
+                        logger.warning("Model output contained invalid JSON — falling back to heuristic parsing")
+
+            # If model didn't provide valid JSON, fall back to heuristic extraction + yfinance validation
+            if not data:
+                # Try to heuristically extract a ticker symbol from the query
+                symbol_match = re.search(r"\b([A-Z]{1,5}(?:\.[A-Z]{1,4})?)\b", query.upper())
+                if not symbol_match:
+                    raise ValueError("No ticker symbol found in query. Please include a valid stock ticker.")
+
+                symbol = symbol_match.group(1)
+
+                # Validate the extracted symbol with yfinance to ensure real data exists
+                try:
+                    info = yf.Ticker(symbol).info
+                    if not info or info.get('regularMarketPrice') is None:
+                        raise ValueError(f"Ticker '{symbol}' not found or has no market data.")
+                except Exception as e:
+                    raise ValueError(f"Ticker validation failed for '{symbol}': {e}")
+
+                data = {"symbol": symbol, "analysis_type": "comprehensive", "time_period": "6m", "additional_symbols": [], "indicators": []}
             
-            # Step 2: Gather news and market data
-            logger.info(f"Gathering news for {parsed_query.symbol}")
-            news_data = self.tools.get_stock_news(parsed_query.symbol)
+            # Ensure the parser returned a real symbol; do not silently
+            # fall back to any hard-coded ticker.
+            symbol = data.get("symbol")
+            if not symbol:
+                raise ValueError("Parser did not return a ticker symbol.")
+
+            return QueryInfo(
+                symbol=symbol,
+                analysis_type=data.get("analysis_type", "comprehensive"),
+                time_period=data.get("time_period", "6m"),
+                additional_symbols=data.get("additional_symbols", []),
+                indicators=data.get("indicators", [])
+            )
+        except Exception as e:
+            # Log the parsing/validation error and re-raise so the higher-level
+            # workflow can produce an informative AnalysisResult instead of
+            # silently using mock data.
+            logger.error(f"Error parsing query: {e}", exc_info=True)
+            raise
+    
+    def generate_code(self, query_info: QueryInfo, stock_data: pd.DataFrame) -> str:
+        """Generate Python analysis code"""
+        prompt = f"""Generate Python code for financial analysis:
+
+Stock: {query_info.symbol}
+Analysis Type: {query_info.analysis_type}
+Time Period: {query_info.time_period}
+Data Shape: {stock_data.shape if not stock_data.empty else "No data"}
+
+Create code that:
+1. Fetches data using yfinance
+2. Performs technical analysis
+3. Creates professional visualizations
+4. Calculates key metrics
+5. Handles errors gracefully
+
+Make it production-ready and well-documented."""
+        
+        return self.code_generator.generate(prompt)
+    
+    def analyze_market(self, query_info: QueryInfo, stock_data: pd.DataFrame, news: List[Dict] = None) -> tuple:
+        """Generate market insights and recommendations"""
+        # Prepare data summary with defensive checks
+        data_summary = "No data available"
+        try:
+            if not stock_data.empty and 'Close' in stock_data.columns and len(stock_data['Close']) >= 1:
+                latest_price = stock_data['Close'].iloc[-1]
+
+                # Compute price change only if we have at least two data points and non-zero first value
+                if len(stock_data['Close']) >= 2 and stock_data['Close'].iloc[0] != 0:
+                    price_change = ((stock_data['Close'].iloc[-1] / stock_data['Close'].iloc[0]) - 1) * 100
+                else:
+                    price_change = 0.0
+
+                # Volatility requires at least two points
+                if len(stock_data['Close']) >= 2:
+                    volatility = stock_data['Close'].pct_change().std() * 100
+                else:
+                    volatility = 0.0
+
+                data_summary = f"Latest Price: ${latest_price:.2f}, Change: {price_change:.1f}%, Volatility: {volatility:.1f}%"
+        except Exception as e:
+            logger.warning(f"Failed to compute data summary: {e}")
+        
+        news_summary = ""
+        if news:
+            news_summary = "Recent news: " + "; ".join([item.get('title', '')[:50] for item in news[:3]])
+        
+        insights_prompt = f"""Analyze this stock data and provide expert insights:
+
+Stock: {query_info.symbol}
+Analysis Period: {query_info.time_period}
+Data Summary: {data_summary}
+{news_summary}
+
+Provide professional market insights covering:
+- Current market position
+- Technical patterns observed
+- Market sentiment
+- Key risk factors
+- Investment thesis"""
+        
+        recommendations_prompt = f"""Based on the analysis of {query_info.symbol}, provide investment recommendations:
+
+Data: {data_summary}
+{news_summary}
+
+Provide:
+- Clear investment recommendation (Buy/Hold/Sell with rationale)
+- Risk assessment
+- Price targets or key levels
+- Time horizon considerations
+- Portfolio allocation suggestions
+
+Remember to include appropriate disclaimers."""
+        
+        insights = self.market_analyst.generate(insights_prompt)
+        recommendations = self.market_analyst.generate(recommendations_prompt)
+        
+        return insights, recommendations
+    
+    def analyze(self, query: str) -> AnalysisResult:
+        """Complete financial analysis workflow"""
+        try:
+            # Parse query (may raise ValueError if no valid ticker found)
+            try:
+                query_info = self.parse_query(query)
+            except Exception as e:
+                # Return a structured AnalysisResult indicating the input error
+                return AnalysisResult(
+                    query=QueryInfo(symbol="INVALID"),
+                    insights=f"Input error: {str(e)}",
+                    code="# No code generated due to input error",
+                    recommendations="Please provide a valid stock ticker in your query.",
+                    news=[]
+                )
+
+            logger.info(f"Analyzing {query_info.symbol}")
+            # Normalize period for yfinance compatibility and fetch data
+            period = _normalize_period(query_info.time_period)
+            stock_data = self.tools.get_stock_data(query_info.symbol, period)
+            news_data = self.tools.get_stock_news(query_info.symbol, 5)
+
+            if stock_data.empty:
+                return AnalysisResult(
+                    query=query_info,
+                    insights="No market data could be retrieved for the provided ticker.",
+                    code="# No code generated because historical price data is unavailable",
+                    recommendations="Verify the ticker symbol and try again. If the ticker is correct, the data source may be temporarily unavailable.",
+                    news=[]
+                )
             
-            # Step 3: Generate analysis code
-            logger.info("Generating analysis code")
-            analysis_code = self.code_generator.generate_code(parsed_query, news_data)
+            # Generate analysis components
+            code = self.generate_code(query_info, stock_data)
+            insights, recommendations = self.analyze_market(query_info, stock_data, news_data)
             
-            # Step 4: Generate market insights
-            logger.info("Generating market insights")
-            market_insights = self.market_analyst.analyze_stock(parsed_query, news_data)
-            
-            # Step 5: Generate recommendations
-            recommendations = self._generate_recommendations(parsed_query, market_insights)
-            
-            # Step 6: Format news data
-            formatted_news = []
-            for news_item in news_data[:3]:
-                formatted_news.append(MarketNews(
-                    title=news_item.get('title', 'Market News'),
-                    summary=news_item.get('content', '')[:200],
-                    url=news_item.get('url', ''),
-                    published=datetime.now().isoformat(),
-                    relevance_score=0.8
+            # Format news
+            news_items = []
+            for item in news_data[:3]:
+                news_items.append(NewsItem(
+                    title=item.get('title', 'Market Update'),
+                    summary=item.get('content', '')[:200],
+                    url=item.get('url', '')
                 ))
             
             return AnalysisResult(
-                query=parsed_query,
-                code=analysis_code,
-                insights=market_insights,
-                news=formatted_news,
-                recommendations=recommendations
+                query=query_info,
+                insights=insights,
+                code=code,
+                recommendations=recommendations,
+                news=news_items
             )
             
         except Exception as e:
             logger.error(f"Error in analysis: {e}")
-            # Return minimal result on error
+            # Return error result
             return AnalysisResult(
-                query=StockQuery(symbol="AAPL", analysis_type="price"),
-                code="# Error generating code",
-                insights=f"Error in analysis: {str(e)}",
-                news=[],
-                recommendations="Please check the query and try again."
+                query=QueryInfo(symbol="ERROR"),
+                insights=f"Analysis failed: {str(e)}",
+                code="# Error: Unable to generate code",
+                recommendations="Unable to provide recommendations due to error."
             )
-    
-    def _generate_recommendations(self, query: StockQuery, insights: str) -> str:
-        """Generate investment recommendations"""
-        system_prompt = """Generate brief investment recommendations based on the analysis.
-        Include risk level and key actionable points. Keep it concise (100-150 words)."""
-        
-        prompt = f"""Based on this analysis for {query.symbol}:
-
-        Analysis Type: {query.analysis_type}
-        Market Insights: {insights[:300]}...
-        
-        Provide investment recommendations including:
-        1. Risk assessment (Low/Medium/High)
-        2. Key action items
-        3. Timeline considerations
-        4. Important disclaimers"""
-        
-        recommendations = self.gpt_interface.query(prompt, system_prompt, temperature=0.2)
-        
-        return recommendations + "\n\n⚠️ Disclaimer: This is not financial advice. Consult with a financial advisor before making investment decisions."
