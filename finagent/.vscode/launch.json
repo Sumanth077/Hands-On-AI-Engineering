@@ -1,0 +1,26 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run MCP Financial Server",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/mcp_financial_main.py",
+            "console": "integratedTerminal",
+            "envFile": "${workspaceFolder}/.env",
+            "env": {
+                "GEMINI_API_KEY": "AIzaSyCVx0yZQ5uFhifY_eTy9ChPxmCc3ZjjhTw",
+                "FIRECRAWL_API_KEY": "fc-159693bb0bd34c4599588f97dd6583cd"
+            },
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Test Financial Analysis",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/test_analysis.py",
+            "console": "integratedTerminal",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

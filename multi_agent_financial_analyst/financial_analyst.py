@@ -184,8 +184,8 @@ with st.sidebar:
     # Stock Symbol input
     symbol = st.text_input(
         "Stock Symbol",
-        value="AAPL",
-        help="Enter a stock symbol (e.g., AAPL, GOOGL)"
+        value="",
+        help="Enter a stock symbol (for example: TSLA or MSFT). Provide a single ticker symbol to analyze."
     ).upper()
 
     # Analysis button
@@ -198,10 +198,13 @@ if "analysis_complete" not in st.session_state:
 
 if analyze_button:
     try:
-        with st.spinner(f'Analyzing {symbol}... This may take a few minutes.'):
-            # Create and run the crew
-            crew = create_agents_and_tasks(symbol)
-            result = crew.kickoff()
+        if not symbol:
+            st.error("Please enter a valid stock symbol before running the analysis.")
+        else:
+            with st.spinner(f'Analyzing {symbol}... This may take a few minutes.'):
+                # Create and run the crew
+                crew = create_agents_and_tasks(symbol)
+                result = crew.kickoff()
             # Convert the CrewOutput to string if needed
             if hasattr(result, 'raw'):
                 st.session_state.report = result.raw
