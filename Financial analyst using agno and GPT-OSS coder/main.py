@@ -72,7 +72,7 @@ class MCPFinancialServer:
                         "properties": {
                             "query": {
                                 "type": "string",
-                                "description": "Natural language query about stock analysis (e.g., 'Analyze AAPL performance over 6 months with news')"
+                                "description": "Natural language query about stock analysis (e.g., 'Analyze <TICKER> performance over 6 months with news')"
                             }
                         },
                         "required": ["query"]
@@ -109,7 +109,7 @@ class MCPFinancialServer:
                     inputSchema={
                         "type": "object",
                         "properties": {
-                            "symbol": {"type": "string", "description": "Stock symbol (e.g., AAPL)"},
+                            "symbol": {"type": "string", "description": "Stock symbol (replace with desired ticker)"},
                             "limit": {"type": "number", "description": "Number of news articles to fetch (default: 5)"}
                         },
                         "required": ["symbol"]
