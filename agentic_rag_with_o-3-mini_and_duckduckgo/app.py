@@ -20,6 +20,8 @@ st.set_page_config(
     layout="wide"
 )
 
+#git account
+
 # Apply custom CSS styling (Reverted to previous style + minor tweaks)
 def apply_custom_css():
     st.markdown("""
