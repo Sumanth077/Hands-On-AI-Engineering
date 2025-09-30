@@ -14,12 +14,17 @@ from datetime import datetime
 from queue import Queue
 
 import torch
-torch.classes.__path__ = [] 
+torch.classes.__path__ = []    
+
+
 
 # --- Caching for performance ---
 @st.cache_resource(show_spinner=False)
 def get_embedding_model():
     return SentenceTransformer("BAAI/bge-small-en-v1.5")
+# @st.cache_resource(show_spinner=False)
+# def get_embedding_model():
+#     return SentenceTransformer("BAAI/bge-small-en-v1.5")
 
 # Custom Embedder using cached model
 class CustomEmbedder:
