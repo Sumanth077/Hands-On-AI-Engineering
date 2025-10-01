@@ -7,8 +7,8 @@ A sophisticated financial analysis system that leverages Google's Gemini AI and 
 - **Multi-Agent AI System**: Specialized agents for query parsing, code generation, and market analysis
 - **Real-time Stock Data**: Fetches live market data using Yahoo Finance
 - **Automated Code Generation**: Creates executable Python code for financial analysis
-- **News Integration**: Incorporates latest market news into analysis (via Firecrawl)
-- **MCP Server**: Modern Model Context Protocol server for seamless AI assistant integration
+- **News Integration**: Incorporates latest market news into analysis
+- **MCP Server**: Modern Model Context Protocol server for Claude Desktop integration
 - **Professional Visualizations**: Generates matplotlib charts and technical analysis plots
 - **Risk Assessment**: Provides balanced investment recommendations with proper disclaimers
 
@@ -16,6 +16,7 @@ A sophisticated financial analysis system that leverages Google's Gemini AI and 
 
 - Python 3.8+
 - Google Gemini API key
+- Claude Desktop (for MCP integration)
 - Firecrawl API key (optional, for enhanced news features)
 
 ## File Structure
@@ -68,34 +69,108 @@ FIRECRAWL_API_KEY=your_firecrawl_api_key_here  # Optional
 2. Get your API key from the dashboard
 3. Add it to your `.env` file for enhanced news features
 
+## Claude Desktop Integration
+
+### Setup MCP Server with Claude Desktop
+
+1. **Install Claude Desktop**:
+
+   - Download from [Claude.ai](https://claude.ai/download)
+   - Install and launch the application
+
+2. **Configure MCP Server**:
+
+   Locate your Claude Desktop config file:
+
+   - **MacOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+   - **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+
+3. **Add Finagent Server**:
+
+   Edit the config file and add:
+
+   ```json
+   {
+     "mcpServers": {
+       "financial-analyst": {
+         "command": "python",
+         "args": ["/absolute/path/to/finagent/main.py"],
+         "env": {
+           "GEMINI_API_KEY": "your_gemini_api_key_here",
+           "FIRECRAWL_API_KEY": "your_firecrawl_api_key_here"
+         }
+       }
+     }
+   }
+   ```
+
+   Replace `/absolute/path/to/finagent/main.py` with the actual path to your main.py file.
+
+4. **Restart Claude Desktop**:
+
+   - Quit Claude Desktop completely
+   - Relaunch the application
+   - The MCP server should now be available
+
+5. **Verify Connection**:
+
+   In Claude Desktop, you should see the financial analysis tools available. Ask Claude:
+
+   ```
+   Can you analyze Apple stock for me?
+   ```
+
+### Available Tools in Claude Desktop
+
+Once configured, Claude can use these tools:
+
+- **analyze_stock**: Get comprehensive stock analysis with AI insights
+- **execute_code**: Run generated Python analysis code
+- **get_news**: Fetch latest market news for stocks
+
+### Example Conversations with Claude Desktop
+
+```
+You: Analyze Tesla stock performance over the last 6 months
+
+Claude: I'll analyze Tesla stock for you using the financial analysis tool...
+[Uses analyze_stock tool]
+```
+
+```
+You: What's the latest news on NVDA?
+
+Claude: Let me fetch the latest news for NVIDIA...
+[Uses get_news tool]
+```
+
+```
+You: Can you execute this analysis code for me?
+
+Claude: I'll run that code using the execution tool...
+[Uses execute_code tool]
+```
+
 ## Usage
 
-### As MCP Server
+### As MCP Server (Standalone)
 
-Start the MCP server:
+Start the MCP server manually:
 
 ```bash
 python main.py
 ```
-
-The server will expose three main tools:
-
-- `analyze_stock`: Comprehensive stock analysis with AI insights
-- `execute_code`: Execute generated Python analysis code
-- `get_news`: Fetch latest market news for any stock
 
 ### Direct Python Usage
 
 ```python
 from financial_agents import FinancialAnalysisTeam
 
-# Initialize the analysis team
 team = FinancialAnalysisTeam(
     gemini_api_key="your_gemini_key",
-    firecrawl_api_key="your_firecrawl_key"  # Optional
+    firecrawl_api_key="your_firecrawl_key"
 )
 
-# Analyze a stock
 result = team.analyze("Analyze Apple stock over the last 6 months")
 
 print(f"Insights: {result.insights}")
@@ -111,29 +186,16 @@ The system understands natural language queries:
 - "Compare Apple and Microsoft stocks this year"
 - "Technical analysis of NVDA with RSI and MACD indicators"
 - "What's the current sentiment on Bitcoin?"
+- "Show me the latest news for Amazon stock"
 
 ## Architecture
 
 ### Core Components
 
 1. **FinancialAnalysisTeam**: Main orchestrator class
-
-   - Coordinates multiple AI agents
-   - Manages data flow and analysis workflow
-
 2. **GeminiAgent**: Base agent class using Gemini AI
-
-   - Specialized agents for different analysis tasks
-   - Configurable safety settings and generation parameters
-
 3. **FinancialTools**: Data acquisition utilities
-
-   - Yahoo Finance integration for market data
-   - News fetching capabilities
-
-4. **MCP Server**: Modern protocol server
-   - Seamless integration with AI assistants
-   - RESTful API endpoints for analysis tools
+4. **MCP Server**: Model Context Protocol server for Claude Desktop
 
 ### Agent Specialization
 
@@ -161,17 +223,51 @@ The system understands natural language queries:
 
 ### Common Issues
 
-1. **Import Errors**: Ensure all dependencies are installed
+1. **MCP Server Not Showing in Claude Desktop**:
+
+   - Verify the config file path is correct
+   - Check that Python path in config is valid
+   - Ensure main.py path is absolute, not relative
+   - Restart Claude Desktop completely
+
+2. **Import Errors**:
 
 ```bash
 pip install google-generativeai yfinance pandas mcp python-dotenv
 ```
 
-2. **API Key Issues**: Verify your `.env` file is in the project root and properly formatted
+3. **API Key Issues**:
 
-3. **Data Fetching Errors**: Check internet connection and ticker symbol validity
+   - Verify your `.env` file is in the project root
+   - Check API keys are valid and properly formatted
+   - Ensure environment variables are set in Claude Desktop config
 
-4. **Code Execution Timeout**: Large datasets may require increased timeout values
+4. **Data Fetching Errors**:
+
+   - Check internet connection
+   - Verify ticker symbol validity
+   - Yahoo Finance may have rate limits
+
+5. **Code Execution Timeout**:
+   - Large datasets may require increased timeout values
+   - Check for infinite loops in generated code
+
+### Debug Mode
+
+To enable detailed logging:
+
+```bash
+export LOG_LEVEL=DEBUG
+python main.py
+```
+
+## Security
+
+- Never commit API keys to version control
+- Use environment variables for all sensitive configuration
+- Regularly rotate API keys
+- Monitor API usage and costs
+- Keep Claude Desktop config file secure
 
 ## Contributing
 
@@ -185,13 +281,6 @@ pip install google-generativeai yfinance pandas mcp python-dotenv
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## Security
-
-- Never commit API keys to version control
-- Use environment variables for all sensitive configuration
-- Regularly rotate API keys
-- Monitor API usage and costs
-
 ## Support
 
 For questions and support:
@@ -202,4 +291,4 @@ For questions and support:
 
 ---
 
-**Made with care using Google Gemini AI**
+**Made with Google Gemini AI & Claude Desktop**
