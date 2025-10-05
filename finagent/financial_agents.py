@@ -4,7 +4,6 @@ import json
 import yfinance as yf
 import google.generativeai as genai
 
-
 def _normalize_period(period: str) -> str:
     if not period:
         return '6mo'
