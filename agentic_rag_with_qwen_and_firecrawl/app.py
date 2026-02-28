@@ -1,68 +1,43 @@
 import streamlit as st
-from agno.models.ollama import Ollama
+from agno.models.openai import OpenAIChat
 from agno.agent import Agent
 from agno.knowledge.pdf import PDFKnowledgeBase
-from agno.vectordb.milvus import Milvus
+from agno.vectordb.lancedb import LanceDb
+from agno.embedder.openai import OpenAIEmbedder
 from agno.tools.firecrawl import FirecrawlTools
 import os
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 import base64
-from sentence_transformers import SentenceTransformer
+import torch
 import concurrent.futures
 import time
 from datetime import datetime
 from queue import Queue
-
-import torch
+# Disable torch classes path to avoid some common streamlit/torch conflicts
 torch.classes.__path__ = []    
 
 
 
-# --- Caching for performance ---
-@st.cache_resource(show_spinner=False)
-def get_embedding_model():
-    return SentenceTransformer("BAAI/bge-small-en-v1.5")
-# @st.cache_resource(show_spinner=False)
-# def get_embedding_model():
-#     return SentenceTransformer("BAAI/bge-small-en-v1.5")
+# Using GeminiEmbedder instead of local SentenceTransformer
 
-# Custom Embedder using cached model
-class CustomEmbedder:
-    def __init__(self):
-        self.model = get_embedding_model()
-        self.dimensions = 384  # Required by agno Milvus wrapper
-
-    def get_embedding(self, text: str) -> list[float]:
-        return self.model.encode([text])[0].tolist()
-    
-    def embed(self, texts: list[str]) -> list[list[float]]:
-        return self.model.encode(texts, show_progress_bar=False).tolist()
-    
-    def get_embedding_and_usage(self, texts: list[str]):
-        embeddings = self.embed(texts)
-        usage = {
-            "input_tokens": sum(len(t.split()) for t in texts),
-            "output_vectors": len(embeddings),
-        }
-        return embeddings, usage
-
-load_dotenv()
+load_dotenv(find_dotenv())
 
 firecrawl_api_key = os.getenv("FIRECRAWL_API_KEY")
 
-# Milvus Vector DB
-MILVUS_URI = os.getenv("MILVUS_URI", "http://localhost:19530")
+# LanceDb Vector DB
+LANCE_DB_URI = "lancedb_data_qwen"
 COLLECTION_NAME = "rag_documents_local"
 
-# Configure Milvus with the custom embedder
-vector_db = Milvus(
-    collection=COLLECTION_NAME,
-    uri=MILVUS_URI,
-    embedder=CustomEmbedder()
+# Configure LanceDb with the custom embedder
+# Configure LanceDb with OpenAIEmbedder
+vector_db = LanceDb(
+    table_name=COLLECTION_NAME,
+    uri=LANCE_DB_URI,
+    embedder=OpenAIEmbedder()
 )
 
-def get_rag_agent(knowledge_base: PDFKnowledgeBase, model_id="qwen3:1.7b", debug_mode=True):
-    model = Ollama(id=model_id)
+def get_rag_agent(knowledge_base: PDFKnowledgeBase, model_id="gpt-4o-mini", debug_mode=True):
+    model = OpenAIChat(id=model_id)
     instructions = [
         "You are concise, quick and to the point. Don't display your thinking process.",
         "Do not show your reasoning, thoughts, or internal process to the user.",
@@ -226,9 +201,20 @@ for key in ["messages", "document_loaded", "agent", "knowledge_base", "processin
         else:
             st.session_state[key] = None
 
-# --- Sidebar: Upload PDF ---
+# ---# Sidebar: App Settings and Upload
 with st.sidebar:
-    with st.expander("Upload and Process PDF", expanded=True):
+    st.title("Settings")
+    
+    st.divider()
+    if st.button("🗑️ Clear Local Database"):
+        if os.path.exists("lancedb_data_qwen"):
+            import shutil
+            shutil.rmtree("lancedb_data_qwen")
+        st.success("Local database cleared. Please refresh the page.")
+        st.rerun()
+
+    st.header("Upload Document")
+    with st.expander("d Process PDF", expanded=True):
         if st.session_state.processing:
             progress_container = st.empty()
             progress_bar = progress_container.progress(0)
@@ -310,10 +296,11 @@ else:
                 try:
                     full_response = ""
                     for chunk in st.session_state.agent.run(prompt):
-                        if hasattr(chunk, 'content'):
-                            full_response += chunk.content
+                        if hasattr(chunk, 'content') and chunk.content is not None:
+                            full_response += str(chunk.content)
                             msg_box.markdown(f'<div class="assistant-bubble"><div class="message-content">{full_response}</div></div>', unsafe_allow_html=True)
-                        else:
+                        elif chunk is not None and not hasattr(chunk, 'content'):
+                            # Fallback if chunk itself is a string or other type
                             full_response += str(chunk)
                             msg_box.markdown(f'<div class="assistant-bubble"><div class="message-content">{full_response}</div></div>', unsafe_allow_html=True)
                     content = full_response

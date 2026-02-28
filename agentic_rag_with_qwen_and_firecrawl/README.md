@@ -1,72 +1,35 @@
-# PDF RAG Agent with Milvus, Agno, Qwen and FireCrawl
+# Web-Aware Agentic RAG (OpenAI & Firecrawl)
 
-A Streamlit application demonstrating a Retrieval-Augmented Generation (RAG) workflow using Qwen3:8b, Agno, Milvus, and FireCrawl for crawling through relevant websites.
+A research-heavy RAG agent designed to bridge the gap between static documents and the live web. It uses professional-grade web crawling to supplement your PDF data.
 
-## Features
+## Principal Functionalities
+- **Advanced Web Crawling**: Integrated with **Firecrawl**, this agent can perform deep-web searches and scrapes to provide context that your uploaded PDFs might be missing.
+- **Intelligent Fallback**: The agent prioritizes your document but is "self-aware"—if it detects an information gap, it will autonomously trigger a web crawl to find the missing facts.
+- **Concise Research Reporting**: Optimized for speed and clarity, providing direct answers with clear source attribution.
+- **Dynamic Indexing**: Real-time processing of PDFs into a local vector database for immediate querying.
 
-- Upload PDFs & process PDF documents.
-- Generate BGE embeddings (`bge-small-en-v1.5`).
-- Uses Qwen model (via Ollama) for LLM responses.
-- Milvus vector store for semantic search.
-- Firecrawl API integration for structured and up-to-date web search.
-- Interactive Streamlit chat interface.
+## Technical Context
+- **Models**: OpenAI `gpt-4o-mini` for stable reasoning and high-speed response.
+- **Web Engine**: **Firecrawl** (for high-fidelity web scraping).
+- **Vector Engine**: **LanceDB** (Serverless/Local). Runs entirely within the project without background services.
 
-## Prerequisites
+## Setup & Execution
 
-- Python 3.8+
-- FireCrawl API Key
-- Docker (for Milvus)
-- Running Milvus Instance
+### 1. Requirements
+This project utilizes the shared repository environment. Ensure you have installed the root dependencies:
+```bash
+pip install -r requirements.txt
+```
 
-## Setup
+### 2. Environment
+The tool automatically pulls `OPENAI_API_KEY` and `FIRECRAWL_API_KEY` from the root `.env` file.
 
-1.  **Clone Repository & Navigate:**
-    ```bash
-    git clone https://github.com/Sumanth077/awesome-ai-apps-and-agents.git
+### 3. Launch
+```bash
+streamlit run app.py
+```
 
-    cd awesome-ai-apps-and-agents/agentic_rag_with_qwen_and_firecrawl
-    ```
-
-2.  **Environment & Dependencies:**
-    ```bash
-    python3 -m venv venv
-
-    source venv/bin/activate # Or venv\Scripts\activate on Windows
-
-    pip install -r requirements.txt
-    ```
-
-3.  **FireCrawl API Key:**
-    Set the `FIRECRAWL_API_KEY` environment variable or add it to your Streamlit secrets (`.streamlit/secrets.toml`).
-
-4.  **Start Milvus:**
-    Follow the official Milvus guide to start a standalone instance using Docker:
-    [https://milvus.io/docs/install_standalone-docker.md](https://milvus.io/docs/install_standalone-docker.md)
-    *Ensure it's accessible (usually `http://localhost:19530`).*
-
-## Usage
-
-1.  **Ensure Milvus is running.**
-2.  **Run the app:**
-    ```bash
-    streamlit run app.py
-    ```
-3.  Open the provided URL (e.g., `http://localhost:8501`).
-4.  Upload a PDF, click "Process Document", and start chatting!
-
-## How it Works
-
-- PDF text is chunked and embedded using `bge-small-en-v1.5` from SentenceTransformers.
-- Embeddings are stored in Milvus for semantic retrieval.
-- User query triggers the Agno Agent:
-    - Searches Milvus vector store for relevant context.
-    - Falls back to Firecrawl for live web results if context is weak or missing.
-    - Uses the locally hosted Qwen model via Ollama to synthesize a final response.
-
-## Contributing
-
-Contributions, issues, and feature requests are welcome. Please feel free to submit a Pull Request or open an issue.
-
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for details (if one exists). 
+## How to Use
+1. **Upload**: Use the sidebar to load your technical document or research paper.
+2. **Index**: The system will automatically build a searchable index using LanceDB.
+3. **Analyze**: Ask questions that require both document knowledge and current event context. The agent will show you when it decides to "crawl the web" to find a more complete answer.
