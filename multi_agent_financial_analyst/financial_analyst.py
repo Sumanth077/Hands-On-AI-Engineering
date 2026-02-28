@@ -1,14 +1,16 @@
-import streamlit as st
 import os
+# Disable CrewAI telemetry to avoid signal issues in Streamlit
+os.environ["CREWAI_TELEMETRY_OPT_OUT"] = "true"
+import streamlit as st
 import pandas as pd
 from datetime import datetime, timedelta
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 from crewai import Agent, Crew, Process, Task, LLM
 from pydantic import BaseModel
 from tools.financial_tools import YFinanceStockTool
 
 # Load environment variables
-load_dotenv()
+load_dotenv(find_dotenv())
 
 # Define Pydantic models for structured output
 class StockAnalysis(BaseModel):
@@ -23,12 +25,12 @@ class StockAnalysis(BaseModel):
     technical_indicators: dict
     fundamental_metrics: dict
 
-# Initialize SambaNova LLM
+# Initialize OpenAI LLM
 @st.cache_resource
 def load_llm():
     return LLM(
-        model="sambanova/Llama-4-Maverick-17B-128E-Instruct",
-        api_key=os.getenv("SAMBANOVA_API_KEY"),
+        model="openai/gpt-4o-mini",
+        api_key=os.getenv("OPENAI_API_KEY"),
         temperature=0.3
     )
 
@@ -169,27 +171,22 @@ st.title("🎯 Multi-Agent AI Financial Analyst")
 
 # Sidebar
 with st.sidebar:
-    st.header("Configuration")
+    st.header("Financial Analyst")
     
-    # API Key input
-    api_key = st.text_input(
-        "SambaNova API Key",
-        type="password",
-        value=os.getenv("SAMBANOVA_API_KEY", ""),
-        help="Enter your SambaNova API key"
-    )
-    if api_key:
-        os.environ["SAMBANOVA_API_KEY"] = api_key
-
     # Stock Symbol input
     symbol = st.text_input(
         "Stock Symbol",
         value="",
-        help="Enter a stock symbol (for example: TSLA or MSFT). Provide a single ticker symbol to analyze."
+        placeholder="e.g. TSLA, NVDA, AAPL",
+        help="Enter a stock ticker symbol to analyze."
     ).upper()
 
     # Analysis button
-    analyze_button = st.button("Analyze Stock", type="primary")
+    analyze_button = st.button("Generate Report", type="primary")
+
+    st.markdown("---")
+    st.markdown("### Settings")
+    st.info("✓ API Key loaded from .env")
 
 # Main content area
 if "analysis_complete" not in st.session_state:

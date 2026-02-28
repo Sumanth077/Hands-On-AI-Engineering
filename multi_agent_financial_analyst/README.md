@@ -1,66 +1,37 @@
-# 🎯 Multi-Agent AI Financial Analyst
+# Multi-Agent Financial Research Team
 
-A powerful multi-agent system that performs comprehensive stock analysis and generates detailed financial reports.
+A coordinated AI "Crew" that mimics an institutional research desk. It uses specialized agents to conduct deep-dive equity research and generate professional-grade investment reports.
 
-## Features
+## Principal Functionalities
+- **Multi-Agent Coordination**: Utilizing the **CrewAI** framework, the system manages a specialized workflow:
+    - **Sr. Financial Analyst**: Scans real-time market data to identify technical levels and trends.
+    - **Investment Writer**: Synthesizes raw data into a polished, executive-ready report.
+- **Institutional Reporting**: Generates markdown reports featuring formatted data tables, trend indicators (📈/📉), and risk assessments.
+- **Premium User Dashboard**: A streamlined Streamlit interface that manages the complex multi-agent process behind the scenes.
+- **Thread-Safe Signals**: Specifically configured to run reliably in multi-threaded dashboard environments.
 
-- Stock Analysis Agent: Performs thorough analysis of stocks using fundamental and technical indicators
-- Report Writing Agent: Transforms analysis into comprehensive, reader-friendly reports
-- Real-time market data integration
-- Professional report generation in markdown format
-- Interactive Streamlit interface
+## Technical Context
+- **Framework**: **CrewAI** for multi-agent process management.
+- **Intelligence**: OpenAI `gpt-4o-mini` (Standardized for high-speed agentic coordination).
+- **Security**: Automated `.env` mapping hides sensitive API keys from the UI while maintaining full functionality.
 
-## Installation
+## Setup & Execution
 
-1.  **Clone Repository & Navigate:**
-    ```bash
-    git clone https://github.com/Sumanth077/awesome-ai-apps-and-agents.git
-    cd awesome-ai-apps-and-agents/multi_agent_financial_analyst
-    ```
-
-2. Install dependencies:
+### 1. Requirements
+This project uses the shared repository environment. Ensure root dependencies are installed:
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Create a `.env` file in the root directory and add your SambaNova API key:
-```bash
-SAMBANOVA_API_KEY=your_api_key_here
-```
+### 2. Environment
+The agents pull configuration and keys (`OPENAI_API_KEY`) from the root `.env` file.
 
-## Usage
-
-1. Start the Streamlit app:
+### 3. Launch
 ```bash
 streamlit run financial_analyst.py
 ```
 
-2. In the web interface:
-   - Enter your stock symbol (e.g., AAPL, GOOGL)
-   - Click "Analyze Stock" to start the analysis
-   - Wait for the agents to complete their analysis
-   - Download the generated report
-
-## How It Works
-
-The application uses two specialized AI agents:
-
-1. **Stock Analysis Agent**
-   - Analyzes company fundamentals
-   - Reviews market news
-   - Evaluates technical indicators
-   - Assesses market trends
-
-2. **Report Writing Agent**
-   - Compiles analysis into structured reports
-   - Formats information for clarity
-   - Generates actionable insights
-   - Creates downloadable markdown reports
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details. 
+## How to Use
+1. **Input**: Enter a stock ticker (e.g., TSLA, NVDA) in the sidebar.
+2. **Execute**: Click "Generate Report". You can follow the agent logs in the terminal to see the Analyst and Writer collaborating.
+3. **Review**: The final institutional report will appear on the main dashboard for review and download.
