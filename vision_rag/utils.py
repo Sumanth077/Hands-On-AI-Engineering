@@ -53,33 +53,28 @@ def openai_vqa(api_key, image_bytes, question):
     Returns:
         str: Generated answer
     """
-    try:
-        from openai import OpenAI
-        client = OpenAI(api_key=api_key)
-        
-        image_b64 = base64.b64encode(image_bytes).decode('utf-8')
-        
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[
-                {
-                    "role": "user",
-                    "content": [
-                        {"type": "text", "text": question},
-                        {
-                            "type": "image_url",
-                            "image_url": {
-                                "url": f"data:image/png;base64,{image_b64}"
-                            }
-                        },
-                    ],
-                }
-            ],
-            max_tokens=500,
-        )
-        return response.choices[0].message.content
-    except Exception as e:
-        return f"Error with OpenAI Vision: {e}"
+    from openai import OpenAI
+    client = OpenAI(api_key=api_key, timeout=30.0)
+    
+    image_b64 = base64.b64encode(image_bytes).decode('utf-8')
+    
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {
+                "role": "user",
+                "content": [
+                    {"type": "text", "text": question},
+                    {
+                        "type": "image_url",
+                        "image_url": {"url": f"data:image/png;base64,{image_b64}"},
+                    },
+                ],
+            }
+        ],
+        max_tokens=500,
+    )
+    return response.choices[0].message.content
 
 # --- PDF to Images ---
 def pdf_to_images(pdf_bytes):
