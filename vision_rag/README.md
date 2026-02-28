@@ -17,10 +17,12 @@ A visual-first search engine that allows you to "talk" to your images and PDF do
 
 ### 1. Requirements
 This project runs within the shared repository environment. Ensure dependencies are installed:
-```bash
-pip install -r requirements.txt
+-This project runs within the shared repository environment. Ensure dependencies are installed:
+From the `vision_rag` directory, install dependencies:
+ ```bash
+cd vision_rag
+ pip install -r requirements.txt
 ```
-
 ### 2. Environment
 The application pulls your `OPENAI_API_KEY` and `COHERE_API_KEY` from the root `.env` file.
 
