@@ -1,78 +1,35 @@
-# VisionRAG: Multimodal Search & Visual Question Answering
+# VisionRAG (Multimodal Search & VQA)
 
-A powerful Streamlit application that combines multimodal search with visual question answering to analyze images and PDF documents using AI.
+A visual-first search engine that allows you to "talk" to your images and PDF documents. It combines visual similarity search with advanced Visual Question Answering (VQA).
 
-## Features
+## Principal Functionalities
+- **Visual Retrieval Augmented Generation (VisionRAG)**: Unlike text-only RAG, this system breaks down PDFs and images into visual segments and uses **Cohere Embed-v3** to find the most relevant visual context for your question.
+- **Multimodal Question Answering**: Powered by **OpenAI Vision**, the system "looks" at the retrieved image or PDF page to answer specific questions about charts, diagrams, or photos.
+- **PDF-to-Visual Indexing**: High-fidelity conversion of PDF pages into searchable visual chunks using **PyMuPDF**.
+- **Interactive Visual Chat**: A dashboard that shows you exactly which part of the document the AI is looking at when it gives its answer.
 
-- **Multimodal Search**: Uses Cohere Embed-4 to find semantically relevant images for text questions
-- **Visual Question Answering**: Employs Google Gemini 2.5 Flash to analyze images and generate context-aware answers
-- **Flexible Content Sources**:
-  - Upload custom images (PNG, JPG, JPEG)
-  - Upload PDF documents (automatically extracts pages as images)
-  - Load sample financial charts and infographics
-- **No OCR Required**: Directly processes complex visual elements without text extraction
+## Technical Context
+- **Intelligence**: OpenAI `gpt-4o-mini` (Vision-enabled) for multimodal understanding.
+- **Embeddings**: Cohere `embed-english-v3.0` for high-accuracy visual search.
+- **Processing**: PyMuPDF and Pillow for document-to-image pipeline.
 
-## 🚀 Quick Start
+## Setup & Execution
 
-### Prerequisites
+### 1. Requirements
+This project runs within the shared repository environment. Ensure dependencies are installed:
+```bash
+pip install -r requirements.txt
+```
 
-- Python 3.8+
-- Cohere API key
-- Google Gemini API key
+### 2. Environment
+The application pulls your `OPENAI_API_KEY` and `COHERE_API_KEY` from the root `.env` file.
 
-### Installation
+### 3. Launch
+```bash
+streamlit run app.py
+```
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd vision-rag
-   ```
-
-2. **Create and activate virtual environment**
-   ```bash
-   python -m venv venv
-   # On Windows
-   .\venv\Scripts\activate
-   # On macOS/Linux
-   source venv/bin/activate
-   ```
-
-3. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Set up API keys**
-   - Get your [Cohere API key](https://cohere.ai/)
-   - Get your [Google Gemini API key](https://makersuite.google.com/app/apikey)
-   - Create a `.env` file in the project root
-   - Add your API keys to the `.env` file:
-     ```
-     COHERE_API_KEY=your_cohere_api_key_here
-     GEMINI_API_KEY=your_gemini_api_key_here
-     ```
-
-5. **Run the application**
-   ```bash
-   streamlit run app.py
-   ```
-
-## Dependencies
-
-- **streamlit**: Web application framework
-- **cohere**: Embedding generation
-- **requests**: HTTP requests for Gemini API
-- **PyMuPDF**: PDF processing
-- **Pillow**: Image processing
-- **numpy**: Numerical operations
-- **scikit-learn**: Cosine similarity calculations
-
-
-## Contributing
-
-Contributions, issues, and feature requests are welcome. Please feel free to submit a Pull Request or open an issue.
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
+## How to Use
+1. **Upload**: Load any image (PNG/JPG) or a multi-page PDF document.
+2. **Interact**: Ask a question like "What does the growth chart on page 3 indicate?" or "Describe the logo in this image."
+3. **Verify**: The system will display the most relevant visual segment side-by-side with its AI-generated answer.
