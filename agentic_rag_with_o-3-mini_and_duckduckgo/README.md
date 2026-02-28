@@ -1,73 +1,35 @@
-# PDF RAG Agent using Milvus, Agno, OpenAI & DuckDuckGo
+# Agentic PDF RAG (OpenAI & DuckDuckGo)
 
-A Streamlit application demonstrating a Retrieval-Augmented Generation (RAG) workflow using OpenAI (`gpt-4o-mini`), Agno, Milvus, and DuckDuckGo for web search.
+A smart document assistant that goes beyond basic search. This agent doesn't just find text—it analyzes your PDFs and proactively searches the web if your documents don't have the answer.
 
-## Features
+## Principal Functionalities
+- **Agentic Knowledge Retrieval**: The agent is programmed to prioritize your local PDF knowledge base but will automatically pivot to **DuckDuckGo** for real-time web context when needed.
+- **Deep Document Analysis**: Specifically designed to interpret complex PDF structures, providing citations including page numbers and section headers.
+- **Conversational Memory**: Maintains the context of your discussion, allowing for multi-turn questions about specific data points.
+- **Integrated Web Search**: Uses the Agno framework to coordinate between local vector data and live web results for a more comprehensive answer.
 
-- Upload & process PDF documents.
-- OpenAI embeddings & chat completion (`gpt-4o-mini`).
-- Milvus vector store for semantic search.
-- DuckDuckGo web search fallback.
-- Interactive Streamlit chat interface.
+## Technical Context
+- **Models**: OpenAI `o3-mini` (Reasoning) and OpenAI Embeddings.
+- **Vector Engine**: **LanceDB** (Serverless/Local). This project uses a local-first database that runs entirely in memory or on disk without requiring an external server setup.
+- **Backend**: Agno (formerly Phidata) for agent orchestration.
 
-## Prerequisites
+## Setup & Execution
 
-- Python 3.8+
-- OpenAI API Key
-- Docker (for Milvus)
-- Running Milvus Instance
+### 1. Requirements
+This project shares the root repository's `requirements.txt` and virtual environment. Ensure you have run:
+```bash
+pip install -r requirements.txt
+```
 
-## Setup
+### 2. Environment
+The application loads your `OPENAI_API_KEY` directly from the root `.env` file for a "plug-and-play" experience.
 
-1.  **Clone Repository & Navigate:**
-    ```bash
-    git clone https://github.com/Sumanth077/awesome-ai-apps-and-agents.git
+### 3. Launch
+```bash
+streamlit run app.py
+```
 
-    cd awesome-ai-apps-and-agents/agentic_rag_with_o-3-mini_and_duckduckgo
-    ```
-
-2.  **Environment & Dependencies:**
-    ```bash
-    python3 -m venv venv
-
-    source venv/bin/activate # or venv\Scripts\activate on Windows
-
-    pip install -r requirements.txt
-    ```
-    Ensure ollama is installed, with which you would need to download the corresponding model
-    `ollama pull qwen3:1.7b`
-
-3.  **OpenAI API Key:**
-    Set the `OPENAI_API_KEY` environment variable or add it to your Streamlit secrets (`.streamlit/secrets.toml`).
-
-4.  **Start Milvus:**
-    Follow the official Milvus guide to start a standalone instance using Docker:
-    [https://milvus.io/docs/install_standalone-docker.md](https://milvus.io/docs/install_standalone-docker.md)
-    *Ensure it's accessible (usually `http://localhost:19530`).*
-
-## Usage
-
-1.  **Ensure Milvus is running.**
-2.  **Run the app:**
-    ```bash
-    streamlit run app.py
-    ```
-3.  Open the provided URL (e.g., `http://localhost:8501`).
-4.  Upload a PDF, click "Process Document", and start chatting!
-
-## How it Works
-
-- PDF text is chunked and embedded using OpenAI.
-- Embeddings stored in Milvus.
-- User query triggers the Agno Agent:
-    - Searches Milvus knowledge base first.
-    - Uses DuckDuckGo if knowledge base results are insufficient.
-    - `gpt-4o-mini` synthesizes information to generate the final response.
-
-## Contributing
-
-Contributions, issues, and feature requests are welcome. Please feel free to submit a Pull Request or open an issue.
-
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for details (if one exists). 
+## How to Use
+1. **Upload**: Drag and drop any PDF into the sidebar.
+2. **Profile**: Click "Process Document" to build the local search index.
+3. **Query**: Ask any question. Watch the sidebar to see the agent "thinking" and choosing whether to use the PDF or the web for its answer.
