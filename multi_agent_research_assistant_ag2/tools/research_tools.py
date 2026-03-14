@@ -1,13 +1,14 @@
 # tools/research_tools.py
 import json
+import re
 import urllib.request
 import urllib.parse
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 def web_search(query: str, num_results: int = 5) -> str:
-    """
-    Search the web using DuckDuckGo Instant Answer API.
+    """Search the web using DuckDuckGo Instant Answer API.
+
     Returns a JSON string with top results including titles, URLs, and snippets.
 
     Args:
@@ -21,7 +22,6 @@ def web_search(query: str, num_results: int = 5) -> str:
             data = json.loads(resp.read().decode())
 
         results = []
-        # RelatedTopics contains substantive results
         for item in data.get("RelatedTopics", [])[:num_results]:
             if isinstance(item, dict) and "Text" in item:
                 results.append({
@@ -29,32 +29,31 @@ def web_search(query: str, num_results: int = 5) -> str:
                     "url": item.get("FirstURL", ""),
                     "snippet": item.get("Text", ""),
                 })
-        # Abstract is often the best single answer
         if data.get("AbstractText"):
             results.insert(0, {
                 "title": data.get("Heading", query),
                 "url": data.get("AbstractURL", ""),
                 "snippet": data["AbstractText"],
             })
-        return json.dumps({"query": query, "results": results, "timestamp": datetime.utcnow().isoformat()})
+        return json.dumps({"query": query, "results": results, "timestamp": datetime.now(timezone.utc).isoformat()})
     except Exception as exc:
         return json.dumps({"error": str(exc), "query": query})
 
 
 def fetch_page_content(url: str, max_chars: int = 3000) -> str:
-    """
-    Fetch and return the text content of a web page.
+    """Fetch and return the text content of a web page.
 
     Args:
         url: URL of the page to fetch.
         max_chars: Maximum characters to return (default 3000).
     """
+    parsed = urllib.parse.urlparse(url)
+    if parsed.scheme not in ("http", "https"):
+        return json.dumps({"error": f"Unsupported URL scheme: {parsed.scheme}", "url": url})
     try:
         req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
         with urllib.request.urlopen(req, timeout=10) as resp:
             content = resp.read().decode("utf-8", errors="ignore")
-        # Strip HTML tags (basic)
-        import re
         text = re.sub(r"<[^>]+>", " ", content)
         text = re.sub(r"\s+", " ", text).strip()
         return json.dumps({"url": url, "content": text[:max_chars]})

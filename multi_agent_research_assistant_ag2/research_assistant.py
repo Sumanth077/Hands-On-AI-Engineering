@@ -4,24 +4,24 @@ import streamlit as st
 from datetime import datetime
 from dotenv import load_dotenv
 
-import autogen
-from autogen import AssistantAgent, UserProxyAgent, GroupChat, GroupChatManager, register_function
+from autogen import AssistantAgent, UserProxyAgent, GroupChat, GroupChatManager, LLMConfig, register_function
 from tools.research_tools import web_search, fetch_page_content
 
 load_dotenv()
 
 # ── AG2 (formerly AutoGen) requires ag2>=0.11 ──────────────────────────────────
 
-def build_llm_config() -> dict:
-    return {
-        "config_list": [{
-            "model": os.getenv("LLM_MODEL", "gpt-4o-mini"),
-            "api_key": os.getenv("OPENAI_API_KEY", ""),
-            "base_url": os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1"),
-        }],
-        "temperature": 0.3,
-        "cache_seed": None,  # always fetch fresh data
-    }
+def build_llm_config() -> LLMConfig:
+    api_key = os.getenv("OPENAI_API_KEY", "")
+    if not api_key:
+        raise ValueError("OPENAI_API_KEY is not set. Add it to .env or the sidebar.")
+    return LLMConfig(
+        {"model": os.getenv("LLM_MODEL", "gpt-4o-mini"),
+         "api_key": api_key,
+         "base_url": os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1")},
+        temperature=0.3,
+        cache_seed=None,  # always fetch fresh data
+    )
 
 
 def run_research(topic: str) -> str:
@@ -31,7 +31,7 @@ def run_research(topic: str) -> str:
 
     researcher = AssistantAgent(
         name="researcher",
-        system_message=f"""You are a research specialist. Your job is to gather
+        system_message="""You are a research specialist. Your job is to gather
 comprehensive information about the given topic using web_search and fetch_page_content.
 Perform at least 3 searches and fetch content from 2+ pages.
 Summarise all findings clearly. End with: RESEARCH COMPLETE.""",
@@ -78,7 +78,7 @@ End with: REPORT COMPLETE""",
             caller=researcher,
             executor=executor,
             name=fn.__name__,
-            description=fn.__doc__.strip().split("\n")[0],
+            description=(fn.__doc__ or "").strip().split("\n")[0],
         )
 
     # ── GroupChat orchestration ────────────────────────────────────────────────

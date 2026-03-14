@@ -43,10 +43,26 @@ streamlit run research_assistant.py
 > code runs directly in your process. For production use, set `use_docker=True` or run in
 > an isolated environment.
 
-## Contributing
+## Running Tests
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Tests are fully mocked — no API keys or network access required.
 
-## License
+```bash
+pip install pytest
+python -m pytest tests/ -v
+```
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+## Project Structure
+
+```
+multi_agent_research_assistant_ag2/
+├── research_assistant.py   # Agents, GroupChat orchestration, Streamlit UI
+├── tools/
+│   └── research_tools.py   # web_search (DuckDuckGo API), fetch_page_content
+├── tests/
+│   ├── conftest.py          # sys.path setup, Streamlit stub
+│   ├── test_agent_setup.py  # Agent instantiation, tool registration
+│   └── test_research_tools.py  # Mocked tool tests, SSRF validation
+├── requirements.txt
+└── .env.example
+```
