@@ -1,3 +1,4 @@
+
 # Eagle Eye
 
 AI-powered GitHub PR review agent using OpenClaw, MiniMax M2.7, and GitHub MCP. Triggered via Telegram.
@@ -113,3 +114,22 @@ You can also reply with edits or instructions (e.g. *"add a note about the missi
 - **Large PRs**: for PRs with 200+ changed files, the review prioritises security and correctness findings and may not cover every file exhaustively
 - **No session memory**: the agent does not remember previous reviews between Telegram sessions; each conversation starts fresh
 - **Single reviewer identity**: the agent posts as whichever GitHub account owns the PAT; it cannot impersonate other reviewers
+=======
+# **Hands-On AI Engineering** 🚀
+
+A curated repository of AI-powered applications and agentic systems showcasing practical use cases of Large Language Models (LLMs) from providers like Google, Anthropic, OpenAI, and self-hosted open-source models.
+
+## **What’s Inside?**
+
+* 🤖 **AI Agents & Use Cases** – Explore a variety of agent-based AI applications.
+* 📚 **RAG (Retrieval-Augmented Generation)** – Implementations of knowledge-enhanced AI models.
+* 🚀 **Scalable AI Solutions** – Best practices for building production-ready AI applications.
+
+## **Contributing**
+
+We welcome contributions! If you have an AI app, agent, or enhancement to share, check the **Issues** section and submit a pull request.
+
+## **📜 License**
+
+This repository is licensed under the **MIT License**. See the [LICENSE](./LICENSE) file for details.
+
