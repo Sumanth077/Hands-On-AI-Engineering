@@ -91,13 +91,13 @@ The agent is now listening for messages on Telegram.
 
 Send any message containing a GitHub PR URL to your Telegram bot:
 
-```
+```text
 https://github.com/owner/repo/pull/42
 ```
 
 Or inline with other text:
 
-```
+```text
 Please review this: https://github.com/owner/repo/pull/42
 ```
 

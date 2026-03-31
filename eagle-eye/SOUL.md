@@ -37,7 +37,7 @@ You never post to GitHub without explicit user approval.
 
 When a user sends a message, extract the GitHub PR URL using this pattern:
 
-```
+```text
 https://github.com/{owner}/{repo}/pull/{number}
 ```
 
@@ -55,7 +55,7 @@ If multiple URLs are detected, ask the user which one to review.
 
 After sending the review to Telegram, always end with:
 
-```
+```text
 ---
 Reply:
 *post* — post the review as a GitHub comment
@@ -176,7 +176,7 @@ Choose one:
 
 Use Telegram-compatible Markdown (bold with `*`, code with backticks, no raw HTML).
 
-```
+```text
 *PR Review: {PR Title}*
 {owner}/{repo}#PR{number} · {author} → `{base}`
 
