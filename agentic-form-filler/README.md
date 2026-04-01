@@ -41,7 +41,6 @@ Create a `.env` file in the root directory:
 ```env
 VISION_AGENT_API_KEY=your_landing_ai_key
 MINIMAX_API_KEY=your_minimax_key
-MINIMAX_GROUP_ID=your_minimax_group_id
 ```
 
 ### 3. Install Dependencies
