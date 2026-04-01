@@ -1,0 +1,81 @@
+/*
+  GLM-OCR Pro - Premium Design System
+  Indigo / Slate / Neon Accents
+*/
+
+/* Main Sidebar Styling */
+[data-testid="stSidebar"] {
+    background-color: #0c0e14;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Header Text */
+h1 {
+    font-weight: 800 !important;
+    background: linear-gradient(90deg, #6366f1 0%, #a855f7 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.02em;
+}
+
+h2, h3 {
+    font-weight: 700 !important;
+    letter-spacing: -0.01em;
+}
+
+/* Custom Card Wrapper (used with st.markdown) */
+.st-emotion-cache-1kyx7g3 {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+}
+
+/* Button Styling Overrides */
+.stButton > button {
+    border-radius: 12px !important;
+    font-weight: 600 !important;
+    transition: all 0.2s ease !important;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.75rem !important;
+}
+
+.stButton > button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+    border-color: #6366f1 !important;
+}
+
+/* Primary Button Accent */
+div.stButton > button:first-child[kind="primary"] {
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%) !important;
+    border: none !important;
+}
+
+/* Code area custom design */
+.stCode {
+    border-radius: 12px !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Spinner & Status colors */
+.st-emotion-cache-16idsys p {
+    color: #a5b4fc !important;
+}
+
+/* Info/Success/Warning bubbles */
+.stAlert {
+    border-radius: 12px !important;
+    border: none !important;
+}
+
+/* Divider colors */
+hr {
+    margin: 2em 0 !important;
+    border: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
