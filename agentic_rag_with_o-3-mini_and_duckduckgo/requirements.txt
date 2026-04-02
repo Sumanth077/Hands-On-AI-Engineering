@@ -1,0 +1,7 @@
+duckduckgo-search
+google-genai
+pymilvus
+agno>=1.4.2
+streamlit>=1.44.1
+pypdf>=5.4.0
+pydantic>=2.8.2 
