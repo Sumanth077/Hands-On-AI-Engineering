@@ -1,0 +1,8 @@
+streamlit
+cohere
+requests
+PyMuPDF
+Pillow
+numpy
+scikit-learn
+python-dotenv 
