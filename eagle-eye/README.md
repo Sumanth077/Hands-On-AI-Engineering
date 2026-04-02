@@ -18,7 +18,6 @@ Understanding the layout of the Eagle Eye agent:
 
 ```text
 .
-├── .claude/                # Claude-specific IDE settings
 ├── docs/                   # Documentation assets
 │   └── architecture.svg    # System architecture diagram
 ├── openclaw.json           # Your active configuration (Telegram, MCP)
