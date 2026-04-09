@@ -43,7 +43,13 @@ VISION_AGENT_API_KEY=your_landing_ai_key
 MINIMAX_API_KEY=your_minimax_key
 ```
 
-### 3. Install Dependencies
+### 3. Clone the Repository
+```bash
+git clone https://github.com/Sumanth077/Hands-On-AI-Engineering.git
+cd Hands-On-AI-Engineering/ai_agents/agentic-form-filler
+```
+
+### 4. Install Dependencies
 ```bash
 python -m venv .venv
 source .venv/bin/activate  # On Windows: .venv\Scripts\activate
@@ -54,7 +60,7 @@ pip install -r requirements.txt
 
 ## 🚀 How to Run
 
-1.  Start the application using the provides batch script (Windows):
+1.  Start the application using the provided batch script (Windows):
     ```cmd
     run.cmd
     ```
