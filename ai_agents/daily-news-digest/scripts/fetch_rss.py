@@ -12,6 +12,7 @@ import argparse
 import json
 import sys
 import time
+import requests
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
@@ -102,14 +103,9 @@ def fetch_feed(source: dict, cutoff: datetime) -> list[dict]:
         return []
 
     try:
-        # feedparser respects the timeout via socket default — we set it per call
-        import socket
-        old_timeout = socket.getdefaulttimeout()
-        socket.setdefaulttimeout(FETCH_TIMEOUT)
-        try:
-            feed = feedparser.parse(url)
-        finally:
-            socket.setdefaulttimeout(old_timeout)
+        response = requests.get(url, timeout=FETCH_TIMEOUT)
+        response.raise_for_status()
+        feed = feedparser.parse(response.content)
 
         # feedparser doesn't raise on HTTP errors; check bozo flag for malformed feeds
         if feed.bozo and not feed.entries:

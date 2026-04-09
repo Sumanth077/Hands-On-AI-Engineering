@@ -136,9 +136,22 @@ if raw_content.startswith("```"):
 try:
     llm_result = json.loads(raw_content)
     selected = llm_result["selected"]
+    required_fields = {"title", "summary", "source", "url", "category"}
+    for i, article in enumerate(selected):
+        missing = required_fields - article.keys()
+        if missing:
+            print(f"Article {i} missing fields: {missing}", file=sys.stderr)
+            sys.exit(1)
 except (json.JSONDecodeError, KeyError) as e:
     print(f"Failed to parse LLM response: {e}", file=sys.stderr)
     sys.exit(1)
+
+
+def escape_md(text: str) -> str:
+    """Escape Markdown special characters for Telegram."""
+    for char in ('_', '*', '`', '['):
+        text = text.replace(char, '\\' + char)
+    return text
 
 
 # ---------------------------------------------------------------------------
@@ -171,8 +184,8 @@ for cat in CATEGORY_ORDER:
     message_parts.append(f"*{CATEGORY_HEADERS[cat]}*")
     for art in grouped[cat]:
         emoji = CATEGORY_EMOJI[cat]
-        title = art["title"]
-        summary = art["summary"]
+        title = escape_md(art["title"])
+        summary = escape_md(art["summary"])
         source = art["source"]
         url = art["url"]
         message_parts.append(
