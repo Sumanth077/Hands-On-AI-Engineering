@@ -1,5 +1,0 @@
-landingai-ade
-streamlit
-openai
-python-dotenv
-pandas
