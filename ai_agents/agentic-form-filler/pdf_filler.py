@@ -79,23 +79,23 @@ def build_semantic_field_map(pdf_path: str) -> dict:
     """
     try:
         doc = fitz.open(pdf_path)
-        page = doc[0]
-        spans = []
-        for b in page.get_text("dict")["blocks"]:
-            if b["type"] == 0:
-                for line in b["lines"]:
-                    for span in line["spans"]:
-                        t = span["text"].strip()
-                        if t:
-                            spans.append((span["bbox"], t))
-
         field_labels = {}
-        for widget in (page.widgets() or []):
-            wr = widget.rect
-            # Tight column-above search: same x-column as widget, 22px above
-            tight_above = fitz.Rect(wr.x0 - 5, wr.y0 - 22, wr.x1 + 5, wr.y0 - 1)
-            matches = [s[1] for s in spans if fitz.Rect(s[0]).intersects(tight_above)]
-            field_labels[widget.field_name] = " ".join(matches)
+        for page in doc:
+            spans = []
+            for b in page.get_text("dict")["blocks"]:
+                if b["type"] == 0:
+                    for line in b["lines"]:
+                        for span in line["spans"]:
+                            t = span["text"].strip()
+                            if t:
+                                spans.append((span["bbox"], t))
+
+            for widget in (page.widgets() or []):
+                wr = widget.rect
+                # Tight column-above search: same x-column as widget, 22px above
+                tight_above = fitz.Rect(wr.x0 - 5, wr.y0 - 22, wr.x1 + 5, wr.y0 - 1)
+                matches = [s[1] for s in spans if fitz.Rect(s[0]).intersects(tight_above)]
+                field_labels[widget.field_name] = " ".join(matches)
 
         doc.close()
         return field_labels

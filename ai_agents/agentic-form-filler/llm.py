@@ -121,12 +121,13 @@ def chat_and_update_fields_stream(history: list, markdown: str, source_markdown:
                  buffer = buffer.replace("[READY_TO_FILL]", "")
 
             # 3. Handle standard REPLY: text streaming
+            # 3. Handle standard REPLY: text streaming
             if "REPLY:" in buffer:
                 parts = buffer.split("REPLY:")
                 if len(parts) > 1:
                     text_chunk = parts[1]
                     yield ("TEXT", text_chunk)
-                    buffer = "" 
+                    buffer = parts[1] 
 
     # Clean up reasoning blocks at the very end if any leaked
     final_clean = re.sub(r'<think>.*?</think>', '', full_content, flags=re.DOTALL).strip()

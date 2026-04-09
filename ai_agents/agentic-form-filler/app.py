@@ -1,9 +1,13 @@
 import streamlit as st
+
+st.set_page_config(page_title="Form-Fill AI", layout="wide")
+
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
 
+import re
 import json
 import time
 import base64
@@ -24,8 +28,12 @@ from pdf_filler import (
 SESSION_DIR = "sessions"
 os.makedirs(SESSION_DIR, exist_ok=True)
 
+def _sanitize_sid(sid: str) -> str:
+    """Strip any path separators or dots to prevent directory traversal."""
+    return re.sub(r'[^a-zA-Z0-9_-]', '', sid)
+
 def save_session():
-    sid = st.session_state.get("session_id")
+    sid = _sanitize_sid(st.session_state.get("session_id", ""))
     if not sid:
         return
     pdf_b64 = None
@@ -131,7 +139,6 @@ for k, v in defaults.items():
 # ─────────────────────────────────────────────
 # PAGE CONFIG & STYLE
 # ─────────────────────────────────────────────
-st.set_page_config(page_title="Form-Fill AI", layout="wide")
 st.markdown("""
 <style>
     .stChatFloatingInputContainer { bottom: 20px; }
@@ -156,7 +163,8 @@ with st.sidebar:
 
     if uploaded_file:
         os.makedirs("temp_forms", exist_ok=True)
-        temp_path = f"temp_forms/{uploaded_file.name}"
+        safe_name = re.sub(r'[^a-zA-Z0-9_.-]', '_', uploaded_file.name)
+        temp_path = f"temp_forms/{safe_name}"
         with open(temp_path, "wb") as f:
             f.write(uploaded_file.getbuffer())
         st.session_state.target_pdf_path = temp_path
@@ -175,7 +183,8 @@ with st.sidebar:
         temp_source_paths = []
         os.makedirs("temp_sources", exist_ok=True)
         for sf in source_files:
-            spath = f"temp_sources/{sf.name}"
+            safe_sname = re.sub(r'[^a-zA-Z0-9_.-]', '_', sf.name)
+            spath = f"temp_sources/{safe_sname}"
             with open(spath, "wb") as f:
                 f.write(sf.getbuffer())
             temp_source_paths.append(spath)
@@ -191,7 +200,7 @@ with st.sidebar:
         progress_bar = st.progress(0, text="Starting extraction (parallel)...")
 
         results = {}
-        with ThreadPoolExecutor(max_workers=total) as executor:
+        with ThreadPoolExecutor(max_workers=min(total, 4)) as executor:
             futures = {executor.submit(extract_form_data, p): p for p in all_paths}
             completed = 0
             for future in as_completed(futures):
@@ -462,22 +471,26 @@ else:
                     st.session_state.pdf_field_names,
                 )
 
-                for kind, content in stream:
-                    if kind == "TEXT":
-                        full_response += content
-                        placeholder.markdown(full_response + "▌")
-                    elif kind == "FIELD_UPDATE":
-                        st.session_state.registry.update(content)
-                    elif kind == "SIGNAL" and content == "READY_TO_FILL":
-                        st.session_state.ready_to_fill = True
-                    elif kind == "DONE":
-                        cleaned = content.replace("[READY_TO_FILL]", "").strip()
-                        placeholder.markdown(cleaned)
-                        st.session_state.chat_history.append({"role": "assistant", "content": cleaned})
-                        if st.session_state.step == 3:
-                            st.session_state.step = 4
-                        save_session()
-                        st.rerun()
+                try:
+                    for kind, content in stream:
+                        if kind == "TEXT":
+                            full_response += content
+                            placeholder.markdown(full_response + "▌")
+                        elif kind == "FIELD_UPDATE":
+                            st.session_state.registry.update(content)
+                        elif kind == "SIGNAL" and content == "READY_TO_FILL":
+                            st.session_state.ready_to_fill = True
+                        elif kind == "DONE":
+                            cleaned = content.replace("[READY_TO_FILL]", "").strip()
+                            placeholder.markdown(cleaned)
+                            st.session_state.chat_history.append({"role": "assistant", "content": cleaned})
+                            if st.session_state.step == 3:
+                                st.session_state.step = 4
+                            save_session()
+                            st.rerun()
+                except Exception as e:
+                    st.error(f"Stream error: {e}")
+                    save_session()
 
         if prompt := st.chat_input(
             "Provide missing details or say 'leave blank' for any field...",
