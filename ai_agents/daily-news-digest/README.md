@@ -4,7 +4,7 @@ Automated daily digest from 92 Karpathy-curated tech blogs, delivered to Telegra
 
 ## How it works
 
-```
+```text
 92 RSS Feeds → Fetch → Filter 24h → MiniMax M2.7 scores → Top 3 articles → Format → Telegram
 ```
 
@@ -28,8 +28,8 @@ Automated daily digest from 92 Karpathy-curated tech blogs, delivered to Telegra
 
 **Libraries:**
 - `feedparser` — RSS feed parsing
-- `python-telegram-bot` — Telegram delivery
 - `python-dotenv` — environment variable management
+- `requests` — HTTP requests for RSS feed fetching
 
 
 ## Prerequisites
@@ -67,7 +67,7 @@ cp .env.example .env
 
 Open `.env` and fill in your credentials:
 
-```
+```env
 MINIMAX_API_KEY=your_minimax_api_key_here
 TELEGRAM_BOT_TOKEN=your_telegram_bot_token_here
 TELEGRAM_CHAT_ID=your_telegram_chat_id_here
@@ -106,12 +106,12 @@ This schedules the digest to run every day at **08:00 UTC**. Adjust the cron exp
 ## Running manually
 
 ```bash
-py skill.py
+python skill.py
 ```
 
 ## Output format
 
-```
+```text
 🗞️ Daily AI Digest — April 1, 2026
 
 🔴 BREAKING
@@ -129,7 +129,7 @@ Source: Blog Name | [Read more](https://...)
 
 ## Project structure
 
-```
+```text
 daily-ai-news-digest/
 ├── skill.py              # Main pipeline — fetch, score, format, send
 ├── scripts/
