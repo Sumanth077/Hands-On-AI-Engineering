@@ -145,7 +145,7 @@ def extract_markdown_local_stream(
             yield f"## Page {idx}\n\n"
             if optimize_images:
                 page_bytes = _optimize_image_bytes(page_bytes, max_side=max_side, grayscale=grayscale)
-            yield from _run_single_image_local_stream(page_bytes, timeout_seconds=timeout_seconds, num_predict=num_predict)
+            yield from _run_single_image_local_stream(file_bytes, timeout_seconds=timeout_seconds, num_predict=num_predict)
             yield "\n\n---\n\n"
     else:
         if optimize_images:
