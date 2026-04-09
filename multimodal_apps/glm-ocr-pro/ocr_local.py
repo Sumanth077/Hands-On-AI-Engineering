@@ -23,10 +23,9 @@ def check_ollama_status() -> tuple[bool, str]:
         return False, f"Ollama not reachable: {exc}"
 
 
-def _pdf_to_image_bytes_list(pdf_bytes: bytes, max_pages: int, render_scale: float = 2.0) -> list[bytes]:
+def _iter_pdf_image_bytes(pdf_bytes: bytes, max_pages: int, render_scale: float = 2.0) -> Generator[bytes, None, None]:
     doc = pdfium.PdfDocument(pdf_bytes)
     page_count = min(len(doc), max_pages)
-    out: list[bytes] = []
     for i in range(page_count):
         page = doc[i]
         bitmap = page.render(scale=render_scale)
@@ -35,8 +34,7 @@ def _pdf_to_image_bytes_list(pdf_bytes: bytes, max_pages: int, render_scale: flo
             pil_image = pil_image.convert("RGB")
         buf = BytesIO()
         pil_image.save(buf, format="PNG")
-        out.append(buf.getvalue())
-    return out
+        yield buf.getvalue()
 
 
 def _optimize_image_bytes(image_bytes: bytes, max_side: int = 1400, quality: int = 75, grayscale: bool = False) -> bytes:
@@ -77,7 +75,7 @@ def warmup_local_model(timeout_seconds: int = 120) -> str:
         return f"Warm-up failed: {exc}"
 
 
-def _run_single_image_local_stream(image_bytes: bytes, timeout_seconds: int) -> Generator[str, None, None]:
+def _run_single_image_local_stream(image_bytes: bytes, timeout_seconds: int, num_predict: int = 2048) -> Generator[str, None, None]:
     """Calls Ollama chat endpoint with streaming enabled."""
     prompt = (
         "Extract all readable text from this image and return structured Markdown. "
@@ -90,7 +88,7 @@ def _run_single_image_local_stream(image_bytes: bytes, timeout_seconds: int) -> 
         "keep_alive": "10m",
         "options": {
             "temperature": 0.0,
-            "num_predict": 2048,
+            "num_predict": num_predict,
         },
         "messages": [
             {
@@ -136,17 +134,20 @@ def extract_markdown_local_stream(
     max_side: int = 1400,
     grayscale: bool = False,
     pdf_render_scale: float = 2.0,
+    num_predict: int = 2048,
 ) -> Generator[str, None, None]:
     """Main entry point for local extraction, yielding chunks of text."""
     if mime_type == "application/pdf":
-        pages = _pdf_to_image_bytes_list(file_bytes, max_pages=max_pdf_pages, render_scale=pdf_render_scale)
-        for idx, page_bytes in enumerate(pages, start=1):
+        for idx, page_bytes in enumerate(
+            _iter_pdf_image_bytes(file_bytes, max_pages=max_pdf_pages, render_scale=pdf_render_scale),
+            start=1,
+        ):
             yield f"## Page {idx}\n\n"
             if optimize_images:
                 page_bytes = _optimize_image_bytes(page_bytes, max_side=max_side, grayscale=grayscale)
-            yield from _run_single_image_local_stream(page_bytes, timeout_seconds=timeout_seconds)
+            yield from _run_single_image_local_stream(page_bytes, timeout_seconds=timeout_seconds, num_predict=num_predict)
             yield "\n\n---\n\n"
     else:
         if optimize_images:
             file_bytes = _optimize_image_bytes(file_bytes, max_side=max_side, grayscale=grayscale)
-        yield from _run_single_image_local_stream(file_bytes, timeout_seconds=timeout_seconds)
+        yield from _run_single_image_local_stream(page_bytes, timeout_seconds=timeout_seconds, num_predict=num_predict)

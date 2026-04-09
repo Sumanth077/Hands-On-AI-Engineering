@@ -46,10 +46,10 @@ with col1:
         if st.button("Warm Up Model", use_container_width=True, type="primary"):
             with st.spinner("Loading GLM-OCR weights..."):
                 result = warmup_local_model()
-                if result and "error" in result.lower():
-                    st.error(result)
-                else:
+                if result.lower().startswith("warm-up completed"):
                     st.toast("Model warmed up on GPU!")
+                else:
+                    st.error(result)
         
         st.divider()
         
