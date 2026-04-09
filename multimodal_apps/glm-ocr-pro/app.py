@@ -78,6 +78,8 @@ with col1:
             use_grayscale = st.checkbox("Enable Grayscale (Recommended)", value=default_gray)
             max_side = st.number_input("Max Side (px)", 400, 2400, default_side, step=100)
             pdf_render_scale = st.number_input("PDF Rendering Scale", 1.0, 3.0, float(default_render), step=0.1)
+	    num_predict = st.number_input("Max Output Tokens", 256, 8192, 2048, step=256)
+	
 
     if st.button("🚀 Extract Knowledge", type="primary", use_container_width=True):
         if uploaded_file is None:
@@ -100,8 +102,8 @@ with col1:
                     max_side=max_side,
                     grayscale=use_grayscale,
                     pdf_render_scale=pdf_render_scale,
-                ):
-                    full_text += chunk
+                    num_predict=int(num_predict),
+                ):                    full_text += chunk
                     # Prettify rendering during stream
                     output_placeholder.markdown(full_text)
                 
