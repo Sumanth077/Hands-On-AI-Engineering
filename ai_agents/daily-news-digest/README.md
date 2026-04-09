@@ -13,6 +13,25 @@ Automated daily digest from 92 Karpathy-curated tech blogs, delivered to Telegra
 3. Articles are grouped into categories — **Breaking**, **Important**, or **Notable** — and formatted as a Telegram message
 4. Empty categories are omitted automatically
 
+
+## Features
+- Fetches articles from 92 Karpathy-curated RSS feeds in parallel
+- Filters only articles published in the last 24 hours
+- Uses MiniMax M2.7 to score and rank articles by significance
+- Categorises top stories as Breaking, Important, or Notable
+- Delivers formatted digest to Telegram at 8 AM daily via OpenClaw
+
+## Tech Stack
+**Models & Frameworks:**
+- MiniMax M2.7 — article scoring and ranking
+- OpenClaw — skill orchestration and cron scheduling
+
+**Libraries:**
+- `feedparser` — RSS feed parsing
+- `python-telegram-bot` — Telegram delivery
+- `python-dotenv` — environment variable management
+
+
 ## Prerequisites
 
 - [OpenClaw](https://openclaw.dev) installed
@@ -21,13 +40,26 @@ Automated daily digest from 92 Karpathy-curated tech blogs, delivered to Telegra
 
 ## Setup
 
-### 1. Install dependencies
+### 1. Clone the Repository
+```bash
+git clone https://github.com/Sumanth077/Hands-On-AI-Engineering.git
+cd Hands-On-AI-Engineering/ai_agents/daily-news-digest
+```
+
+### 2. Create Virtual Environment (Recommended)
+```bash
+python -m venv venv
+venv\Scripts\activate  # Windows
+source venv/bin/activate  # macOS/Linux
+```
+
+### 3. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. Configure environment variables
+### 4. Configure environment variables
 
 ```bash
 cp .env.example .env
@@ -47,7 +79,7 @@ TELEGRAM_CHAT_ID=your_telegram_chat_id_here
 | `TELEGRAM_BOT_TOKEN` | [@BotFather](https://t.me/BotFather) on Telegram |
 | `TELEGRAM_CHAT_ID` | The ID of the channel or chat to deliver the digest to |
 
-### 3. Onboard with OpenClaw
+### 5. Onboard with OpenClaw
 
 ```bash
 openclaw onboard
@@ -55,7 +87,7 @@ openclaw onboard
 
 When prompted, select **MiniMax M2.7** as the model.
 
-### 4. Add the skill to OpenClaw
+### 6. Add the skill to OpenClaw
 
 Copy the skill folder to your OpenClaw workspace:
 
@@ -63,7 +95,7 @@ Copy the skill folder to your OpenClaw workspace:
 cp -r . ~/.openclaw/skills/daily-ai-news-digest
 ```
 
-### 5. Schedule the daily run
+### 7. Schedule the daily run
 
 ```bash
 openclaw cron add "0 8 * * *" skill.py
