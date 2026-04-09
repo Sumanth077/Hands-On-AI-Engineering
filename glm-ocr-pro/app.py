@@ -5,8 +5,10 @@ import os
 from ocr_local import check_ollama_status, extract_markdown_local_stream, warmup_local_model
 
 # Design System Injection
-if os.path.exists("style.css"):
-    with open("style.css") as f:
+_here = os.path.dirname(os.path.abspath(__file__))
+_css_path = os.path.join(_here, "style.css")
+if os.path.exists(_css_path):
+    with open(_css_path) as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 def _looks_like_html_table(text: str) -> bool:
@@ -34,14 +36,20 @@ with col1:
     with st.container(border=True):
         st.subheader("⚙️ Settings")
         
-        ok, status = check_ollama_status()
+        @st.cache_data(ttl=30)
+        def _cached_ollama_status():
+            return check_ollama_status()
+        ok, status = _cached_ollama_status()
         status_color = "green" if ok else "red"
         st.markdown(f"**Ollama Status:** <span style='color:{status_color}'>{'●' if ok else '○'} {status}</span>", unsafe_allow_html=True)
         
         if st.button("Warm Up Model", use_container_width=True, type="primary"):
             with st.spinner("Loading GLM-OCR weights..."):
-                warmup_local_model()
-                st.toast("Model warmed up on GPU!")
+                result = warmup_local_model()
+                if result and "error" in result.lower():
+                    st.error(result)
+                else:
+                    st.toast("Model warmed up on GPU!")
         
         st.divider()
         
@@ -125,7 +133,7 @@ with col2:
             
             # The Viewer
             if _looks_like_html_table(st.session_state["ocr_output"]):
-                st.markdown(st.session_state["ocr_output"], unsafe_allow_html=True)
+                st.html(st.session_state["ocr_output"])
             else:
                 st.markdown(st.session_state["ocr_output"])
             

@@ -1,6 +1,6 @@
 import json
 from io import BytesIO
-from urllib import error, request
+import urllib.request
 from typing import Generator
 
 import pypdfium2 as pdfium
@@ -14,8 +14,8 @@ OLLAMA_BASE_URL = "http://localhost:11434"
 
 def check_ollama_status() -> tuple[bool, str]:
     try:
-        req = request.Request(f"{OLLAMA_BASE_URL}/api/tags", method="GET")
-        with request.urlopen(req, timeout=5) as resp:
+        req = urllib.request.Request(f"{OLLAMA_BASE_URL}/api/tags", method="GET")
+        with urllib.request.urlopen(req, timeout=5) as resp:
             if resp.status == 200:
                 return True, "Ollama is running."
         return False, "Ollama is not responding as expected."
@@ -63,14 +63,14 @@ def _optimize_image_bytes(image_bytes: bytes, max_side: int = 1400, quality: int
 
 def warmup_local_model(timeout_seconds: int = 120) -> str:
     payload = {"model": "glm-ocr", "prompt": "ready", "stream": False, "keep_alive": "10m"}
-    req = request.Request(
+    req = urllib.request.Request(
         f"{OLLAMA_BASE_URL}/api/generate",
         method="POST",
         headers={"Content-Type": "application/json"},
         data=json.dumps(payload).encode("utf-8"),
     )
     try:
-        with request.urlopen(req, timeout=timeout_seconds) as resp:
+        with urllib.request.urlopen(req, timeout=timeout_seconds) as resp:
             _ = resp.read()
         return "Warm-up completed. Model is loaded."
     except Exception as exc:
@@ -101,7 +101,7 @@ def _run_single_image_local_stream(image_bytes: bytes, timeout_seconds: int) -> 
         ],
     }
 
-    req = request.Request(
+    req = urllib.request.Request(
         f"{OLLAMA_BASE_URL}/api/chat",
         method="POST",
         headers={"Content-Type": "application/json"},
@@ -110,7 +110,7 @@ def _run_single_image_local_stream(image_bytes: bytes, timeout_seconds: int) -> 
 
     try:
         # We manually iterate over response lines for streaming
-        with request.urlopen(req, timeout=timeout_seconds) as resp:
+        with urllib.request.urlopen(req, timeout=timeout_seconds) as resp:
             for line in resp:
                 if not line:
                     continue
@@ -124,7 +124,7 @@ def _run_single_image_local_stream(image_bytes: bytes, timeout_seconds: int) -> 
                 except json.JSONDecodeError:
                     continue
     except Exception as exc:
-        yield f"\n[Error calling local Ollama: {exc}]\n"
+        raise RuntimeError(f"Ollama request failed: {exc}") from exc
 
 
 def extract_markdown_local_stream(
