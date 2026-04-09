@@ -3,6 +3,15 @@
 **GLM-OCR Pro** is a high-performance, local-first Streamlit application designed for structured document extraction. It leverages the **GLM-OCR** model via Ollama to transform images and PDFs into cleanly formatted Markdown in real-time.
 
 ---
+## Overview
+GLM-OCR Pro solves the problem of extracting structured text from documents without sending sensitive data to external APIs. It runs entirely on your local machine using the GLM-OCR model via Ollama, making it ideal for confidential documents. The app streams results in real-time and outputs clean, structured Markdown that preserves headings, tables, and lists.
+
+## Prerequisites
+Before you begin, ensure you have:
+- Python 3.8 or higher
+- [Ollama](https://ollama.com) installed and running
+- The GLM-OCR model pulled: `ollama pull glm-ocr`
+- A GPU with at least 4GB VRAM (recommended)
 
 ## ✨ Features
 
@@ -16,16 +25,22 @@
 
 ## 🚀 Quick Start
 
-### 1. Install Ollama
+### 1. Clone the Repository
+```bash
+git clone https://github.com/Sumanth077/Hands-On-AI-Engineering.git
+cd Hands-On-AI-Engineering/multimodal_apps/glm-ocr-pro
+```
+
+### 2. Install Ollama
 Download and install Ollama from [ollama.com](https://ollama.com).
 
-### 2. Pull the GLM-OCR Model
+### 3. Pull the GLM-OCR Model
 Open your terminal and run:
 ```bash
 ollama pull glm-ocr
 ```
 
-### 3. Setup the Python Environment
+### 4. Setup the Python Environment
 ```bash
 # Optional: Create a virtual environment
 python -m venv .venv
@@ -35,7 +50,7 @@ source .venv/bin/activate  # Or `.venv\Scripts\activate` on Windows
 pip install -r requirements.txt
 ```
 
-### 4. Run the App
+### 5. Run the App
 ```bash
 streamlit run app.py
 ```
