@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/theaiengineering_logo.jpeg" alt="Hands-On AI Engineering Banner" width="400">
+  <img src="assets/theaiengineering_logo.jpeg" alt="Hands-On AI Engineering Banner" width="400">
 </p>
 <div align="center">
 
@@ -41,8 +41,13 @@ A curated collection of practical, production-ready AI projects across multiple 
 Intelligent ai agents for various automation tasks.
 
 - [**Multi-Agent Financial Analyst**](./ai_agents/multi_agent_financial_analyst) — Team of specialized agents for comprehensive financial analysis  
-- [**Eagle Eye**](./ai_agents/eagle_eye) — AI-powered GitHub PR review agent using OpenClaw   
-- [**FinAgent**](./ai_agents/finagent) — Financial assistant agent for stock market analysis and insights  
+- [**FinAgent**](./ai_agents/finagent) — Financial assistant agent for stock market analysis and insights
+
+### 🔧 Openclaw
+
+Projects using the Openclaw framework.
+
+- [**Eagle Eye**](./openclaw/eagle_eye) — AI-powered GitHub PR review agent using OpenClaw  
 
 
 ### 📚 RAG Applications
