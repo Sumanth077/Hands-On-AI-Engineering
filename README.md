@@ -97,7 +97,7 @@ Thank you to all contributors who have helped build this collection of AI engine
 
 <div align="center">
 
-**Built with ❤️ by the AI Engineering Community**
+**Built with ❤️ by the [AI Engineering Community](https://aiengineering.beehiiv.com/)**
 
 [⬆ Back to Top](#-hands-on-ai-engineering)
 
