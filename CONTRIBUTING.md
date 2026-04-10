@@ -73,6 +73,8 @@ This helps us:
 
 - [`rag_apps/`](rag_apps/)
 - [`ai_agents/`](ai_agents/)
+- [`fine_tuning/`](fine_tuning/)
+- [`openclaw/`](openclaw/)
 
 **Adding a New Category:**
 
