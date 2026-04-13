@@ -1,0 +1,6 @@
+groq
+instructor
+pydantic
+streamlit
+python-dotenv
+pillow

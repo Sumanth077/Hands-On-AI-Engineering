@@ -1,4 +1,6 @@
-.venv/
+venv/
+__pycache__/
+*.pyc
 .claude/
 .idea/
 node_modules/
