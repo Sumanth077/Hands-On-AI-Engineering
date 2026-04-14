@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
+  <defs>
+    <style>
+      .label {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        fill: #ffffff;
+        text-anchor: middle;
+        dominant-baseline: middle;
+      }
+      .step-label {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+        font-size: 11px;
+        font-weight: 500;
+        fill: #64748B;
+        text-anchor: middle;
+        dominant-baseline: middle;
+      }
+      .title {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+        font-size: 15px;
+        font-weight: 700;
+        fill: #0F172A;
+        text-anchor: middle;
+        dominant-baseline: middle;
+      }
+    </style>
+
+    <!-- Arrow marker -->
+    <marker id="arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+      <polygon points="0 0, 9 3.5, 0 7" fill="#94A3B8"/>
+    </marker>
+
+    <!-- Soft drop shadow -->
+    <filter id="shadow" x="-8%" y="-8%" width="116%" height="130%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#1E293B" flood-opacity="0.10"/>
+    </filter>
+  </defs>
+
+  <!-- ── Background ─────────────────────────────────────────── -->
+  <rect width="800" height="500" fill="#F8FAFC"/>
+
+  <!-- Subtle vertical track line -->
+  <line x1="400" y1="28" x2="400" y2="472" stroke="#E2E8F0" stroke-width="2" stroke-dasharray="4 4"/>
+
+  <!-- ── Title ──────────────────────────────────────────────── -->
+  <text x="400" y="14" class="title" font-size="13" fill="#94A3B8">Daily AI News Digest — Architecture</text>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       BOX 1 — 92 RSS Feeds  (gray)   y=28
+       ═══════════════════════════════════════════════════════════ -->
+  <rect x="270" y="28" width="260" height="44" rx="9" fill="#6B7280" filter="url(#shadow)"/>
+  <text x="400" y="50" class="label">92 RSS Feeds</text>
+
+  <!-- Arrow 1 + label -->
+  <line x1="400" y1="72" x2="400" y2="107" stroke="#94A3B8" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="316" y="80" width="168" height="19" rx="9" fill="#F1F5F9"/>
+  <text x="400" y="89" class="step-label">fetch every morning</text>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       BOX 2 — Python RSS Fetcher  (blue)   y=109
+       ═══════════════════════════════════════════════════════════ -->
+  <rect x="270" y="109" width="260" height="44" rx="9" fill="#3B82F6" filter="url(#shadow)"/>
+  <text x="400" y="131" class="label">Python RSS Fetcher</text>
+
+  <!-- Arrow 2 + label -->
+  <line x1="400" y1="153" x2="400" y2="188" stroke="#94A3B8" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="323" y="161" width="154" height="19" rx="9" fill="#F1F5F9"/>
+  <text x="400" y="170" class="step-label">filter last 24h</text>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       BOX 3 — Article Pool  (gray)   y=190
+       ═══════════════════════════════════════════════════════════ -->
+  <rect x="270" y="190" width="260" height="44" rx="9" fill="#6B7280" filter="url(#shadow)"/>
+  <text x="400" y="212" class="label">Article Pool</text>
+
+  <!-- Arrow 3 + label -->
+  <line x1="400" y1="234" x2="400" y2="269" stroke="#94A3B8" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="293" y="242" width="214" height="19" rx="9" fill="#F1F5F9"/>
+  <text x="400" y="251" class="step-label">score + select top 3</text>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       BOX 4 — MiniMax M2.7  (purple)   y=271
+       ═══════════════════════════════════════════════════════════ -->
+  <rect x="270" y="271" width="260" height="44" rx="9" fill="#8B5CF6" filter="url(#shadow)"/>
+  <text x="400" y="293" class="label">MiniMax M2.7</text>
+
+  <!-- Arrow 4 + label -->
+  <line x1="400" y1="315" x2="400" y2="350" stroke="#94A3B8" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="310" y="323" width="180" height="19" rx="9" fill="#F1F5F9"/>
+  <text x="400" y="332" class="step-label">formatted digest</text>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       BOX 5 — OpenClaw Agent  (teal)   y=352
+       ═══════════════════════════════════════════════════════════ -->
+  <rect x="270" y="352" width="260" height="44" rx="9" fill="#0D9488" filter="url(#shadow)"/>
+  <text x="400" y="374" class="label">OpenClaw Agent</text>
+
+  <!-- Arrow 5 + label -->
+  <line x1="400" y1="396" x2="400" y2="431" stroke="#94A3B8" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="316" y="404" width="168" height="19" rx="9" fill="#F1F5F9"/>
+  <text x="400" y="413" class="step-label">deliver at 8 AM</text>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       BOX 6 — Telegram  (teal)   y=433
+       ═══════════════════════════════════════════════════════════ -->
+  <rect x="270" y="433" width="260" height="44" rx="9" fill="#0D9488" filter="url(#shadow)"/>
+  <text x="400" y="455" class="label">Telegram</text>
+
+</svg>
