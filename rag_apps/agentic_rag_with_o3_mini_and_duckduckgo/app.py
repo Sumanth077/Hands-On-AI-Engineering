@@ -5,10 +5,10 @@ from agno.embedder.openai import OpenAIEmbedder
 # Removed Ollama imports
 from agno.agent import Agent
 from agno.knowledge.pdf import PDFKnowledgeBase
-from agno.vectordb.lancedb import LanceDb
+from agno.vectordb.milvus import Milvus
 from agno.tools.duckduckgo import DuckDuckGoTools
 import os
-from dotenv import load_dotenv, find_dotenv
+from dotenv import load_dotenv
 from typing import Optional 
 import time
 import base64
@@ -58,7 +58,7 @@ def apply_custom_css():
 apply_custom_css()
 
 # Load environment variables
-load_dotenv(find_dotenv())
+load_dotenv()
 
 # Initialize session state 
 if "messages" not in st.session_state:
@@ -73,7 +73,7 @@ if "knowledge_base" not in st.session_state:
 # Define the agent creation function using OpenAI with updated instructions
 def get_rag_agent(
     knowledge_base: PDFKnowledgeBase, 
-    model_id: str = "o3-mini", 
+    model_id: str = "gpt-4o-mini", 
     debug_mode: bool = True,
 ) -> Agent:
     """Creates and configures an Agentic RAG Agent for PDF interaction using OpenAI."""
@@ -133,12 +133,12 @@ if not OPENAI_API_KEY:
         st.error("OpenAI API Key not found. Please set the OPENAI_API_KEY environment variable or add it to Streamlit secrets.")
         st.stop()
 
-# Configure LanceDb with OpenAI Embedder
-LANCE_DB_URI = "lancedb_data"
+# Configure Milvus with OpenAI Embedder
+MILVUS_URI = os.getenv("MILVUS_URI", "http://localhost:19530")
 COLLECTION_NAME = "rag_documents_openai" 
-vector_db = LanceDb(
-    table_name=COLLECTION_NAME, 
-    uri=LANCE_DB_URI,
+vector_db = Milvus(
+    collection=COLLECTION_NAME, 
+    uri=MILVUS_URI,
     embedder=OpenAIEmbedder() 
 )
 
@@ -157,16 +157,8 @@ st.markdown("# PDF RAG Agent with Milvus and Agno 📄")
 
 # Sidebar for document upload
 with st.sidebar:
-    st.header("📄 Upload Document")
-    uploaded_file = st.file_uploader("Choose a PDF file", type="pdf", key="pdf_uploader")
-    
-    st.divider()
-    if st.button("🗑️ Clear Local Database"):
-        if os.path.exists("lancedb_data"):
-            import shutil
-            shutil.rmtree("lancedb_data")
-        st.success("Local database cleared. Please refresh the page.")
-        st.rerun()
+    st.markdown("## Add your documents!")
+    uploaded_file = st.file_uploader("Choose your .pdf file", type=['pdf'], key="pdf_uploader")
     
     if uploaded_file is not None:
         temp_pdf_path = "temp_uploaded.pdf" 
