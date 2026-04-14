@@ -1,7 +1,0 @@
-agno==1.5.10
-openai==1.83.0
-lancedb
-firecrawl-py
-streamlit
-python-dotenv
-pypdf
