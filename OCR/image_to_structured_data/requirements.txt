@@ -1,0 +1,7 @@
+mistralai>=1.5.0
+instructor
+pydantic>=2.0.0
+streamlit
+python-dotenv
+pillow
+eval_type_backport
