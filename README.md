@@ -18,8 +18,6 @@ A curated collection of practical, production-ready AI projects across multiple 
 
 - [🎯 Why This Repository?](#-why-this-repository)
 - [🗂️ Project Categories](#️-project-categories)
-  - [RAG Applications](#-rag-applications)
-  - [AI Agents](#-ai-agents)
 - [🚀 Getting Started](#-getting-started)
 - [🤝 Contributing](#-contributing)
 - [📜 License](#-license)
