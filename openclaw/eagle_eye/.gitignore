@@ -1,6 +1,4 @@
-venv/
-__pycache__/
-*.pyc
+.venv/
 .claude/
 .idea/
 node_modules/
@@ -18,4 +16,3 @@ build/
 .cache/
 .DS_Store
 Thumbs.db
-.vscode/
