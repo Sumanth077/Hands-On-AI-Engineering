@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.env
+*.log
+delivered_urls.json
+.venv/
+.claude/
+.idea/
