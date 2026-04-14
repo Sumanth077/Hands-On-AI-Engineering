@@ -2,21 +2,28 @@ from pydantic import BaseModel, Field
 from typing import List, Optional
 
 class ProductAttribute(BaseModel):
-    key: str = Field(description="The attribute name, e.g., Color, Material, Size")
+    key: str
     value: str
 
 class StructuredProduct(BaseModel):
-    """Extraction schema for product labels or advertisements."""
-    name: str = Field(description="The primary name of the product")
+    name: str
     brand: Optional[str]
     price: Optional[float]
-    currency: Optional[str] = Field(description="ISO currency code")
+    currency: Optional[str]
     attributes: List[ProductAttribute]
-    summary: str = Field(description="A brief 1-sentence description of the visual style")
+    summary: str
+
+# These are the ones the error is looking for:
+class ProductCollection(BaseModel):
+    """A collection of all products found in the image."""
+    products: List[StructuredProduct]
 
 class InvoiceData(BaseModel):
-    """Extraction schema for invoices or receipts."""
     vendor_name: str
     date: str
     total_amount: float
     items: List[str]
+
+class InvoiceCollection(BaseModel):
+    """A collection of invoices or line items found."""
+    invoices: List[InvoiceData]

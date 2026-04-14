@@ -1,24 +1,25 @@
 import streamlit as st
 from processor import extract_structured_data
-from schemas import StructuredProduct, InvoiceData
+from schemas import ProductCollection, InvoiceCollection 
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
 
-st.set_page_config(page_title="OSS Vision Extractor", layout="wide")
+st.set_page_config(page_title="Mistral Vision Extractor", layout="wide")
 
-st.title("📸Image-to-Structured-Data")
-st.write("Using **Llama 4 Scout** on Groq for sub-second OCR extraction.")
+st.title("📸 Image-to-Structured-Data")
+st.write("Using **Mistral Large 3** for high-fidelity visual OCR and structured extraction.")
 
 with st.sidebar:
-    # Use GROQ_API_KEY
-    api_key = st.text_input("Groq API Key", value=os.getenv("GROQ_API_KEY", ""), type="password")
+    # Use the MISTRAL_API_KEY from .env if available
+    api_key = st.text_input("Mistral API Key", value=os.getenv("MISTRAL_API_KEY", ""), type="password")
     schema_choice = st.selectbox("Select Extraction Schema", ["Product", "Invoice"])
     
+    # These names now match the updated import above
     schema_map = {
-        "Product": StructuredProduct,
-        "Invoice": InvoiceData
+        "Product": ProductCollection,
+        "Invoice": InvoiceCollection
     }
 
 uploaded_file = st.file_uploader("Upload an image...", type=["jpg", "jpeg", "png"])
@@ -30,7 +31,7 @@ if uploaded_file and api_key:
     
     with col2:
         if st.button("Extract Data"):
-            with st.spinner("Groq is thinking..."):
+            with st.spinner("Mistral is analyzing the image..."):
                 try:
                     uploaded_file.seek(0)
                     result = extract_structured_data(uploaded_file, schema_map[schema_choice], api_key)
