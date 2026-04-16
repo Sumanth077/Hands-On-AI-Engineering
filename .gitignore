@@ -19,3 +19,8 @@ build/
 .DS_Store
 Thumbs.db
 .vscode/
+chroma_db/
+temp_*
+*.py[cod]
+*$py.class
+.pytest_cache/

@@ -1,0 +1,18 @@
+[project]
+name = "clinical-rag-with-ade"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "chromadb>=1.5.7",
+    "landingai-ade>=1.11.0",
+    "langchain>=1.2.15",
+    "langchain-chroma>=1.1.0",
+    "langchain-core>=1.2.29",
+    "langchain-mistralai>=1.1.2",
+    "mistralai>=2.3.2",
+    "pydantic>=2.13.0",
+    "python-dotenv>=1.2.2",
+    "streamlit>=1.56.0",
+]
