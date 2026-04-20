@@ -40,40 +40,41 @@ def get_cohere_embedding(api_key, input_data, input_type='text'):
     else:
         raise ValueError("input_type must be 'text' or 'image'")
 
-# --- Google Gemini 2.5 Flash VQA ---
-def gemini_vqa(api_key, image_bytes, question):
+# --- OpenAI GPT-4o-mini VQA ---
+def openai_vqa(api_key, image_bytes, question):
     """
-    Send image and question to Gemini 2.5 Flash for Visual Question Answering.
+    Send image and question to GPT-4o-mini for Visual Question Answering.
     
     Args:
-        api_key (str): Google Gemini API key
+        api_key (str): OpenAI API key
         image_bytes (bytes): Image data
         question (str): Question about the image
     
     Returns:
         str: Generated answer
     """
-    endpoint = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={api_key}"
-    headers = {"Content-Type": "application/json"}
+    from openai import OpenAI
+    client = OpenAI(api_key=api_key, timeout=30.0)
     
-    image_b64 = base64.b64encode(image_bytes).decode()
-    data = {
-        "contents": [
+    image_b64 = base64.b64encode(image_bytes).decode('utf-8')
+    
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
             {
-                "parts": [
-                    {"inline_data": {"mime_type": "image/png", "data": image_b64}},
-                    {"text": question}
-                ]
+                "role": "user",
+                "content": [
+                    {"type": "text", "text": question},
+                    {
+                        "type": "image_url",
+                        "image_url": {"url": f"data:image/png;base64,{image_b64}"},
+                    },
+                ],
             }
-        ]
-    }
-    
-    response = requests.post(endpoint, headers=headers, json=data)
-    
-    if response.status_code == 200:
-        return response.json()['candidates'][0]['content']['parts'][0]['text']
-    else:
-        return f"Error: {response.status_code} {response.text}"
+        ],
+        max_tokens=500,
+    )
+    return response.choices[0].message.content
 
 # --- PDF to Images ---
 def pdf_to_images(pdf_bytes):

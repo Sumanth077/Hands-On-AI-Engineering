@@ -1,0 +1,7 @@
+.env
+__pycache__/
+venv/
+.DS_Store
+*.pyc
+lancedb_data/
+vision_rag_data/
