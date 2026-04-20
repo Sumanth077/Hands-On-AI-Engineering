@@ -1,0 +1,7 @@
+google-adk>=1.0.0
+google-genai>=1.0.0
+streamlit>=1.32.0
+python-dotenv>=1.0.0
+tavily-python>=0.3.0
+geopy>=2.4.0
+nest-asyncio>=1.6.0
