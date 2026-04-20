@@ -3,19 +3,18 @@ import os
 import datetime
 from PIL import Image
 import numpy as np
-from dotenv import load_dotenv
-from utils import get_cohere_embedding, gemini_vqa, pdf_to_images, image_to_bytes, find_most_similar
+from dotenv import load_dotenv, find_dotenv
+from utils import get_cohere_embedding, openai_vqa, pdf_to_images, image_to_bytes, find_most_similar
 
 # Load environment variables
-load_dotenv()
+load_dotenv(find_dotenv())
 
 # Page configuration
 st.set_page_config(page_title="VisionRAG: Multimodal Search & VQA", layout="wide")
 st.title("VisionRAG: Multimodal Search & Visual Question Answering")
 
-# API Keys from environment variables
 cohere_api = os.getenv("COHERE_API_KEY")
-gemini_api = os.getenv("GEMINI_API_KEY")
+openai_api = os.getenv("OPENAI_API_KEY")
 
 # Initialize session state
 if 'items' not in st.session_state:
@@ -103,8 +102,8 @@ with st.form("question_form"):
 
 # Process question submission
 if submit_button:
-    if not cohere_api or not gemini_api:
-        st.error("Please provide both Cohere and Gemini API keys.")
+    if not cohere_api or not openai_api:
+        st.error("Please provide both Cohere and OpenAI API keys.")
     elif not question:
         st.error("Please enter a question.")
     elif not st.session_state['items']:
@@ -125,10 +124,10 @@ if submit_button:
             idx, sim = find_most_similar(q_emb, emb_list)
             best_item = st.session_state['items'][idx]
             
-            # Generate answer using Gemini
-            st.info("Generating answer with Gemini...")
+            # Generate answer using OpenAI
+            st.info("Generating answer with OpenAI Vision...")
             img_bytes = image_to_bytes(best_item['img'])
-            answer = gemini_vqa(gemini_api, img_bytes, question)
+            answer = openai_vqa(openai_api, img_bytes, question)
             
             # Add to conversation history
             timestamp = datetime.datetime.now().strftime("%H:%M:%S")
