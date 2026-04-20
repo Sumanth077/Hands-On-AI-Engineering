@@ -1,12 +1,6 @@
-You are absolutely right. Since we switched the engine to Mistral, we need to update the documentation so it doesn't confuse users.
-
-Here is the fully updated **README.md** reflecting the Mistral Large 3 integration and the new "Collection" schema logic.
-
-***
-
 # Image-to-Structured-Data Extractor (Mistral Large 3 + Instructor)
 
-> A high-fidelity, visual extraction framework that converts images into validated, structured JSON using Mistral Large 3 and Pydantic.
+A high-fidelity, visual extraction framework that converts images into validated, structured JSON using Mistral Large 3 and Pydantic.
 
 ## Overview
 
