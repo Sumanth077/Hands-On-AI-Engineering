@@ -1,0 +1,6 @@
+.env
+__pycache__/
+venv/
+.DS_Store
+lancedb_data/
+*.pyc
