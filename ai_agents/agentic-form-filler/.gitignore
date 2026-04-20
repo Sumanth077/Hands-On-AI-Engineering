@@ -1,0 +1,27 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.venv/
+env/
+venv/
+ENV/
+
+# Configuration
+.env
+
+# Session Data & Backups (User Specific)
+sessions/
+*.log
+
+# Temp Files
+temp*.pdf
+*.tmp
+
+# IDE Metadata
+.idea/
+.vscode/
+*.swp
+*.swo
