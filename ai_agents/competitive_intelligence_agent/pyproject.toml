@@ -1,0 +1,15 @@
+[project]
+name = "competitive-intelligence-agent"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "crewai[litellm]>=1.14.1",
+    "crewai-tools>=1.14.1",
+    "google-generativeai>=0.8.6",
+    "gradio>=6.12.0",
+    "langchain-google-genai>=4.2.2",
+    "python-dotenv>=1.1.1",
+    "tavily-python>=0.7.23",
+]
