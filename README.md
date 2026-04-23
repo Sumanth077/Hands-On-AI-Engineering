@@ -47,7 +47,7 @@ Intelligent ai agents for various automation tasks.
 - [**AI Travel Planning Agent**](./ai_agents/ai_travel_planning_agent) — Multi-agent travel planner that turns a single natural language request into a complete trip plan with flights, hotels, and a day-by-day itinerary.
 - [**Competitive Intelligence Agent**](./ai_agents/competitive_intelligence_agent) — Multi-agent AI system that generates strategic sales battlecards by analyzing competitors through the unique lens of your own business context.
 - [**Multi-Agent Research Assistant (AG2)**](./ai_agents/multi_agent_research_assistant_ag2) — Production-grade multi-agent research pipeline using AG2 (formerly AutoGen). Three specialists collaborate under GroupChat with LLM-driven speaker selection to research any topic and produce a structured Markdown report.
-
+- [**Self-Reflective Agentic RAG**](./ai_agents/agentic_rag_system) — LangGraph-driven RAG system that grades retrieved context for relevance and sufficiency, rewrites the query if needed, and only generates an answer once the context passes validation — reducing hallucinations through an iterative retrieval loop.
 
 ### 📸 OCR
 
