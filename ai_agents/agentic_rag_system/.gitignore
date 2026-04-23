@@ -1,0 +1,26 @@
+# Environment
+.env
+.env.local
+
+# Virtual environment
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Vector store (auto-generated at runtime)
+chroma_db/
+
+# uv
+.python-version
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

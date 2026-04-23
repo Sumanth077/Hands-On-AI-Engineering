@@ -1,0 +1,16 @@
+[project]
+name = "agentic-rag-system"
+version = "0.1.0"
+description = "Self-reflective agentic RAG with iterative retrieval grading and query rewriting via LangGraph"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "chromadb>=1.5.8",
+    "gradio>=6.13.0",
+    "langchain>=1.2.15",
+    "langchain-community>=0.4.1",
+    "langchain-google-genai>=4.2.2",
+    "langgraph>=1.1.9",
+    "pypdf>=6.10.2",
+    "python-dotenv>=1.2.2",
+]
