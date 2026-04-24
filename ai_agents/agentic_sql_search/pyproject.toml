@@ -1,0 +1,13 @@
+[project]
+name = "agentic-sql-search"
+version = "0.1.0"
+description = "Natural language to SQL agent — ask questions about an e-commerce database in plain English"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "streamlit>=1.45.0",
+    "langchain>=0.3.0",
+    "langchain-google-genai>=4.2.2",
+    "langgraph>=0.2.0",
+    "python-dotenv>=1.1.1",
+]

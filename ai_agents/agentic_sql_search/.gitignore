@@ -1,0 +1,23 @@
+# Environment
+.env
+
+# Virtual environment
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Database (auto-generated at runtime)
+data/ecommerce.db
+
+# uv
+.python-version
+uv.lock
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
