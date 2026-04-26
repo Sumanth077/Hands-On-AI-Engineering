@@ -49,6 +49,7 @@ Intelligent ai agents for various automation tasks.
 - [**Multi-Agent Research Assistant (AG2)**](./ai_agents/multi_agent_research_assistant_ag2) — Production-grade multi-agent research pipeline using AG2 (formerly AutoGen). Three specialists collaborate under GroupChat with LLM-driven speaker selection to research any topic and produce a structured Markdown report.
 - [**Self-Reflective Agentic RAG**](./ai_agents/agentic_rag_system) — LangGraph-driven RAG system that grades retrieved context for relevance and sufficiency, rewrites the query if needed, and only generates an answer once the context passes validation — reducing hallucinations through an iterative retrieval loop.
 - [**Agentic SQL Search**](./ai_agents/agentic_sql_search) — Natural language to SQL agent powered by Gemma 4. Ask plain-English questions about an e-commerce database and the agent writes, executes, and explains the SQL query — with full reasoning transparency in the Streamlit UI.
+- [**Stock Portfolio Analyst**](./ai_agents/stock_portfolio_analyst) — AI-powered portfolio analysis agent built with Agno and DeepSeek-V4-Flash. Takes ticker symbols, share counts, and purchase prices, fetches live market data via YFinance, and generates a streaming report covering P&L, concentration risk, valuation flags, and rebalancing recommendations.
 
 ### 📸 OCR
 
