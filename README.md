@@ -50,6 +50,7 @@ Intelligent ai agents for various automation tasks.
 - [**Self-Reflective Agentic RAG**](./ai_agents/agentic_rag_system) — LangGraph-driven RAG system that grades retrieved context for relevance and sufficiency, rewrites the query if needed, and only generates an answer once the context passes validation — reducing hallucinations through an iterative retrieval loop.
 - [**Agentic SQL Search**](./ai_agents/agentic_sql_search) — Natural language to SQL agent powered by Gemma 4. Ask plain-English questions about an e-commerce database and the agent writes, executes, and explains the SQL query — with full reasoning transparency in the Streamlit UI.
 - [**Stock Portfolio Analyst**](./ai_agents/stock_portfolio_analyst) — AI-powered portfolio analysis agent built with Agno and DeepSeek-V4-Flash. Takes ticker symbols, share counts, and purchase prices, fetches live market data via YFinance, and generates a streaming report covering P&L, concentration risk, valuation flags, and rebalancing recommendations.
+- [**Eagle Eye**](./ai_agents/eagle_eye) — AI-powered GitHub PR review agent using OpenClaw and Telegram. Fetches pull request diffs via GitHub MCP, performs structured code review with severity ratings, and posts feedback to GitHub only after user approval.
 
 ### 📸 OCR
 
@@ -65,13 +66,6 @@ Projects combining vision, video, and language models.
 
 - [**GLM-OCR Pro**](./multimodal/glm_ocr_pro) — High-performance, local-first Streamlit application for structured document extraction using the GLM-OCR model via Ollama to transform images and PDFs into cleanly formatted Markdown in real-time.
 - [**Video Understanding Agent**](./multimodal/video_understanding_agent) — Paste a YouTube URL and get an AI-powered chapter summary, key takeaways, and action items powered by Gemini Flash.
-
-### 🔧 Openclaw
-
-Projects using the Openclaw framework.
-
-- [**Eagle Eye**](./openclaw/eagle_eye) — AI-powered GitHub PR review agent using OpenClaw  
-
 
 ### 📚 RAG Applications
 
