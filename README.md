@@ -62,6 +62,12 @@ Extracting structure and meaning from visual data and documents.
 - [**LaTeX Formula OCR**](./OCR/latex_formula_ocr) - Local vision-language OCR that extracts math formulas from images/PDFs into LaTeX and renders them instantly with KaTeX.
 
 
+### 🎧 Audio
+
+Projects for audio understanding and analysis.
+
+- [**Music Explorer**](./audio/music_explorer) — Chat with any audio file or YouTube video using Gemini 3 Flash. Ask for transcriptions, lyrics, emotion analysis, instrument identification, and timestamp-aware track breakdowns.
+
 ### 🎬 Multimodal
 
 Projects combining vision, video, and language models.
