@@ -42,7 +42,7 @@ Intelligent ai agents for various automation tasks.
 
 - [**Multi-Agent Financial Analyst**](./ai_agents/multi_agent_financial_analyst) — Team of specialized agents for comprehensive financial analysis  
 - [**FinAgent**](./ai_agents/finagent) — Financial assistant agent for stock market analysis and insights
-- [**Daily AI News Digest**](./ai_agents/daily_news_digest) — Automated daily digest from 92 Karpathy-curated tech blogs, delivered to Telegram at 8 AM every morning. MiniMax M2.7 scores every article fetched in the last 24 hours and picks the 3 most significant stories.
+- [**Daily AI News Digest**](./ai_agents/daily-news-digest) — Automated daily digest from 92 Karpathy-curated tech blogs, delivered to Telegram at 8 AM every morning. MiniMax M2.7 scores every article fetched in the last 24 hours and picks the 3 most significant stories.
 - [**Agentic Form Filler**](./ai_agents/agentic-form-filler) — Powerful agentic form-filling application using Landing AI for layout parsing and MiniMax M2.7 for multi-turn conversational data gathering.
 - [**AI Travel Planning Agent**](./ai_agents/ai_travel_planning_agent) — Multi-agent travel planner that turns a single natural language request into a complete trip plan with flights, hotels, and a day-by-day itinerary.
 - [**Competitive Intelligence Agent**](./ai_agents/competitive_intelligence_agent) — Multi-agent AI system that generates strategic sales battlecards by analyzing competitors through the unique lens of your own business context.
@@ -51,6 +51,8 @@ Intelligent ai agents for various automation tasks.
 - [**Agentic SQL Search**](./ai_agents/agentic_sql_search) — Natural language to SQL agent powered by Gemma 4. Ask plain-English questions about an e-commerce database and the agent writes, executes, and explains the SQL query — with full reasoning transparency in the Streamlit UI.
 - [**Stock Portfolio Analyst**](./ai_agents/stock_portfolio_analyst) — AI-powered portfolio analysis agent built with Agno and DeepSeek-V4-Flash. Takes ticker symbols, share counts, and purchase prices, fetches live market data via YFinance, and generates a streaming report covering P&L, concentration risk, valuation flags, and rebalancing recommendations.
 - [**Eagle Eye**](./ai_agents/eagle_eye) — AI-powered GitHub PR review agent using OpenClaw and Telegram. Fetches pull request diffs via GitHub MCP, performs structured code review with severity ratings, and posts feedback to GitHub only after user approval.
+- [**CartMate — AI Customer Support Agent**](./ai_agents/ai_customer_support_agent) — Memory-powered e-commerce support agent built with Mem0 and Mistral Small 4. Remembers customers by name, recalls past orders and reported issues across sessions, and picks up conversations exactly where they left off.
+- [**Multi-Agent Coding Assistant**](./ai_agents/multi_agent_coding_assistant) — Four-stage coding pipeline powered by Mistral Small 4 and LangChain. A Planner Agent structures the approach, a Coder Agent writes a first draft, a Reviewer Agent critiques it, and the Coder Agent produces a polished final version — all surfaced in an expandable Streamlit UI.
 
 ### 📸 OCR
 
@@ -75,6 +77,7 @@ Retrieval-Augmented Generation systems for knowledge-enhanced AI applications.
 - [**Agentic RAG with Qwen & FireCrawl**](./rag_apps/agentic_rag_with_qwen_and_firecrawl) — Advanced RAG using Qwen models and FireCrawl for web scraping  
 - [**Vision RAG**](./rag_apps/vision_rag) — Multimodal RAG system capable of processing and querying visual content  
 - [**Clinical RAG with ADE**](./rag_apps/clinical_rag_with_ade) — High-precision RAG system using LandingAI ADE for visual-first parsing and Mistral Large for grounded clinical reasoning
+- [**YouTube Transcript RAG**](./rag_apps/youtube_transcript_rag) — Chat with any YouTube video using local Whisper transcription, ChromaDB semantic search, and Mistral Small 4. Answers are grounded in the video content with clickable timestamp links pointing to the exact moment in the video.
 
 ---
 
