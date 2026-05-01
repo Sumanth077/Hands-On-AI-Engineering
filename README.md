@@ -53,6 +53,7 @@ Intelligent ai agents for various automation tasks.
 - [**Eagle Eye**](./ai_agents/eagle_eye) — AI-powered GitHub PR review agent using OpenClaw and Telegram. Fetches pull request diffs via GitHub MCP, performs structured code review with severity ratings, and posts feedback to GitHub only after user approval.
 - [**CartMate — AI Customer Support Agent**](./ai_agents/ai_customer_support_agent) — Memory-powered e-commerce support agent built with Mem0 and Mistral Small 4. Remembers customers by name, recalls past orders and reported issues across sessions, and picks up conversations exactly where they left off.
 - [**Multi-Agent Coding Assistant**](./ai_agents/multi_agent_coding_assistant) — Four-stage coding pipeline powered by Mistral Small 4 and LangChain. A Planner Agent structures the approach, a Coder Agent writes a first draft, a Reviewer Agent critiques it, and the Coder Agent produces a polished final version — all surfaced in an expandable Streamlit UI.
+- [**Startup Analyst**](./ai_agents/startup_analyst) — Elite startup due-diligence agent powered by **MiniMax M2.5** via OpenRouter. Give it a company name and URL and it scrapes the site with Firecrawl, crawls multiple pages, and produces an investment-grade report covering market position, financials, team, risks, and strategic recommendations.
 
 ### 📸 OCR
 

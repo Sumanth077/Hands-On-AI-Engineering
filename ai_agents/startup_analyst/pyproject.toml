@@ -1,0 +1,13 @@
+[project]
+name = "startup-analyst"
+version = "0.1.0"
+description = "Elite startup due-diligence agent powered by Qwen3-235B via the orq.ai router"
+requires-python = ">=3.11"
+
+dependencies = [
+    "agno>=1.0.0",
+    "openai>=1.0.0",
+    "firecrawl-py>=1.0.0",
+    "gradio>=5.0.0",
+    "python-dotenv>=1.1.1",
+]
