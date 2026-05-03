@@ -54,6 +54,7 @@ Intelligent ai agents for various automation tasks.
 - [**CartMate — AI Customer Support Agent**](./ai_agents/ai_customer_support_agent) — Memory-powered e-commerce support agent built with Mem0 and Mistral Small 4. Remembers customers by name, recalls past orders and reported issues across sessions, and picks up conversations exactly where they left off.
 - [**Multi-Agent Coding Assistant**](./ai_agents/multi_agent_coding_assistant) — Four-stage coding pipeline powered by Mistral Small 4 and LangChain. A Planner Agent structures the approach, a Coder Agent writes a first draft, a Reviewer Agent critiques it, and the Coder Agent produces a polished final version — all surfaced in an expandable Streamlit UI.
 - [**Startup Analyst**](./ai_agents/startup_analyst) — Elite startup due-diligence agent powered by **MiniMax M2.5** via OpenRouter. Give it a company name and URL and it scrapes the site with Firecrawl, crawls multiple pages, and produces an investment-grade report covering market position, financials, team, risks, and strategic recommendations.
+- [**Research Team**](./ai_agents/research_team) — Multi-agent research system powered by **MiniMax M2.5** via OpenRouter. Seek searches the web using DuckDuckGo while Scout navigates internal documents. A team leader coordinates both and synthesises findings into a structured report with sourced key findings and open questions.
 
 ### 📸 OCR
 
