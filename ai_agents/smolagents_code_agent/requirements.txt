@@ -1,0 +1,6 @@
+smolagents[litellm]>=1.0.0
+gradio>=4.44.0
+python-dotenv>=1.0.0
+duckduckgo-search>=6.0.0
+wikipedia>=1.4.0
+ddgs
