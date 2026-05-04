@@ -56,13 +56,15 @@ Intelligent ai agents for various automation tasks.
 - [**Startup Analyst**](./ai_agents/startup_analyst) — Elite startup due-diligence agent powered by **MiniMax M2.5** via OpenRouter. Give it a company name and URL and it scrapes the site with Firecrawl, crawls multiple pages, and produces an investment-grade report covering market position, financials, team, risks, and strategic recommendations.
 - [**Research Team**](./ai_agents/research_team) — Multi-agent research system powered by **MiniMax M2.5** via OpenRouter. Seek searches the web using DuckDuckGo while Scout navigates internal documents. A team leader coordinates both and synthesises findings into a structured report with sourced key findings and open questions.
 - [**GitHub Intelligence Agent**](./ai_agents/github_intelligence_agent) — Conversational GitHub research agent powered by **Gemini 3 Flash** and GitHub's official MCP server. Uses Haystack's SearchableToolset to dynamically discover tools from a catalog of 40+ GitHub API endpoints, keeping context lean and avoiding prompt overflow. Ask anything — trending repos, contributor profiles, issue summaries, codebase exploration.
+- [**Smolagents Code Agent**](./ai_agents/smolagents_code_agent) — Real-time agentic task runner powered by **Mistral Small 4** and HuggingFace smolagents. The agent writes and executes Python code at each step using DuckDuckGo and Wikipedia, streaming every Think, Act, and Observe step live in a Gradio UI.
 
 ### 📸 OCR
 
 Extracting structure and meaning from visual data and documents.
 
 - [**Image-to-Structured-Data Extractor**](./OCR/image_to_structured_data) — High-fidelity visual OCR using Mistral Large 3 and Instructor to convert images into validated, structured JSON.
-- [**LaTeX Formula OCR**](./OCR/latex_formula_ocr) - Local vision-language OCR that extracts math formulas from images/PDFs into LaTeX and renders them instantly with KaTeX.
+- [**LaTeX Formula OCR**](./OCR/latex_formula_ocr) — Local vision-language OCR that extracts math formulas from images/PDFs into LaTeX and renders them instantly with KaTeX.
+- [**Medical Prescription Digitizer**](./OCR/medical_prescription_digitizer) — Upload a handwritten or printed prescription and get structured, validated output powered by **Mistral Large 3**. Extracted drug names are checked in real time against the RxNorm database with no API key required.
 
 
 ### 🎧 Audio
@@ -85,8 +87,10 @@ Retrieval-Augmented Generation systems for knowledge-enhanced AI applications.
 - [**Agentic RAG with O3-Mini & DuckDuckGo**](./rag_apps/agentic_rag_with_o3_mini_and_duckduckgo) — RAG system using O3-Mini model with DuckDuckGo search integration  
 - [**Agentic RAG with Qwen & FireCrawl**](./rag_apps/agentic_rag_with_qwen_and_firecrawl) — Advanced RAG using Qwen models and FireCrawl for web scraping  
 - [**Vision RAG**](./rag_apps/vision_rag) — Multimodal RAG system capable of processing and querying visual content  
-- [**Clinical RAG with ADE**](./rag_apps/clinical_rag_with_ade) — High-precision RAG system using LandingAI ADE for visual-first parsing and Mistral Large for grounded clinical reasoning
+- [**Clinical RAG with ADE**](./rag_apps/clinical_rag_with_ade) — High-precision RAG system using LandingAI ADE for visual-first parsing and Mistral Large for grounded clinical reasoning.
 - [**YouTube Transcript RAG**](./rag_apps/youtube_transcript_rag) — Chat with any YouTube video using local Whisper transcription, ChromaDB semantic search, and Mistral Small 4. Answers are grounded in the video content with clickable timestamp links pointing to the exact moment in the video.
+- [**GraphRAG Knowledge System**](./rag_apps/graphrag_knowledge_system) — Upload documents and build a local knowledge graph powered by **Mistral Small 4** and NetworkX. Supports two retrieval modes: Local Search for entity-level queries and Global Search for broad thematic synthesis across the entire graph.
+- [**Hybrid RAG System**](./rag_apps/hybrid_rag_system) — Dual-indexes documents into both a knowledge graph and a vector store, then runs both retrieval paths in parallel. **Mistral Small 4** answers questions with fused context from graph entities and ranked vector chunks, with full source transparency.
 
 ---
 
