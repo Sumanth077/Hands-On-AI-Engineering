@@ -1,0 +1,13 @@
+[project]
+name = "github-intelligence-agent"
+version = "0.1.0"
+description = "GitHub Intelligence Agent powered by Gemini Flash and GitHub MCP Server via Haystack"
+requires-python = ">=3.11"
+
+dependencies = [
+    "haystack-ai>=2.0.0",
+    "google-genai-haystack>=1.0.0",
+    "mcp-haystack>=0.1.0",
+    "streamlit>=1.40.0",
+    "python-dotenv>=1.1.0",
+]
