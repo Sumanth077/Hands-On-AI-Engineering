@@ -57,6 +57,7 @@ Intelligent ai agents for various automation tasks.
 - [**Research Team**](./ai_agents/research_team) — Multi-agent research system powered by **MiniMax M2.5** via OpenRouter. Seek searches the web using DuckDuckGo while Scout navigates internal documents. A team leader coordinates both and synthesises findings into a structured report with sourced key findings and open questions.
 - [**GitHub Intelligence Agent**](./ai_agents/github_intelligence_agent) — Conversational GitHub research agent powered by **Gemini 3 Flash** and GitHub's official MCP server. Uses Haystack's SearchableToolset to dynamically discover tools from a catalog of 40+ GitHub API endpoints, keeping context lean and avoiding prompt overflow. Ask anything — trending repos, contributor profiles, issue summaries, codebase exploration.
 - [**Smolagents Code Agent**](./ai_agents/smolagents_code_agent) — Real-time agentic task runner powered by **Mistral Small 4** and HuggingFace smolagents. The agent writes and executes Python code at each step using DuckDuckGo and Wikipedia, streaming every Think, Act, and Observe step live in a Gradio UI.
+- [**Agent Discovery Agent**](./ai_agents/agent_discovery_agent) — Conversational agent that searches and compares AI agents across five registries — NANDA, MCP, Virtuals Protocol, A2A, and ERC-8004 — through a single natural language interface. Powered by **Gemini 3 Flash** and the Registry Broker API.
 
 ### 📸 OCR
 
