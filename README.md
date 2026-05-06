@@ -91,6 +91,7 @@ Retrieval-Augmented Generation systems for knowledge-enhanced AI applications.
 - [**YouTube Transcript RAG**](./rag_apps/youtube_transcript_rag) — Chat with any YouTube video using local Whisper transcription, ChromaDB semantic search, and Mistral Small 4. Answers are grounded in the video content with clickable timestamp links pointing to the exact moment in the video.
 - [**GraphRAG Knowledge System**](./rag_apps/graphrag_knowledge_system) — Upload documents and build a local knowledge graph powered by **Mistral Small 4** and NetworkX. Supports two retrieval modes: Local Search for entity-level queries and Global Search for broad thematic synthesis across the entire graph.
 - [**Hybrid RAG System**](./rag_apps/hybrid_rag_system) — Dual-indexes documents into both a knowledge graph and a vector store, then runs both retrieval paths in parallel. **Mistral Small 4** answers questions with fused context from graph entities and ranked vector chunks, with full source transparency.
+- [**HyDE RAG**](./rag_apps/hyde_rag) — RAG pipeline that applies Hypothetical Document Embeddings (HyDE) to improve retrieval precision. Instead of embedding the raw query, **Gemini 3 Flash** generates multiple hypothetical answers, **Gemini Embedding 2** embeds each one, and the averaged vector is used to retrieve the most semantically relevant chunks from ChromaDB.
 
 ---
 
