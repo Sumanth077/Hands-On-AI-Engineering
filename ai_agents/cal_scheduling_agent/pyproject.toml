@@ -1,0 +1,14 @@
+[project]
+name = "cal-scheduling-agent"
+version = "0.1.0"
+description = "Conversational Cal.com scheduling agent powered by Gemini 3 Flash, Agno, and Streamlit"
+requires-python = ">=3.10"
+
+dependencies = [
+    "agno>=1.4.4",
+    "google-genai>=1.0.0",
+    "streamlit>=1.40.0",
+    "requests>=2.32.0",
+    "pytz>=2024.1",
+    "python-dotenv>=1.0.0",
+]
