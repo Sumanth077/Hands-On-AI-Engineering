@@ -1,0 +1,17 @@
+[project]
+name = "hyde-rag"
+version = "0.1.0"
+description = "HyDE RAG pipeline — Hypothetical Document Embeddings with Gemini 3 Flash and Gemini Embedding 2"
+requires-python = ">=3.11"
+
+dependencies = [
+    "langchain>=0.3.0",
+    "langchain-community>=0.3.0",
+    "langchain-text-splitters>=0.3.0",
+    "google-genai>=1.0.0",
+    "chromadb>=0.6.0",
+    "gradio>=5.0.0",
+    "pypdf>=5.0.0",
+    "numpy>=2.0.0",
+    "python-dotenv>=1.0.0",
+]
