@@ -40,60 +40,60 @@ A curated collection of practical, production-ready AI projects across multiple 
 
 Intelligent ai agents for various automation tasks.
 
-- [**Multi-Agent Financial Analyst**](./ai_agents/multi_agent_financial_analyst) — Team of specialized agents for comprehensive financial analysis  
-- [**FinAgent**](./ai_agents/finagent) — Financial assistant agent for stock market analysis and insights
-- [**Daily AI News Digest**](./ai_agents/daily-news-digest) — Automated daily digest from 92 Karpathy-curated tech blogs, delivered to Telegram at 8 AM every morning. MiniMax M2.7 scores every article fetched in the last 24 hours and picks the 3 most significant stories.
-- [**Agentic Form Filler**](./ai_agents/agentic-form-filler) — Powerful agentic form-filling application using Landing AI for layout parsing and MiniMax M2.7 for multi-turn conversational data gathering.
+- [**Multi-Agent Financial Analyst**](./ai_agents/multi_agent_financial_analyst) — Team of specialized agents for comprehensive financial analysis.
+- [**FinAgent**](./ai_agents/finagent) — Financial assistant agent for stock market analysis and insights.
+- [**Daily AI News Digest**](./ai_agents/daily-news-digest) — Automated daily digest from 92 Karpathy-curated tech blogs delivered to Telegram every morning. MiniMax M2.7 scores articles from the last 24 hours and surfaces the 3 most significant stories.
+- [**Agentic Form Filler**](./ai_agents/agentic-form-filler) — Agentic form-filling agent using Landing AI for layout parsing and MiniMax M2.7 for multi-turn data gathering.
 - [**AI Travel Planning Agent**](./ai_agents/ai_travel_planning_agent) — Multi-agent travel planner that turns a single natural language request into a complete trip plan with flights, hotels, and a day-by-day itinerary.
-- [**Competitive Intelligence Agent**](./ai_agents/competitive_intelligence_agent) — Multi-agent AI system that generates strategic sales battlecards by analyzing competitors through the unique lens of your own business context.
-- [**Multi-Agent Research Assistant (AG2)**](./ai_agents/multi_agent_research_assistant_ag2) — Production-grade multi-agent research pipeline using AG2 (formerly AutoGen). Three specialists collaborate under GroupChat with LLM-driven speaker selection to research any topic and produce a structured Markdown report.
-- [**Self-Reflective Agentic RAG**](./ai_agents/agentic_rag_system) — LangGraph-driven RAG system that grades retrieved context for relevance and sufficiency, rewrites the query if needed, and only generates an answer once the context passes validation — reducing hallucinations through an iterative retrieval loop.
-- [**Agentic SQL Search**](./ai_agents/agentic_sql_search) — Natural language to SQL agent powered by Gemma 4. Ask plain-English questions about an e-commerce database and the agent writes, executes, and explains the SQL query — with full reasoning transparency in the Streamlit UI.
-- [**Stock Portfolio Analyst**](./ai_agents/stock_portfolio_analyst) — AI-powered portfolio analysis agent built with Agno and DeepSeek-V4-Flash. Takes ticker symbols, share counts, and purchase prices, fetches live market data via YFinance, and generates a streaming report covering P&L, concentration risk, valuation flags, and rebalancing recommendations.
-- [**Eagle Eye**](./ai_agents/eagle_eye) — AI-powered GitHub PR review agent using OpenClaw and Telegram. Fetches pull request diffs via GitHub MCP, performs structured code review with severity ratings, and posts feedback to GitHub only after user approval.
-- [**CartMate — AI Customer Support Agent**](./ai_agents/ai_customer_support_agent) — Memory-powered e-commerce support agent built with Mem0 and Mistral Small 4. Remembers customers by name, recalls past orders and reported issues across sessions, and picks up conversations exactly where they left off.
-- [**Multi-Agent Coding Assistant**](./ai_agents/multi_agent_coding_assistant) — Four-stage coding pipeline powered by Mistral Small 4 and LangChain. A Planner Agent structures the approach, a Coder Agent writes a first draft, a Reviewer Agent critiques it, and the Coder Agent produces a polished final version — all surfaced in an expandable Streamlit UI.
-- [**Startup Analyst**](./ai_agents/startup_analyst) — Elite startup due-diligence agent powered by **MiniMax M2.5** via OpenRouter. Give it a company name and URL and it scrapes the site with Firecrawl, crawls multiple pages, and produces an investment-grade report covering market position, financials, team, risks, and strategic recommendations.
-- [**Research Team**](./ai_agents/research_team) — Multi-agent research system powered by **MiniMax M2.5** via OpenRouter. Seek searches the web using DuckDuckGo while Scout navigates internal documents. A team leader coordinates both and synthesises findings into a structured report with sourced key findings and open questions.
-- [**GitHub Intelligence Agent**](./ai_agents/github_intelligence_agent) — Conversational GitHub research agent powered by **Gemini 3 Flash** and GitHub's official MCP server. Uses Haystack's SearchableToolset to dynamically discover tools from a catalog of 40+ GitHub API endpoints, keeping context lean and avoiding prompt overflow. Ask anything — trending repos, contributor profiles, issue summaries, codebase exploration.
-- [**Smolagents Code Agent**](./ai_agents/smolagents_code_agent) — Real-time agentic task runner powered by **Mistral Small 4** and HuggingFace smolagents. The agent writes and executes Python code at each step using DuckDuckGo and Wikipedia, streaming every Think, Act, and Observe step live in a Gradio UI.
-- [**Agent Discovery Agent**](./ai_agents/agent_discovery_agent) — Conversational agent that searches and compares AI agents across five registries — NANDA, MCP, Virtuals Protocol, A2A, and ERC-8004 — through a single natural language interface. Powered by **Gemini 3 Flash** and the Registry Broker API.
-- [**Cal Scheduling Agent**](./ai_agents/cal_scheduling_agent) — Conversational scheduling assistant that manages Cal.com appointments through natural language. Check availability, book meetings, reschedule, and cancel — with automatic timezone handling. Powered by **Gemini 3 Flash** and the Cal.com REST API.
+- [**Competitive Intelligence Agent**](./ai_agents/competitive_intelligence_agent) — Generates strategic sales battlecards by analyzing competitors through the lens of your own business context.
+- [**Multi-Agent Research Assistant (AG2)**](./ai_agents/multi_agent_research_assistant_ag2) — Multi-agent research pipeline using AG2 where three specialists collaborate to research any topic and produce a structured report.
+- [**Self-Reflective Agentic RAG**](./ai_agents/agentic_rag_system) — LangGraph RAG system that grades retrieved context, rewrites the query if needed, and generates an answer only once the context passes validation.
+- [**Agentic SQL Search**](./ai_agents/agentic_sql_search) — Natural language to SQL agent powered by Gemma 4 that writes, executes, and explains queries against an e-commerce database.
+- [**Stock Portfolio Analyst**](./ai_agents/stock_portfolio_analyst) — Portfolio analysis agent built with Agno and DeepSeek-V4-Flash. Fetches live market data via YFinance and generates a report covering P&L, concentration risk, and rebalancing recommendations.
+- [**Eagle Eye**](./ai_agents/eagle_eye) — GitHub PR review agent using OpenClaw and Telegram. Fetches diffs via GitHub MCP, performs structured code review with severity ratings, and posts feedback after user approval.
+- [**CartMate — AI Customer Support Agent**](./ai_agents/ai_customer_support_agent) — Memory-powered e-commerce support agent built with Mem0 and Mistral Small 4 that remembers customers and picks up conversations where they left off.
+- [**Multi-Agent Coding Assistant**](./ai_agents/multi_agent_coding_assistant) — Four-stage coding pipeline powered by Mistral Small 4 and LangChain. A Planner, Coder, and Reviewer agent collaborate to produce a polished final implementation.
+- [**Startup Analyst**](./ai_agents/startup_analyst) — Startup due-diligence agent powered by MiniMax M2.5. Scrapes a company's site with Firecrawl and produces an investment-grade report covering market position, financials, team, and risks.
+- [**Research Team**](./ai_agents/research_team) — Multi-agent research system powered by MiniMax M2.5. Seek searches the web, Scout navigates internal documents, and a team leader synthesises findings into a structured report.
+- [**GitHub Intelligence Agent**](./ai_agents/github_intelligence_agent) — GitHub research agent powered by Gemini 3 Flash and GitHub's official MCP server. Ask anything about repos, contributors, issues, or codebases.
+- [**Smolagents Code Agent**](./ai_agents/smolagents_code_agent) — Agentic task runner powered by Mistral Small 4 and HuggingFace smolagents. Writes and executes Python code at each step using DuckDuckGo and Wikipedia.
+- [**Agent Discovery Agent**](./ai_agents/agent_discovery_agent) — Searches and compares AI agents across NANDA, MCP, Virtuals Protocol, A2A, and ERC-8004 through a single natural language interface. Powered by Gemini 3 Flash.
+- [**Cal Scheduling Agent**](./ai_agents/cal_scheduling_agent) — Conversational scheduling assistant that manages Cal.com appointments through natural language. Book, reschedule, cancel, and check availability with automatic timezone handling.
 
 ### 📸 OCR
 
 Extracting structure and meaning from visual data and documents.
 
-- [**Image-to-Structured-Data Extractor**](./OCR/image_to_structured_data) — High-fidelity visual OCR using Mistral Large 3 and Instructor to convert images into validated, structured JSON.
-- [**LaTeX Formula OCR**](./OCR/latex_formula_ocr) — Local vision-language OCR that extracts math formulas from images/PDFs into LaTeX and renders them instantly with KaTeX.
-- [**Medical Prescription Digitizer**](./OCR/medical_prescription_digitizer) — Upload a handwritten or printed prescription and get structured, validated output powered by **Mistral Large 3**. Extracted drug names are checked in real time against the RxNorm database with no API key required.
+- [**Image-to-Structured-Data Extractor**](./OCR/image_to_structured_data) — Converts images into validated, structured JSON using Mistral Large 3 and Instructor.
+- [**LaTeX Formula OCR**](./OCR/latex_formula_ocr) — Extracts math formulas from images and PDFs into LaTeX using a local vision-language model.
+- [**Medical Prescription Digitizer**](./OCR/medical_prescription_digitizer) — Digitizes handwritten or printed prescriptions into structured output using Mistral Large 3, with real-time drug name validation against RxNorm.
 
 
 ### 🎧 Audio
 
 Projects for audio understanding and analysis.
 
-- [**Music Explorer**](./audio/music_explorer) — Chat with any audio file or YouTube video using Gemini 3 Flash. Ask for transcriptions, lyrics, emotion analysis, instrument identification, and timestamp-aware track breakdowns.
+- [**Music Explorer**](./audio/music_explorer) — Chat with any audio file or YouTube video using Gemini 3 Flash. Ask for transcriptions, emotion analysis, instrument identification, and timestamp-aware breakdowns.
 
 ### 🎬 Multimodal
 
 Projects combining vision, video, and language models.
 
-- [**GLM-OCR Pro**](./multimodal/glm_ocr_pro) — High-performance, local-first Streamlit application for structured document extraction using the GLM-OCR model via Ollama to transform images and PDFs into cleanly formatted Markdown in real-time.
-- [**Video Understanding Agent**](./multimodal/video_understanding_agent) — Paste a YouTube URL and get an AI-powered chapter summary, key takeaways, and action items powered by Gemini Flash.
+- [**GLM-OCR Pro**](./multimodal/glm_ocr_pro) — Structured document extraction using GLM-OCR via Ollama, transforming images and PDFs into formatted Markdown locally.
+- [**Video Understanding Agent**](./multimodal/video_understanding_agent) — Summarizes YouTube videos into chapters, key takeaways, and action items using Gemini Flash.
 
 ### 📚 RAG Applications
 
 Retrieval-Augmented Generation systems for knowledge-enhanced AI applications.
 
-- [**Agentic RAG with O3-Mini & DuckDuckGo**](./rag_apps/agentic_rag_with_o3_mini_and_duckduckgo) — RAG system using O3-Mini model with DuckDuckGo search integration  
-- [**Agentic RAG with Qwen & FireCrawl**](./rag_apps/agentic_rag_with_qwen_and_firecrawl) — Advanced RAG using Qwen models and FireCrawl for web scraping  
-- [**Vision RAG**](./rag_apps/vision_rag) — Multimodal RAG system capable of processing and querying visual content  
-- [**Clinical RAG with ADE**](./rag_apps/clinical_rag_with_ade) — High-precision RAG system using LandingAI ADE for visual-first parsing and Mistral Large for grounded clinical reasoning.
-- [**YouTube Transcript RAG**](./rag_apps/youtube_transcript_rag) — Chat with any YouTube video using local Whisper transcription, ChromaDB semantic search, and Mistral Small 4. Answers are grounded in the video content with clickable timestamp links pointing to the exact moment in the video.
-- [**GraphRAG Knowledge System**](./rag_apps/graphrag_knowledge_system) — Upload documents and build a local knowledge graph powered by **Mistral Small 4** and NetworkX. Supports two retrieval modes: Local Search for entity-level queries and Global Search for broad thematic synthesis across the entire graph.
-- [**Hybrid RAG System**](./rag_apps/hybrid_rag_system) — Dual-indexes documents into both a knowledge graph and a vector store, then runs both retrieval paths in parallel. **Mistral Small 4** answers questions with fused context from graph entities and ranked vector chunks, with full source transparency.
-- [**HyDE RAG**](./rag_apps/hyde_rag) — RAG pipeline that applies Hypothetical Document Embeddings (HyDE) to improve retrieval precision. Instead of embedding the raw query, **Gemini 3 Flash** generates multiple hypothetical answers, **Gemini Embedding 2** embeds each one, and the averaged vector is used to retrieve the most semantically relevant chunks from ChromaDB.
+- [**Agentic RAG with O3-Mini & DuckDuckGo**](./rag_apps/agentic_rag_with_o3_mini_and_duckduckgo) — RAG system using O3-Mini with DuckDuckGo for real-time web search.
+- [**Agentic RAG with Qwen & FireCrawl**](./rag_apps/agentic_rag_with_qwen_and_firecrawl) — RAG system using Qwen and FireCrawl for web scraping and retrieval.
+- [**Vision RAG**](./rag_apps/vision_rag) — Multimodal RAG system for processing and querying visual content.
+- [**Clinical RAG with ADE**](./rag_apps/clinical_rag_with_ade) — High-precision clinical RAG using LandingAI ADE for visual-first document parsing and Mistral Large for grounded reasoning.
+- [**YouTube Transcript RAG**](./rag_apps/youtube_transcript_rag) — Chat with any YouTube video using Whisper transcription, ChromaDB retrieval, and Mistral Small 4, with timestamp-linked answers.
+- [**GraphRAG Knowledge System**](./rag_apps/graphrag_knowledge_system) — Builds a local knowledge graph from uploaded documents using Mistral Small 4 and NetworkX, supporting both entity-level and thematic queries.
+- [**Hybrid RAG System**](./rag_apps/hybrid_rag_system) — Indexes documents into a knowledge graph and a vector store in parallel. Mistral Small 4 answers questions with fused context from both retrieval paths.
+- [**HyDE RAG**](./rag_apps/hyde_rag) — RAG pipeline using Hypothetical Document Embeddings. Gemini 3 Flash generates hypothetical answers, Gemini Embedding 2 embeds and averages them, and the result retrieves more precise chunks from ChromaDB.
 
 ---
 
