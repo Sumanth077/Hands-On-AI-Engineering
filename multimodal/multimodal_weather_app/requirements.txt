@@ -1,0 +1,6 @@
+gradio>=4.44.0
+python-weather>=2.0.0
+Pillow>=10.0.0
+python-dotenv>=1.0.0
+langchain-mistralai>=0.2.0
+langchain-core>=0.3.0
