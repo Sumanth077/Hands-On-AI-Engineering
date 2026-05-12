@@ -59,6 +59,7 @@ Intelligent ai agents for various automation tasks.
 - [**Smolagents Code Agent**](./ai_agents/smolagents_code_agent) — Agentic task runner powered by Mistral Small 4 and HuggingFace smolagents. Writes and executes Python code at each step using DuckDuckGo and Wikipedia.
 - [**Agent Discovery Agent**](./ai_agents/agent_discovery_agent) — Searches and compares AI agents across NANDA, MCP, Virtuals Protocol, A2A, and ERC-8004 through a single natural language interface. Powered by Gemini 3 Flash.
 - [**Cal Scheduling Agent**](./ai_agents/cal_scheduling_agent) — Conversational scheduling assistant that manages Cal.com appointments through natural language. Book, reschedule, cancel, and check availability with automatic timezone handling.
+- [**Hacker News Newsletter Agent**](./ai_agents/hacker_news_newsletter_agent) — Fetches the 10 latest Hacker News stories, scrapes full article content with Trafilatura, generates a structured HTML newsletter with Gemma 4, and delivers it to your inbox via Gmail SMTP.
 
 ### 📸 OCR
 
@@ -83,6 +84,7 @@ Projects combining vision, video, and language models.
 - [**Video Understanding Agent**](./multimodal/video_understanding_agent) — Summarizes YouTube videos into chapters, key takeaways, and action items using Gemini Flash.
 - [**Multimodal Weather App**](./multimodal/multimodal_weather_app) — Upload a map image and get live weather. Mistral Small 4 identifies the city via vision, then fetches real-time conditions through native tool calling.
 - [**Multimodal RAG**](./multimodal/multimodal_rag) — RAG system that ingests text, URLs, PDFs, images, audio, and video into a shared ChromaDB index. Gemini Embedding 2 handles retrieval and Gemini 3 Flash generates grounded answers, passing actual file URIs for media sources.
+- [**Image Question Answering**](./multimodal/image_question_answering) — Upload a PDF, select a page, and ask visual questions answered by Gemma 4 with thinking mode. PyMuPDF renders each page to a full-resolution image for grounded reasoning over charts, tables, and figures.
 
 ### 📚 RAG Applications
 
