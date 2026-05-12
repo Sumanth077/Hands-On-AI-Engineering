@@ -81,6 +81,8 @@ Projects combining vision, video, and language models.
 
 - [**GLM-OCR Pro**](./multimodal/glm_ocr_pro) — Structured document extraction using GLM-OCR via Ollama, transforming images and PDFs into formatted Markdown locally.
 - [**Video Understanding Agent**](./multimodal/video_understanding_agent) — Summarizes YouTube videos into chapters, key takeaways, and action items using Gemini Flash.
+- [**Multimodal Weather App**](./multimodal/multimodal_weather_app) — Upload a map image and get live weather. Mistral Small 4 identifies the city via vision, then fetches real-time conditions through native tool calling.
+- [**Multimodal RAG**](./multimodal/multimodal_rag) — RAG system that ingests text, URLs, PDFs, images, audio, and video into a shared ChromaDB index. Gemini Embedding 2 handles retrieval and Gemini 3 Flash generates grounded answers, passing actual file URIs for media sources.
 
 ### 📚 RAG Applications
 
