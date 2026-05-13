@@ -60,6 +60,7 @@ Intelligent ai agents for various automation tasks.
 - [**Agent Discovery Agent**](./ai_agents/agent_discovery_agent) — Searches and compares AI agents across NANDA, MCP, Virtuals Protocol, A2A, and ERC-8004 through a single natural language interface. Powered by Gemini 3 Flash.
 - [**Cal Scheduling Agent**](./ai_agents/cal_scheduling_agent) — Conversational scheduling assistant that manages Cal.com appointments through natural language. Book, reschedule, cancel, and check availability with automatic timezone handling.
 - [**Hacker News Newsletter Agent**](./ai_agents/hacker_news_newsletter_agent) — Fetches the 10 latest Hacker News stories, scrapes full article content with Trafilatura, generates a structured HTML newsletter with Gemma 4, and delivers it to your inbox via Gmail SMTP.
+- [**Hotel Finder Agent**](./ai_agents/hotel_finder_agent) — Conversational hotel search agent powered by qwen3.6-flash via Orq.ai and the Trivago MCP Server. Search by location, dates, guest count, price range, star rating, and amenities.
 
 ### 📸 OCR
 
