@@ -1,0 +1,13 @@
+[project]
+name = "hotel-finder-agent"
+version = "0.1.0"
+description = "Conversational hotel search agent using Orq.ai (qwen3.6-flash), Trivago MCP Server, and Google ADK"
+requires-python = ">=3.10"
+
+dependencies = [
+    "openai>=1.0.0",
+    "mcp>=1.9.0",
+    "google-adk[extensions]>=1.0.0",
+    "streamlit>=1.40.0",
+    "python-dotenv>=1.0.0",
+]
