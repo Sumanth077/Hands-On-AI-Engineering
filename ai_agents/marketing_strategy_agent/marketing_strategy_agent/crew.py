@@ -1,5 +1,5 @@
 """
-Marketing Strategy Agent — Pipeline.
+Marketing Strategy Agent - Pipeline.
 
 Runs the three agents sequentially and returns all three outputs.
 """
