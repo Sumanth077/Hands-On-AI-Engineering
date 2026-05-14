@@ -61,6 +61,7 @@ Intelligent ai agents for various automation tasks.
 - [**Cal Scheduling Agent**](./ai_agents/cal_scheduling_agent) — Conversational scheduling assistant that manages Cal.com appointments through natural language. Book, reschedule, cancel, and check availability with automatic timezone handling.
 - [**Hacker News Newsletter Agent**](./ai_agents/hacker_news_newsletter_agent) — Fetches the 10 latest Hacker News stories, scrapes full article content with Trafilatura, generates a structured HTML newsletter with Gemma 4, and delivers it to your inbox via Gmail SMTP.
 - [**Hotel Finder Agent**](./ai_agents/hotel_finder_agent) — Conversational hotel search agent powered by qwen3.6-flash via Orq.ai and the Trivago MCP Server. Search by location, dates, guest count, price range, star rating, and amenities.
+- [**Marketing Strategy Agent**](./ai_agents/marketing_strategy_agent) — Multi-agent marketing campaign generator. A Market Analyst (with Serper web search), Strategy Officer, and Creative Director run sequentially to produce market research, a full strategy, and creative campaign content. Powered by deepseek-v4-flash via Orq.ai.
 
 ### 📸 OCR
 
