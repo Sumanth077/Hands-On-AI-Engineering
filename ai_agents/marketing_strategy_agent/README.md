@@ -8,14 +8,14 @@ A multi-agent system that develops comprehensive marketing campaigns from a prod
 
 ## Overview
 
-Describe your product and target audience, and three AI agents handle the rest. The Market Analyst researches competitors, trends, and audience behaviour using live web search. The Strategy Officer turns those findings into a positioning statement, messaging pillars, channel mix, and 90-day rollout plan. The Creative Director delivers headlines, ad copy, social posts, content ideas, and a launch week playbook — all in one run.
+Describe your product and target audience, and three AI agents handle the rest. The Market Analyst researches competitors, trends, and audience behaviour using live web search. The Strategy Officer turns those findings into a positioning statement, messaging pillars, channel mix, and 90-day rollout plan. The Creative Director delivers headlines, ad copy, social posts, content ideas, and a launch week playbook, all in one run.
 
 ## Features
 
 - Three specialist agents running in sequence: Market Analyst, Strategy Officer, Creative Director
 - Serper-powered web search for grounded, current market research
 - Output split across three tabs: Market Research, Marketing Strategy, Creative Campaign
-- Three built-in example products to get started immediately
+- Six built-in sample prompts to get started immediately
 - Powered by deepseek-v4-flash via Orq.ai's OpenAI-compatible router
 
 ## Tech Stack
@@ -72,14 +72,14 @@ Open `http://localhost:7860`, fill in the product description and target audienc
 marketing_strategy_agent/
 ├── marketing_strategy_agent/
 │   ├── __init__.py
-│   ├── agents.py     # Market Analyst, Strategy Officer, Creative Director
-│   ├── tasks.py      # Research, strategy, and creative tasks
-│   └── crew.py       # CrewAI Crew with sequential process
-├── app.py            # Gradio UI
+│   ├── agents.py      # Market Analyst, Strategy Officer, Creative Director
+│   ├── pipeline.py    # Sequential runner that chains the three agents
+│   └── tools.py       # Serper web search
+├── app.py             # Gradio UI
 ├── pyproject.toml
 ├── .env.example
 └── assets/
-    └── demo.png
+    └── demo.gif
 ```
 
 ## How It Works
