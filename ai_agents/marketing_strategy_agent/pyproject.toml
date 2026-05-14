@@ -1,0 +1,12 @@
+[project]
+name = "marketing-strategy-agent"
+version = "0.1.0"
+description = "Multi-agent marketing campaign generator using deepseek-v4-flash via Orq.ai and Serper web search"
+requires-python = ">=3.10"
+
+dependencies = [
+    "openai>=1.0.0",
+    "httpx>=0.27.0",
+    "gradio>=4.0.0",
+    "python-dotenv>=1.0.0",
+]
