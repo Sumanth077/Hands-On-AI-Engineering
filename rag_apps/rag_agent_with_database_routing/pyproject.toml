@@ -1,0 +1,14 @@
+[project]
+name = "rag-agent-with-database-routing"
+version = "0.1.0"
+description = "RAG system that routes queries across three specialized Qdrant databases with a DuckDuckGo web fallback when no relevant documents are found"
+requires-python = ">=3.10"
+
+dependencies = [
+    "openai>=1.0.0",
+    "pypdf>=4.0.0",
+    "qdrant-client>=1.7.0",
+    "ddgs>=9.0.0",
+    "streamlit>=1.40.0",
+    "python-dotenv>=1.0.0",
+]
