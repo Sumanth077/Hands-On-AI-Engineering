@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://aiengineering.beehiiv.com/">
-    <img src="assets/theaiengineering_logo.jpeg" alt="Hands-On AI Engineering Banner" width="400">
+    <img src="assets/theaiengineering_logo.jpeg" alt="Hands-On AI Engineering Banner" width="150">
   </a>
 </p>
 <div align="center">
