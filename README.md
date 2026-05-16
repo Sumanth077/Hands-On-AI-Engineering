@@ -14,6 +14,8 @@
 
 A curated collection of practical, production-ready AI projects across multiple modalities, including language models, multimodal models, OCR systems, RAG pipelines, and AI agents. Each project is designed to help you learn, experiment, and build real-world AI applications.
 
+For sponsorship or collaboration inquiries, reach the maintainer at [sumanth@devable.ai](mailto:sumanth@devable.ai).
+
 ## 📋 Table of Contents
 
 - [🎯 Why This Repository?](#-why-this-repository)
@@ -101,6 +103,7 @@ Retrieval-Augmented Generation systems for knowledge-enhanced AI applications.
 - [**Hybrid RAG System**](./rag_apps/hybrid_rag_system) — Indexes documents into a knowledge graph and a vector store in parallel. Mistral Small 4 answers questions with fused context from both retrieval paths.
 - [**HyDE RAG**](./rag_apps/hyde_rag) — RAG pipeline using Hypothetical Document Embeddings. Gemini 3 Flash generates hypothetical answers, Gemini Embedding 2 embeds and averages them, and the result retrieves more precise chunks from ChromaDB.
 - [**Rock Music RAG**](./rag_apps/rock_music_rag) — Custom rock music knowledge base built from Wikipedia. Add any band, ask questions across all of them, and get sourced answers powered by BM25 retrieval and Gemma 4.
+- [**RAG Agent with Database Routing**](./rag_apps/rag_agent_with_database_routing) — Routes queries across three specialized Qdrant databases (products, support, financial) using an Agno router agent. Falls back to a LangGraph ReAct web search agent when no relevant documents are found.
 
 ---
 
