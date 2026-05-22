@@ -44,7 +44,7 @@ Clone the repository and open the project directory:
 
 ```bash
 git clone https://github.com/Sumanth077/Hands-On-AI-Engineering.git
-cd Hands-On-AI-Engineering/ai_agents/job-posting-agent
+cd Hands-On-AI-Engineering/ai_agents/job_posting_agent
 ```
 
 **Windows**
