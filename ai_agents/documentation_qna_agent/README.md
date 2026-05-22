@@ -112,7 +112,7 @@ NVIDIA_MODEL=deepseek-ai/deepseek-v4-flash
 ## Project Structure
 
 ```text
-documentation-qna-agent/
+documentation_qna_agent/
 ├── app.py              # Streamlit UI and session state
 ├── agent_service.py    # LangChain agent, MCP fetch, and NVIDIA NIM integration
 ├── requirements.txt    # Python dependencies
