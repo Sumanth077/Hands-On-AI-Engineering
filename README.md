@@ -14,8 +14,6 @@
 
 A curated collection of practical, production-ready AI projects across multiple modalities, including language models, multimodal models, OCR systems, RAG pipelines, and AI agents. Each project is designed to help you learn, experiment, and build real-world AI applications.
 
-For sponsorship or collaboration inquiries, reach the maintainer at [sumanth@devable.ai](mailto:sumanth@devable.ai).
-
 ## 📋 Table of Contents
 
 - [🎯 Why This Repository?](#-why-this-repository)
