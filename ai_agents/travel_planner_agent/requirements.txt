@@ -1,0 +1,9 @@
+streamlit>=1.32.0
+langchain>=0.3.0
+langgraph>=0.2.0
+langchain-openai>=0.2.0
+langchain-core>=0.3.0
+openai>=1.30.0
+python-dotenv>=1.0.0
+requests>=2.31.0
+duckduckgo-search>=6.2.0
