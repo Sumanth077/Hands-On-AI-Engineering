@@ -1,0 +1,20 @@
+# Core orchestration
+agno
+
+# LLM access (OpenAI SDK pointed at Orq.ai router)
+openai
+
+# Embeddings
+mistralai
+
+# Vector database
+chromadb
+
+# UI
+gradio
+
+# URL fetching, parsing & utilities
+requests
+beautifulsoup4
+lxml
+python-dotenv
