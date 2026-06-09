@@ -1,0 +1,13 @@
+[project]
+name = "brand-monitor"
+version = "0.1.0"
+description = "Multi-platform brand intelligence pipeline powered by Scrapingdog and Orq.ai"
+requires-python = ">=3.10,<3.14"
+
+dependencies = [
+    "openai>=1.0.0",
+    "requests>=2.31.0",
+    "html2text>=2024.2.26",
+    "streamlit>=1.35.0",
+    "python-dotenv>=1.0.0",
+]
