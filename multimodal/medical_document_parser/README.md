@@ -1,14 +1,14 @@
 # Medical Document Parser
 
-> Extract a structured clinical profile from medical PDFs and images using Gemma 4 vision.
+> Extract a structured clinical profile from medical PDFs and images using Gemma 4 vision via Orq.ai.
 
 ## Overview
 
-Medical Document Parser is a Gradio app that ingests lab reports, prescriptions, imaging results, and clinical notes. PyMuPDF classifies each PDF page as text or vision, routes content to the appropriate extraction path, and uses Gemma 4 (`gemma-4-31b-it`) via the Google AI Studio API to return a unified JSON clinical profile. Abnormal and critical values are surfaced in a dedicated flagged panel.
+Medical Document Parser is a Gradio app that ingests lab reports, prescriptions, imaging results, and clinical notes. PyMuPDF classifies each PDF page as text or vision, routes content to the appropriate extraction path, and uses Gemma 4 (`gemma-4-31b-it`) via [Orq.ai](https://orq.ai) to return a unified JSON clinical profile. Abnormal and critical values are surfaced in a dedicated flagged panel.
 
 ## Demo
 
-![Demo](assets/demo.png)
+![Demo](assets/demo.gif)
 
 
 ## Features
@@ -25,7 +25,7 @@ Medical Document Parser is a Gradio app that ingests lab reports, prescriptions,
 
 | Layer | Technology |
 |-------|------------|
-| LLM | Gemma 4 (`gemma-4-31b-it`) via [Google AI Studio API](https://aistudio.google.com) (`google-genai`, thinking mode) |
+| LLM | Gemma 4 (`gemma-4-31b-it`) via [Orq.ai](https://orq.ai) (`openai` SDK) |
 | PDF parsing | PyMuPDF (`fitz`) |
 | Image processing | Pillow |
 | UI | Gradio |
@@ -34,7 +34,7 @@ Medical Document Parser is a Gradio app that ingests lab reports, prescriptions,
 ## Prerequisites
 
 - Python 3.10+
-- [Google AI Studio API key](https://aistudio.google.com/app/apikey)
+- [Orq.ai API key](https://orq.ai)
 
 ## Installation
 
@@ -75,12 +75,12 @@ Open the local Gradio URL shown in the terminal (typically `http://127.0.0.1:786
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `GOOGLE_API_KEY` | Yes | API key from [Google AI Studio](https://aistudio.google.com/app/apikey) |
+| `ORQ_API_KEY` | Yes | API key from [Orq.ai](https://orq.ai) |
 
 Copy `.env.example` to `.env` and add your key:
 
 ```env
-GOOGLE_API_KEY=your_google_ai_studio_api_key_here
+ORQ_API_KEY=your_orq_api_key_here
 ```
 
 ## Project Structure
@@ -89,7 +89,7 @@ GOOGLE_API_KEY=your_google_ai_studio_api_key_here
 medical-document-parser/
 ├── app.py                  # Gradio UI and orchestration
 ├── document_processor.py   # PDF/image page classification and rendering
-├── llm_extractor.py        # Gemma 4 API calls and JSON parsing
+├── llm_extractor.py        # Gemma 4 API calls via Orq.ai (OpenAI SDK)
 ├── merger.py               # Multi-page result merging
 ├── schemas.py              # Pydantic clinical profile schema
 ├── requirements.txt
