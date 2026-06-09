@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 import os
 import re
 import sys
@@ -15,9 +16,11 @@ from langchain_openai import ChatOpenAI
 
 load_dotenv(override=True)
 
+logger = logging.getLogger(__name__)
+
 NVIDIA_BASE_URL = "https://integrate.api.nvidia.com/v1"
 MODEL_ID = os.getenv("NVIDIA_MODEL", "deepseek-ai/deepseek-v4-flash")
-print(f"Using NVIDIA model: {MODEL_ID}")
+logger.info("Using NVIDIA model: %s", MODEL_ID)
 
 SYSTEM_PROMPT = """You are a Documentation QnA Agent. You help users understand documentation
 using the fetched documentation content provided in the conversation.
@@ -26,7 +29,7 @@ When answering questions:
 - Prefer the documentation content already provided in the conversation.
 - Use the fetch tool only when you need additional pages or sections from the
   same documentation site. Always pass the exact documentation URL given by the
-  user — never invent or modify URLs.
+  user; never invent or modify URLs.
 - For long pages, use start_index to read additional sections in chunks.
 - Base your answers only on the fetched documentation content.
 - If the information is not in the documentation, say so clearly.
