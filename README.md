@@ -69,6 +69,7 @@ Intelligent ai agents for various automation tasks.
 - [**Job Posting Agent**](./ai_agents/job_posting_agent) - Generates tailored job postings from a company name and role using DeepSeek V4 Flash on NVIDIA NIM.
 - [**LangChain Data Agent**](./ai_agents/langchain_data_agent) - Query the Chinook SQLite database in plain English through a conversational Streamlit chat interface.
 - [**Travel Planner Agent**](./ai_agents/travel_planner_agent) - AI trip planning assistant covering weather, budget, packing lists, and day-by-day itineraries from a single request.
+- [**Personal Finance Agent**](./ai_agents/personal_finance_agent) - Upload a bank statement CSV, auto-categorize transactions, and ask natural language questions about your spending. Powered by a LangChain tool-calling agent backed by Orq.ai with SQLite persistence.
 
 ### 📸 OCR
 
@@ -84,6 +85,7 @@ Extracting structure and meaning from visual data and documents.
 Projects for audio understanding and analysis.
 
 - [**Music Explorer**](./audio/music_explorer) — Chat with any audio file or YouTube video using Gemini 3 Flash. Ask for transcriptions, emotion analysis, instrument identification, and timestamp-aware breakdowns.
+- [**Multilingual Audio Translator**](./audio/multilingual_audio_translator) — Upload or record audio in any language, get it transcribed with faster-whisper, translated via Gemini, and played back as synthesized speech using Kokoro TTS.
 
 ### 🎬 Multimodal
 
@@ -94,7 +96,7 @@ Projects combining vision, video, and language models.
 - [**Multimodal Weather App**](./multimodal/multimodal_weather_app) — Upload a map image and get live weather. Mistral Small 4 identifies the city via vision, then fetches real-time conditions through native tool calling.
 - [**Multimodal RAG**](./multimodal/multimodal_rag) — RAG system that ingests text, URLs, PDFs, images, audio, and video into a shared ChromaDB index. Gemini Embedding 2 handles retrieval and Gemini 3 Flash generates grounded answers, passing actual file URIs for media sources.
 - [**Image Question Answering**](./multimodal/image_question_answering) — Upload a PDF, select a page, and ask visual questions answered by Gemma 4 with thinking mode. PyMuPDF renders each page to a full-resolution image for grounded reasoning over charts, tables, and figures.
-- [**Medical Document Parser**](./multimodal/medical-document-parser) - Extracts a structured clinical profile from medical PDFs and images using Gemma 4 vision.
+- [**Medical Document Parser**](./multimodal/medical_document_parser) - Extracts a structured clinical profile from medical PDFs and images using Gemma 4 vision.
 
 ### 📚 RAG Applications
 
