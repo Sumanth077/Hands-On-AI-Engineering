@@ -32,7 +32,7 @@ def _render_transcript(transcript: list[dict]) -> str:
         else:
             badge = f"🟥 **{DEBATER_B} · {AGAINST}**"
         blocks.append(
-            f"### Round {arg['round']} — {badge}\n\n{arg['content']}"
+            f"### Round {arg['round']} - {badge}\n\n{arg['content']}"
         )
     return "\n\n---\n\n".join(blocks)
 
@@ -59,7 +59,7 @@ def _render_verdict(verdict: dict) -> str:
         "",
         headline,
         "",
-        f"**Total scores** — {DEBATER_A} (For): `{a_total}` · {DEBATER_B} (Against): `{b_total}`",
+        f"**Total scores** - {DEBATER_A} (For): `{a_total}` · {DEBATER_B} (Against): `{b_total}`",
         "",
     ]
 
@@ -99,7 +99,7 @@ def debate_handler(topic: str, rounds: int):
             verdict = state.get("verdict", {})
 
             if verdict:
-                status = "✅ Debate complete — verdict delivered."
+                status = "✅ Debate complete - verdict delivered."
             elif transcript:
                 latest = transcript[-1]
                 status = (
@@ -114,11 +114,12 @@ def debate_handler(topic: str, rounds: int):
         detail = str(exc).strip() or type(exc).__name__
         cause = exc.__cause__
         if cause and str(cause) not in detail:
-            detail = f"{detail} — {cause}"
+            detail = f"{detail} - {cause}"
         yield f"❌ Error: {detail}", "", ""
 
 
 def build_ui() -> gr.Blocks:
+    """Build and return the Gradio Blocks interface for the debate app."""
     with gr.Blocks(title="AI Debate Agent") as demo:
         gr.Markdown(
             f"""
@@ -126,8 +127,8 @@ def build_ui() -> gr.Blocks:
             Two LLM agents argue opposing sides of your topic; a judge scores every
             argument and declares a winner.
 
-            - 🟦 **Debater A — For** · `{DEBATER_A_MODEL}`
-            - 🟥 **Debater B — Against** · `{DEBATER_B_MODEL}`
+            - 🟦 **Debater A - For** · `{DEBATER_A_MODEL}`
+            - 🟥 **Debater B - Against** · `{DEBATER_B_MODEL}`
             - ⚖️ **Judge** · `{JUDGE_MODEL}`
 
             All three agents are routed through [Orq.ai](https://orq.ai/).
