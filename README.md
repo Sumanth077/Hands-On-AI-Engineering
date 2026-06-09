@@ -63,6 +63,12 @@ Intelligent ai agents for various automation tasks.
 - [**Hotel Finder Agent**](./ai_agents/hotel_finder_agent) — Conversational hotel search agent powered by qwen3.6-flash via Orq.ai and the Trivago MCP Server. Search by location, dates, guest count, price range, star rating, and amenities.
 - [**Marketing Strategy Agent**](./ai_agents/marketing_strategy_agent) — Multi-agent marketing campaign generator. A Market Analyst (with Serper web search), Strategy Officer, and Creative Director run sequentially to produce market research, a full strategy, and creative campaign content. Powered by deepseek-v4-flash via Orq.ai.
 - [**Brand Monitor**](./ai_agents/brand_monitor_agent) — Monitors brand mentions across Web, YouTube, Twitter/X, and LinkedIn in a single run. Scrapingdog collects platform data and DeepSeek V4 Flash produces a structured intelligence brief per channel.
+- [**AI Debate Agent**](./ai_agents/ai_debate_agent) - Two LLM debaters argue opposing sides of any topic you choose. A judge scores each turn and declares a winner.
+- [**Browser Automation Agent**](./ai_agents/browser_automation_agent) - Takes a natural language instruction and autonomously navigates the web to complete it using browser-use.
+- [**Documentation QnA Agent**](./ai_agents/documentation_qna_agent) - Chat with any documentation by URL. Uses Fetch MCP and DeepSeek V4 Flash on NVIDIA NIM.
+- [**Job Posting Agent**](./ai_agents/job_posting_agent) - Generates tailored job postings from a company name and role using DeepSeek V4 Flash on NVIDIA NIM.
+- [**LangChain Data Agent**](./ai_agents/langchain_data_agent) - Query the Chinook SQLite database in plain English through a conversational Streamlit chat interface.
+- [**Travel Planner Agent**](./ai_agents/travel_planner_agent) - AI trip planning assistant covering weather, budget, packing lists, and day-by-day itineraries from a single request.
 
 ### 📸 OCR
 
@@ -88,6 +94,7 @@ Projects combining vision, video, and language models.
 - [**Multimodal Weather App**](./multimodal/multimodal_weather_app) — Upload a map image and get live weather. Mistral Small 4 identifies the city via vision, then fetches real-time conditions through native tool calling.
 - [**Multimodal RAG**](./multimodal/multimodal_rag) — RAG system that ingests text, URLs, PDFs, images, audio, and video into a shared ChromaDB index. Gemini Embedding 2 handles retrieval and Gemini 3 Flash generates grounded answers, passing actual file URIs for media sources.
 - [**Image Question Answering**](./multimodal/image_question_answering) — Upload a PDF, select a page, and ask visual questions answered by Gemma 4 with thinking mode. PyMuPDF renders each page to a full-resolution image for grounded reasoning over charts, tables, and figures.
+- [**Medical Document Parser**](./multimodal/medical-document-parser) - Extracts a structured clinical profile from medical PDFs and images using Gemma 4 vision.
 
 ### 📚 RAG Applications
 
@@ -103,6 +110,7 @@ Retrieval-Augmented Generation systems for knowledge-enhanced AI applications.
 - [**HyDE RAG**](./rag_apps/hyde_rag) — RAG pipeline using Hypothetical Document Embeddings. Gemini 3 Flash generates hypothetical answers, Gemini Embedding 2 embeds and averages them, and the result retrieves more precise chunks from ChromaDB.
 - [**Rock Music RAG**](./rag_apps/rock_music_rag) — Custom rock music knowledge base built from Wikipedia. Add any band, ask questions across all of them, and get sourced answers powered by BM25 retrieval and Gemma 4.
 - [**RAG Agent with Database Routing**](./rag_apps/rag_agent_with_database_routing) — Routes queries across three specialized Qdrant databases (products, support, financial) using an Agno router agent. Falls back to a LangGraph ReAct web search agent when no relevant documents are found.
+- [**Reasoning RAG**](./rag_apps/reasoning_rag) - Ask questions against any web source and get cited answers with a live, step-by-step reasoning trace via Gradio.
 
 ---
 
