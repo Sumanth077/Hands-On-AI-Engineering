@@ -25,12 +25,12 @@ This project is useful for data analysts, engineers, and learners who want to ex
 
 **Frameworks & Libraries:**
 
-- LangGraph — agent workflow orchestration
-- LangChain — SQL toolkit, messages, and LLM integration
-- langchain-openai — ChatOpenAI client for the Orq.ai router
-- OpenAI SDK — API client (routed through Orq.ai)
-- SQLAlchemy — database engine for SQLite
-- Pandas — result parsing and chart data prep
+- LangGraph: agent workflow orchestration
+- LangChain: SQL toolkit, messages, and LLM integration
+- langchain-openai: ChatOpenAI client for the Orq.ai router
+- OpenAI SDK: API client (routed through Orq.ai)
+- SQLAlchemy: database engine for SQLite
+- Pandas: result parsing and chart data prep
 
 **Additional Tools:**
 
@@ -131,12 +131,12 @@ langchain-data-agent/
 
 ## How It Works
 
-1. **User input** — You type a question in the Streamlit chat.
-2. **List tables** — The agent loads available Chinook tables (Artist, Album, Track, Invoice, etc.).
-3. **Get schema** — The LLM calls `sql_db_schema` for tables relevant to your question.
-4. **Generate SQL** — The model writes a SQLite `SELECT` query from the schema and question.
-5. **Check SQL** — A dedicated step reviews the query for common SQL mistakes.
-6. **Execute** — `ReadOnlyQuerySQLDatabaseTool` validates and runs the query; results include column names.
-7. **Respond** — The agent returns a natural-language answer; the UI shows the SQL, a data table, and a Plotly chart when appropriate.
+1. **User input:** You type a question in the Streamlit chat.
+2. **List tables:** The agent loads available Chinook tables (Artist, Album, Track, Invoice, etc.).
+3. **Get schema:** The LLM calls `sql_db_schema` for tables relevant to your question.
+4. **Generate SQL:** The model writes a SQLite `SELECT` query from the schema and question.
+5. **Check SQL:** A dedicated step reviews the query for common SQL mistakes.
+6. **Execute:** `ReadOnlyQuerySQLDatabaseTool` validates and runs the query; results include column names.
+7. **Respond:** The agent returns a natural-language answer; the UI shows the SQL, a data table, and a Plotly chart when appropriate.
 
 The LLM (`kimi-k2.6`) is called through the [Orq.ai](https://orq.ai) router (`https://api.orq.ai/v3/router`). Message history is flattened for compatibility with the model’s tool-calling requirements, while the graph still runs the full LangGraph SQL workflow under the hood.
