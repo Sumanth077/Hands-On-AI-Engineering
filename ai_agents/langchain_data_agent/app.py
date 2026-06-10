@@ -88,6 +88,7 @@ def _column_names_from_sql(sql: str | None, num_cols: int) -> list[str]:
 
 
 def _parse_results(raw: str | None, sql: str | None = None) -> pd.DataFrame | None:
+    """Parse raw SQL query results (JSON list or pipe-delimited string) into a DataFrame."""
     if not raw or not raw.strip():
         return None
 
@@ -130,6 +131,7 @@ def _parse_results(raw: str | None, sql: str | None = None) -> pd.DataFrame | No
 
 
 def _build_chart(df: pd.DataFrame):
+    """Return a Plotly bar or pie chart for the DataFrame, or None if the data is not plottable."""
     if df.empty or len(df) < 2:
         return None
 
