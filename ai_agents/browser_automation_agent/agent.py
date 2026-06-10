@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass, field
-from typing import List, Optional
+from typing import Callable, List, Optional
 
 from dotenv import load_dotenv
 
@@ -168,7 +168,9 @@ def _extract_history(history) -> AgentResult:
 
 
 async def run_browser_agent(
-    instruction: str, max_steps: int = DEFAULT_MAX_STEPS
+    instruction: str,
+    max_steps: int = DEFAULT_MAX_STEPS,
+    on_step: Optional[Callable] = None,
 ) -> AgentResult:
     """Run the browser-use agent for a single natural language instruction.
 
@@ -198,7 +200,7 @@ async def run_browser_agent(
         )
 
     try:
-        agent = Agent(task=instruction, llm=llm)
+        agent = Agent(task=instruction, llm=llm, register_new_step_callback=on_step)
         history = await agent.run(max_steps=max_steps)
         result = _extract_history(history)
         result.instruction = instruction
