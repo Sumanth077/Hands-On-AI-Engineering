@@ -6,12 +6,16 @@ from pydantic import BaseModel, Field
 
 
 class PatientInfo(BaseModel):
+    """Basic patient demographics extracted from the document."""
+
     name: str = ""
     age: str = ""
     date: str = ""
 
 
 class LabFinding(BaseModel):
+    """A single laboratory test result with its value, reference range, and status."""
+
     test: str = ""
     value: str = ""
     normal_range: str = ""
@@ -19,12 +23,16 @@ class LabFinding(BaseModel):
 
 
 class ImagingResult(BaseModel):
+    """Findings and impression from a single imaging study."""
+
     study: str = ""
     findings: str = ""
     impression: str = ""
 
 
 class ClinicalProfile(BaseModel):
+    """Unified clinical profile combining patient info, labs, imaging, and flagged values."""
+
     patient: PatientInfo = Field(default_factory=PatientInfo)
     lab_findings: list[LabFinding] = Field(default_factory=list)
     imaging_results: list[ImagingResult] = Field(default_factory=list)
