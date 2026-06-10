@@ -12,11 +12,14 @@ Personal Finance Agent is a Streamlit application that ingests transaction CSVs,
 
 ## Features
 
-- CSV upload for bank exports with flexible column names (date, description, amount, or debit/credit)
+- CSV and PDF upload for bank exports with flexible column names (date, description, amount, or debit/credit)
 - Automatic categorization into Food, Transport, Entertainment, Utilities, Shopping, Health, and Other
 - SQLite persistence for fast queries and agent tool access
 - Natural language Q&A via a LangChain agent with pandas summaries and read-only SQL tools
 - Weekly budget suggestions derived from your spending patterns
+- Spending breakdown bar chart displayed in the sidebar after upload
+- Clear Data button to wipe the loaded data and start fresh
+- Download chat history as a `.txt` file after each agent response
 - Bundled sample data (`transactions.csv`) so you can try the app without uploading a bank statement
 - Orq.ai model routing through the OpenAI SDK with `deepseek-v4-flash` by default
 
@@ -34,6 +37,7 @@ Additional Tools:
 
 - Database: SQLite
 - Data Processing: pandas
+- PDF Parsing: [PyMuPDF](https://pymupdf.readthedocs.io/)
 - Web Framework: Streamlit
 
 ## Prerequisites
@@ -97,7 +101,9 @@ On Windows Command Prompt, use `copy .env.example .env` instead of `cp`.
 streamlit run app.py
 ```
 
-Open the local URL shown in the terminal (typically `http://localhost:8501`). In the sidebar, click **Load sample transactions.csv** or upload your own CSV, then ask questions in the chat or use the sample prompt buttons.
+Open the local URL shown in the terminal (typically `http://localhost:8501`). In the sidebar, click **Load sample transactions.csv** or upload your own CSV or PDF bank statement, then ask questions in the chat or use the sample prompt buttons.
+
+> **Note:** PDF files must be text-based (digitally generated) for text extraction to work. Scanned or image-only PDFs will not produce usable transaction data.
 
 ### Example Usage
 
