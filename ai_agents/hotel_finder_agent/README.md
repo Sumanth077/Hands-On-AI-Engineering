@@ -42,7 +42,11 @@ cd Hands-On-AI-Engineering/ai_agents/hotel_finder_agent
 cp .env.example .env
 ```
 
-Add your Orq.ai API key to `.env`.
+Add your Orq.ai API key to `.env`, then install dependencies:
+
+```bash
+uv sync
+```
 
 ## Usage
 
@@ -85,7 +89,7 @@ hotel_finder_agent/
 ├── pyproject.toml
 ├── .env.example
 └── assets/
-    └── demo.png
+    └── demo.gif
 ```
 
 ## How It Works
