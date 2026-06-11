@@ -1,5 +1,5 @@
 """
-Agentic SQL Search — Streamlit UI
+Streamlit UI for the Agentic SQL Search app.
 Run: streamlit run app.py
 """
 
