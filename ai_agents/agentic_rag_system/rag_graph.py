@@ -51,6 +51,8 @@ def extract_text(response) -> str:
 
 
 class GraphState(TypedDict):
+    """Shared state passed between every LangGraph node throughout the retrieval-validation loop."""
+
     question: str          # Original user question — never mutated
     refined_query: str     # Current search query (rewritten if needed)
     context: str           # Retrieved chunks joined as string
@@ -61,6 +63,7 @@ class GraphState(TypedDict):
 
 
 def get_db() -> Chroma:
+    """Open and return the persistent ChromaDB vector store."""
     return Chroma(persist_directory=CHROMA_DB_PATH, embedding_function=embeddings)
 
 
