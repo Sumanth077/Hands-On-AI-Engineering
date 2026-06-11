@@ -1,5 +1,7 @@
 # Marketing Strategy Agent
 
+> Generate a full marketing campaign from a product description and target audience using three specialist AI agents working in sequence.
+
 A multi-agent system that develops comprehensive marketing campaigns from a product description and target audience. Three specialist agents work sequentially, each building on the previous output to produce a full campaign plan.
 
 ## Demo
@@ -30,7 +32,7 @@ Describe your product and target audience, and three AI agents handle the rest. 
 ## Prerequisites
 
 - Python 3.10 or later
-- An Orq.ai account and API key at [orq.ai](https://orq.ai)
+- An Orq.ai account and API key at [orq.ai](https://orq.ai) (free tier available)
 - A Serper API key at [serper.dev](https://serper.dev) (free tier available)
 
 ## Installation
@@ -41,7 +43,11 @@ cd Hands-On-AI-Engineering/ai_agents/marketing_strategy_agent
 cp .env.example .env
 ```
 
-Add your `ORQ_API_KEY` and `SERPER_API_KEY` to `.env`.
+Add your `ORQ_API_KEY` and `SERPER_API_KEY` to `.env`, then install dependencies:
+
+```bash
+uv sync
+```
 
 ## Usage
 
@@ -101,3 +107,7 @@ ad copy, social posts, content ideas, and a launch week playbook
     ▼
 Results displayed across three tabs in the Gradio UI
 ```
+
+---
+
+[⬆ Back to Top](#marketing-strategy-agent)
