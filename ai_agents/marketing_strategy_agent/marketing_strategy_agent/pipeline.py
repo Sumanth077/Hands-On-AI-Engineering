@@ -13,6 +13,7 @@ from .agents import run_creative_director, run_market_analyst, run_strategy_offi
 
 @dataclass
 class CampaignResult:
+    """Holds the outputs of all three agents from a single campaign generation run."""
     research: str
     strategy: str
     creative: str
