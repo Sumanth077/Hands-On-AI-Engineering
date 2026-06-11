@@ -14,7 +14,7 @@ Start with the 10 default bands or build a completely custom knowledge base by a
 
 ## Features
 
-- **Custom knowledge base:** Add or remove any band at runtime — the index rebuilds instantly
+- **Custom knowledge base:** The index rebuilds instantly whenever you add or remove a band
 - **BM25 retrieval:** Fast keyword-based retrieval that finds the most relevant Wikipedia chunks for each query
 - **Grounded answers:** Gemma 4 answers only from retrieved context and cites the source URL
 - **Retrieved chunk viewer:** See exactly which passages the model used to form its answer
@@ -43,7 +43,7 @@ Gemma 4 (`gemma-4-26b-a4b-it`) is Google DeepMind's open model family with capab
 ## Prerequisites
 
 - Python 3.10 or later
-- A Google API key — get one free at [aistudio.google.com](https://aistudio.google.com)
+- A Google API key, available free at [aistudio.google.com](https://aistudio.google.com)
 
 ## Installation
 
