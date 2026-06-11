@@ -1,5 +1,5 @@
 """
-SQLite e-commerce database — schema definition and sample data seeding.
+SQLite e-commerce database schema definition and sample data seeder.
 Run this file directly to (re)create the database: python database.py
 """
 
