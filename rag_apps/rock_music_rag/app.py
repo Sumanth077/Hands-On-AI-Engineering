@@ -1,5 +1,5 @@
 """
-Rock Music RAG — Streamlit UI
+Streamlit UI for the Rock Music RAG app.
 """
 
 import os
