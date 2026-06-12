@@ -1,10 +1,10 @@
-# CartMate — AI Customer Support Agent
+# CartMate: AI Customer Support Agent
 
 > A memory-powered e-commerce support agent that remembers your customers across every session.
 
 ## Overview
 
-CartMate is a conversational support agent for NovaMart built with Streamlit and Mem0. It greets returning users by name, recalls their past orders and reported issues, and picks up conversations exactly where they left off — even after the app restarts. Mem0 Cloud handles persistent memory storage, and Mistral Small 4 drives the responses.
+CartMate is a conversational support agent for NovaMart built with Streamlit and Mem0. It greets returning users by name, recalls their past orders and reported issues, and picks up conversations exactly where they left off, persisting memory even after the app restarts. Mem0 Cloud handles persistent memory storage, and Mistral Small 4 drives the responses.
 
 ## Demo
 
@@ -12,11 +12,11 @@ CartMate is a conversational support agent for NovaMart built with Streamlit and
 
 ## Features
 
-- **Persistent cross-session memory** — customer preferences, order history, and past issues survive app restarts
-- **Personalised responses** — CartMate addresses users by name and references past interactions naturally
-- **Real-time memory sidebar** — all stored memories for the current user are visible and refreshed after every message
-- **One-click memory reset** — users can clear their stored memories directly from the sidebar
-- **Warm returning-user greeting** — CartMate detects prior history and opens with context instead of starting from scratch
+- **Persistent cross-session memory**: customer preferences, order history, and past issues survive app restarts
+- **Personalised responses**: CartMate addresses users by name and references past interactions naturally
+- **Real-time memory sidebar**: all stored memories for the current user are visible and refreshed after every message
+- **One-click memory reset**: users can clear their stored memories directly from the sidebar
+- **Warm returning-user greeting**: CartMate detects prior history and opens with context instead of starting from scratch
 
 ## Tech Stack
 
@@ -31,8 +31,8 @@ CartMate is a conversational support agent for NovaMart built with Streamlit and
 ## Prerequisites
 
 - Python 3.10 or higher
-- A [Mem0 Cloud](https://app.mem0.ai) account and API key
-- A [Mistral AI](https://platform.mistral.ai) account and API key
+- A [Mem0 Cloud](https://app.mem0.ai) account and API key (free tier available)
+- A [Mistral AI](https://platform.mistral.ai) account and API key (free tier available)
 
 ## Installation
 
@@ -40,7 +40,7 @@ CartMate is a conversational support agent for NovaMart built with Streamlit and
 
 ```bash
 git clone https://github.com/Sumanth077/Hands-On-AI-Engineering.git
-cd Hands-On-AI-Engineering/ai_agents/ai_agents/ai_customer_support_agent
+cd Hands-On-AI-Engineering/ai_agents/ai_customer_support_agent
 ```
 
 **2. Create and activate a virtual environment**
@@ -69,7 +69,21 @@ pip install -r requirements.txt
 cp .env.example .env
 ```
 
-Open `.env` and fill in your API keys (see [Environment Variables](#environment-variables)).
+Open `.env` and fill in your API keys.
+
+## Environment Variables
+
+Create a `.env` file in the project root with the following keys:
+
+| Variable | Description | Where to get it |
+|---|---|---|
+| `MEM0_API_KEY` | Mem0 Cloud API key for persistent memory storage | [app.mem0.ai](https://app.mem0.ai) |
+| `MISTRAL_API_KEY` | Mistral AI API key for LLM responses | [platform.mistral.ai](https://platform.mistral.ai) |
+
+```env
+MEM0_API_KEY=your_mem0_api_key_here
+MISTRAL_API_KEY=your_mistral_api_key_here
+```
 
 ## Usage
 
@@ -78,6 +92,8 @@ streamlit run app.py
 ```
 
 Open the URL printed in the terminal (default: `http://localhost:8501`).
+
+When the app loads, enter your name to identify yourself; CartMate uses this name to store and retrieve your memories across sessions.
 
 **Example interaction:**
 
@@ -105,26 +121,16 @@ The **CartMate Memory** sidebar shows each stored fact as a bullet point, e.g.:
 • Alex prefers email updates over SMS.
 ```
 
-## Environment Variables
-
-Create a `.env` file in the project root with the following keys:
-
-| Variable | Description | Where to get it |
-|---|---|---|
-| `MEM0_API_KEY` | Mem0 Cloud API key for persistent memory storage | [app.mem0.ai](https://app.mem0.ai) |
-| `MISTRAL_API_KEY` | Mistral AI API key for LLM responses | [platform.mistral.ai](https://platform.mistral.ai) |
-
-```env
-MEM0_API_KEY=your_mem0_api_key_here
-MISTRAL_API_KEY=your_mistral_api_key_here
-```
-
 ## Project Structure
 
 ```text
-ai-customer-support-agent/
+ai_customer_support_agent/
 ├── app.py              # Streamlit app — UI, memory helpers, LLM response logic
 ├── requirements.txt    # Python dependencies
 ├── .env                # API keys (not committed)
 └── .env.example        # Environment variable template
 ```
+
+---
+
+[⬆ Back to Top](#cartmate-ai-customer-support-agent)
