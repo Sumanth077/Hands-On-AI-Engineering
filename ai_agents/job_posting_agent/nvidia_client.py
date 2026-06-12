@@ -7,6 +7,7 @@ which causes requests to hang indefinitely on cold starts.
 
 from __future__ import annotations
 
+import logging
 import os
 import time
 from typing import Any
@@ -16,6 +17,8 @@ from dotenv import load_dotenv
 from langchain_core.messages import AIMessage, BaseMessage, HumanMessage, SystemMessage
 
 load_dotenv()
+
+logger = logging.getLogger(__name__)
 
 NVIDIA_BASE_URL = "https://integrate.api.nvidia.com/v1"
 MODEL_ID = "deepseek-ai/deepseek-v4-flash"
@@ -52,7 +55,7 @@ def get_api_key() -> str:
 
 
 def create_http_client() -> httpx.Client:
-    """Fresh client per request — avoids reusing a connection NVIDIA already closed."""
+    """Fresh client per request; avoids reusing a connection NVIDIA already closed."""
     return httpx.Client(
         timeout=HTTPX_TIMEOUT,
         limits=httpx.Limits(max_keepalive_connections=0, max_connections=10),
@@ -125,17 +128,16 @@ def _request_with_retries(request_fn, label: str) -> httpx.Response:
             last_error = exc
             if attempt < MAX_RETRIES:
                 wait = RETRY_BACKOFF_SECONDS * attempt
-                print(
-                    f"[NVIDIA] {label} failed ({exc!r}) — "
-                    f"retry {attempt}/{MAX_RETRIES - 1} in {wait:.0f}s",
-                    flush=True,
+                logger.warning(
+                    "[NVIDIA] %s failed (%r), retry %d/%d in %.0fs",
+                    label, exc, attempt, MAX_RETRIES - 1, wait,
                 )
                 time.sleep(wait)
             else:
                 raise NvidiaAPIError(
                     f"NVIDIA API connection failed after {MAX_RETRIES} attempts. "
                     f"Last error: {exc}. This often happens when the free-tier "
-                    f"model is warming up — wait a minute and try again."
+                    f"model is warming up; wait a minute and try again."
                 ) from exc
         finally:
             client.close()
@@ -146,10 +148,7 @@ def _poll_for_completion(api_key: str, request_id: str) -> dict[str, Any]:
     deadline = time.monotonic() + MAX_POLL_SECONDS
     poll_url = f"{NVIDIA_BASE_URL}/status/{request_id}"
 
-    print(
-        f"[NVIDIA] Model warming up (request {request_id[:8]}...) — polling",
-        flush=True,
-    )
+    logger.info("[NVIDIA] Model warming up (request %s...), polling", request_id[:8])
 
     while time.monotonic() < deadline:
         def poll_once(client: httpx.Client) -> httpx.Response:
@@ -162,7 +161,7 @@ def _poll_for_completion(api_key: str, request_id: str) -> dict[str, Any]:
 
         if response.status_code == 202:
             status = response.headers.get("NVCF-STATUS", "pending")
-            print(f"[NVIDIA] Still pending ({status})...", flush=True)
+            logger.info("[NVIDIA] Still pending (%s)...", status)
             time.sleep(POLL_INTERVAL_SECONDS)
             continue
 
@@ -207,13 +206,13 @@ def chat_completion(
         "stream": False,
     }
 
-    print(f"[NVIDIA] Calling {MODEL_ID}...", flush=True)
+    logger.info("[NVIDIA] Calling %s...", MODEL_ID)
 
     response = _post_chat_completion(api_key, body)
 
     if response.status_code == 200:
         content = _extract_content(response.json())
-        print("[NVIDIA] Response received.", flush=True)
+        logger.info("[NVIDIA] Response received.")
         return content
 
     if response.status_code == 202:
@@ -226,7 +225,7 @@ def chat_completion(
             )
         result = _poll_for_completion(api_key, request_id)
         content = _extract_content(result)
-        print("[NVIDIA] Response received after polling.", flush=True)
+        logger.info("[NVIDIA] Response received after polling.")
         return content
 
     _raise_for_status(response)
