@@ -98,7 +98,7 @@ Open the URL shown in the terminal (typically `http://localhost:8501`).
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| `NVIDIA_API_KEY` | Yes | — | API key from [build.nvidia.com](https://build.nvidia.com) (free, no credit card) |
+| `NVIDIA_API_KEY` | Yes | N/A | API key from [build.nvidia.com](https://build.nvidia.com) (free, no credit card) |
 | `NVIDIA_MODEL` | No | `deepseek-ai/deepseek-v4-flash` | NVIDIA NIM model ID used for summarization and Q&A |
 | `FETCH_IGNORE_ROBOTS` | No | `0` | Set to `1` to bypass robots.txt restrictions for autonomous fetching |
 
