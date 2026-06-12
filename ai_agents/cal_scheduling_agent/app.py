@@ -1,5 +1,5 @@
 """
-Cal Scheduling Agent — Streamlit UI
+Cal Scheduling Agent: Streamlit UI for managing Cal.com appointments through natural language.
 """
 
 import os
@@ -30,6 +30,7 @@ EXAMPLE_QUERIES = [
 
 
 def build_instructions(timezone: str = "UTC") -> str:
+    """Return the system instruction string for the agent, injecting today's date and the user's timezone."""
     today = datetime.now().strftime("%A, %B %d, %Y")
     return f"""\
 You are a friendly and efficient calendar scheduling assistant with access to \
