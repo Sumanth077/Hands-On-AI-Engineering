@@ -2,16 +2,20 @@
 
 from __future__ import annotations
 
+import os
 import tempfile
+import traceback
 
 import streamlit as st
 from dotenv import load_dotenv
 
 from agent import (
+    DB_PATH,
     SAMPLE_CSV,
     ask_finance_agent,
     ingest_csv,
     load_transactions_df,
+    parse_pdf_to_dataframe,
 )
 
 load_dotenv()
@@ -42,9 +46,9 @@ def _render_sidebar() -> None:
     with st.sidebar:
         st.header("Data")
         uploaded = st.file_uploader(
-            "Upload bank statement or transaction CSV",
-            type=["csv"],
-            help="CSV should include date, description, and amount (or debit/credit columns).",
+            "Upload bank statement or transaction CSV/PDF",
+            type=["csv", "pdf"],
+            help="CSV should include date, description, and amount (or debit/credit columns). PDF bank statements are also supported.",
         )
 
         if st.button("Load sample transactions.csv", use_container_width=True):
@@ -54,10 +58,22 @@ def _render_sidebar() -> None:
             st.success(f"Loaded {summary['rows_imported']} sample transactions.")
 
         if uploaded is not None:
-            with tempfile.NamedTemporaryFile(delete=False, suffix=".csv") as tmp:
+            is_pdf = uploaded.name.lower().endswith(".pdf")
+            suffix = ".pdf" if is_pdf else ".csv"
+            with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
                 tmp.write(uploaded.getvalue())
                 temp_path = tmp.name
             try:
+                if is_pdf:
+                    try:
+                        pdf_df = parse_pdf_to_dataframe(temp_path)
+                        fd, csv_path = tempfile.mkstemp(suffix=".csv")
+                        os.close(fd)
+                        pdf_df.to_csv(csv_path, index=False)
+                        temp_path = csv_path
+                    except Exception:
+                        traceback.print_exc()
+                        raise
                 summary = ingest_csv(temp_path, replace=True)
                 st.session_state.data_loaded = True
                 st.session_state.import_summary = summary
@@ -66,7 +82,7 @@ def _render_sidebar() -> None:
                     f"({summary['date_range']})."
                 )
             except Exception as exc:
-                st.error(f"Could not parse CSV: {exc}")
+                st.error(f"Could not parse file: {exc}")
 
         if st.session_state.get("data_loaded"):
             summary = st.session_state.get("import_summary", {})
@@ -77,6 +93,14 @@ def _render_sidebar() -> None:
                     st.caption("Category totals")
                     for cat, val in breakdown.items():
                         st.write(f"**{cat}:** ${val:,.2f}")
+                    st.bar_chart(breakdown)
+
+        if st.button("Clear Data", use_container_width=True, type="secondary"):
+            if DB_PATH.exists():
+                DB_PATH.unlink()
+            for key in list(st.session_state.keys()):
+                del st.session_state[key]
+            st.rerun()
 
 
 def _render_transactions_preview() -> None:
@@ -125,7 +149,7 @@ def main() -> None:
             st.markdown(prompt)
 
         with st.chat_message("assistant"):
-            with st.spinner("Analyzing your transactions..."):
+            with st.spinner("Analyzing your finances..."):
                 history: list[tuple[str, str]] = []
                 prior = st.session_state.messages[:-1]
                 idx = 0
@@ -146,6 +170,17 @@ def main() -> None:
                         "`deepseek-v4-flash` available."
                     )
                 st.markdown(answer)
+                chat_export = "\n\n".join(
+                    f"{m['role'].upper()}: {m['content']}"
+                    for m in st.session_state.messages[:-1] + [{"role": "assistant", "content": answer}]
+                )
+                st.download_button(
+                    label="Download chat history",
+                    data=chat_export,
+                    file_name="chat_history.txt",
+                    mime="text/plain",
+                    key=f"download_{len(st.session_state.messages)}",
+                )
         st.session_state.messages.append({"role": "assistant", "content": answer})
 
 
