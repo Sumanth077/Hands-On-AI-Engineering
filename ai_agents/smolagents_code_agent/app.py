@@ -1,3 +1,4 @@
+"""Smolagents Code Agent: a Gradio web app that streams live reasoning steps from a smolagents CodeAgent powered by Mistral Small via LiteLLM."""
 import os
 import queue
 import threading
