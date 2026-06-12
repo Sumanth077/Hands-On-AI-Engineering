@@ -1,3 +1,4 @@
+"""Streamlit app for the Hacker News Newsletter Agent: fetches top HN stories, generates an HTML newsletter with Gemma 4, and delivers it via Gmail SMTP."""
 import os
 import re
 
@@ -51,6 +52,7 @@ for key, val in {
 
 
 def extract_html(raw: str) -> str:
+    """Strip chain-of-thought tags and return the first complete HTML document found in the LLM output."""
     cleaned = re.sub(r"<think>.*?</think>", "", raw, flags=re.DOTALL)
     m = re.search(r"<!DOCTYPE html>.*?</html>", cleaned, re.DOTALL | re.IGNORECASE)
     if m:
