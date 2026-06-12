@@ -1,5 +1,5 @@
 """
-Hotel Finder Agent — Streamlit UI.
+Streamlit UI for the Hotel Finder Agent.
 
 Uses Orq.ai (qwen3.6-flash via OpenAI-compatible SDK) as the LLM
 and the Trivago MCP server for hotel search.

@@ -1,5 +1,9 @@
 import os
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 # Map ORQ_API_KEY → OPENAI_API_KEY and set the Orq.ai base URL so that
 # LiteLlm can route calls through Orq.ai when using `adk web`.
 os.environ.setdefault("OPENAI_API_BASE", "https://my.orq.ai/v3/router")
