@@ -1,8 +1,8 @@
-"""Reasoning RAG — Gradio UI.
+"""Reasoning RAG - Gradio UI.
 
 Two parallel panels:
-* Left  — the live, step-by-step reasoning trace.
-* Right — the grounded final answer with numbered citations.
+* Left  - the live, step-by-step reasoning trace.
+* Right - the grounded final answer with numbered citations.
 """
 
 from __future__ import annotations
@@ -34,6 +34,7 @@ footer { visibility: hidden; }
 
 
 def _missing_keys() -> list[str]:
+    """Return a list of required environment variable names that are not currently set."""
     missing = []
     if not os.getenv("ORQ_API_KEY"):
         missing.append("ORQ_API_KEY")
@@ -121,6 +122,7 @@ def ask(question: str):
 
 
 def build_demo() -> gr.Blocks:
+    """Construct and return the Gradio Blocks interface with the two-panel reasoning UI."""
     with gr.Blocks(title="Reasoning RAG", theme=gr.themes.Soft(), css=CUSTOM_CSS) as demo:
         gr.Markdown(
             "# Reasoning RAG\n"
