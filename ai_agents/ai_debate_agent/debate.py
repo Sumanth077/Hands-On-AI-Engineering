@@ -2,9 +2,9 @@
 
 Three agents collaborate on a single graph:
 
-* **Debater A** — argues the "for" position (gemini-3.0-flash via Orq.ai).
-* **Debater B** — argues the "against" position (mistral-small-latest via Orq.ai).
-* **Judge**     — scores every argument and declares a winner (kimi-k2.6 via Orq.ai).
+* **Debater A** - argues the "for" position (gemini-3.0-flash via Orq.ai).
+* **Debater B** - argues the "against" position (mistral-small-latest via Orq.ai).
+* **Judge**     - scores every argument and declares a winner (kimi-k2.6 via Orq.ai).
 
 All three agents are routed through the Orq.ai OpenAI-compatible router.
 
@@ -86,7 +86,7 @@ def _orq_client():
 def _history_block(transcript: List[Argument]) -> str:
     """Render the debate so far as plain text for the next debater."""
     if not transcript:
-        return "(No arguments yet — you are opening the debate.)"
+        return "(No arguments yet - you are opening the debate.)"
     lines = []
     for arg in transcript:
         lines.append(f"[Round {arg['round']}] {arg['speaker']} ({arg['position']}):\n{arg['content']}")
@@ -94,6 +94,7 @@ def _history_block(transcript: List[Argument]) -> str:
 
 
 def _debater_system_prompt(position: str, topic: str) -> str:
+    """Return the system prompt assigning a debater to its position on the given topic."""
     return (
         f"You are a sharp, persuasive debater arguing the **{position.upper()}** position "
         f'on the topic: "{topic}".\n'
@@ -105,6 +106,7 @@ def _debater_system_prompt(position: str, topic: str) -> str:
 
 
 def _debater_user_prompt(position: str, round_num: int, transcript: List[Argument]) -> str:
+    """Return the user-turn prompt instructing the debater to deliver their argument for this round."""
     return (
         f"Debate so far:\n\n{_history_block(transcript)}\n\n"
         f"It is now round {round_num}. Deliver your {position} argument."
@@ -115,6 +117,7 @@ def _debater_user_prompt(position: str, round_num: int, transcript: List[Argumen
 # Graph nodes
 # --------------------------------------------------------------------------- #
 def _debater_a_node(state: DebateState) -> DebateState:
+    """Call Debater A's model and append its For-side argument to the transcript."""
     client = _orq_client()
     round_num = state["round_num"]
     messages = [
@@ -136,6 +139,7 @@ def _debater_a_node(state: DebateState) -> DebateState:
 
 
 def _debater_b_node(state: DebateState) -> DebateState:
+    """Call Debater B's model, append its Against-side argument, and increment the round counter."""
     client = _orq_client()
     round_num = state["round_num"]
     messages = [
