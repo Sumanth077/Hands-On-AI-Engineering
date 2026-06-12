@@ -1,5 +1,7 @@
 # 🔍 Agentic SQL Search
 
+> Ask a question in plain English and this agent inspects the schema, writes the SQL, runs it, and returns a clear answer.
+
 ![Agentic SQL Search Demo](assets/demo.png)
 
 ## Overview
@@ -63,9 +65,9 @@ User Question
 ```
 
 **Tools:**
-- **`load_skill`** — reads `skills/sql.md`, which contains SQLite syntax rules, common query patterns, and schema reference
-- **`get_schema`** — queries `sqlite_master` and `PRAGMA table_info` to return the live database structure
-- **`execute_sql`** — runs any SELECT query and returns a formatted table (SELECT-only for safety)
+- **`load_skill`**: reads `skills/sql.md`, which contains SQLite syntax rules, common query patterns, and schema reference
+- **`get_schema`**: queries `sqlite_master` and `PRAGMA table_info` to return the live database structure
+- **`execute_sql`**: runs any SELECT query and returns a formatted table (SELECT-only for safety)
 
 ## Prerequisites
 
