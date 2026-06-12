@@ -173,6 +173,7 @@ def _detect_sentiment_pill(content: str) -> str:
 
 
 def render_platform_report(platform: str, content: str):
+    """Render a platform section header with a sentiment pill and the report body."""
     label, icon = PLATFORM_META.get(platform, (platform.title(), ""))
     pill = _detect_sentiment_pill(content)
 
@@ -192,6 +193,7 @@ def render_platform_report(platform: str, content: str):
 
 
 def render_results(results: dict):
+    """Render all four platform reports in labelled tabs."""
     tab_web, tab_yt, tab_tw, tab_li = st.tabs(
         ["🌐  Web", "▶  YouTube", "𝕏  Twitter/X", "💼  LinkedIn"]
     )
@@ -206,6 +208,7 @@ def render_results(results: dict):
 
 
 def clear_results():
+    """Remove the last brand and results from session state."""
     st.session_state.pop("last_brand", None)
     st.session_state.pop("last_results", None)
 
@@ -222,7 +225,7 @@ if run_btn:
         st.error("Please fill in both API keys in the sidebar.")
         st.stop()
 
-    with st.spinner(f"Scanning {brand} across 4 platforms — takes about a minute..."):
+    with st.spinner(f"Scanning {brand} across 4 platforms. This takes about a minute..."):
         try:
             results = run_brand_monitor(
                 brand=brand.strip(),
@@ -247,7 +250,7 @@ if "last_results" in st.session_state:
     # Results header row: title + clear button
     res_col, clear_col = st.columns([5, 1])
     with res_col:
-        st.markdown(f"### Intelligence Report — {brand_label}")
+        st.markdown(f"### Intelligence Report: {brand_label}")
     with clear_col:
         if st.button("Clear", use_container_width=True, on_click=clear_results):
             st.rerun()
