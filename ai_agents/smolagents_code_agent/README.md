@@ -4,7 +4,7 @@
 
 ## Overview
 
-Smolagents Code Agent wires together HuggingFace's **smolagents** `CodeAgent` and **Mistral Small** (via LiteLLM) into a Gradio web app. You type a task, the agent writes and executes Python code using DuckDuckGo and Wikipedia, and every reasoning step appears in the UI as it happens — no waiting for a final answer to see what the model was thinking.
+Smolagents Code Agent wires together HuggingFace's **smolagents** `CodeAgent` and **Mistral Small** (via LiteLLM) into a Gradio web app. You type a task, the agent writes and executes Python code using DuckDuckGo and Wikipedia, and every reasoning step appears in the UI as it happens. No waiting for a final answer to see what the model was thinking.
 
 ## Demo
 
@@ -12,18 +12,18 @@ Smolagents Code Agent wires together HuggingFace's **smolagents** `CodeAgent` an
 
 ## Features
 
-- **Real-time trace streaming** — every Think, Act, and Observe step appears in the UI as the agent works, powered by `step_callbacks` and a background thread queue
-- **Code-first reasoning** — the agent writes and executes Python code at each step rather than calling fixed tool APIs
-- **Two built-in tools** — `DuckDuckGoSearchTool` for live web search and a custom `WikipediaTool` that fetches 5-sentence article summaries
-- **Clean final answer** — the agent's conclusion is extracted and displayed separately from the full reasoning trace
-- **Swappable LLM** — change one line in `app.py` to switch from Mistral Small to DeepSeek V3 Flash via OpenRouter (see [Usage](#usage))
-- **Run/Clear controls** — a spinner confirms the agent is active; Clear resets all outputs instantly
+- **Real-time trace streaming**: every Think, Act, and Observe step appears in the UI as the agent works, powered by `step_callbacks` and a background thread queue
+- **Code-first reasoning**: the agent writes and executes Python code at each step rather than calling fixed tool APIs
+- **Two built-in tools**: `DuckDuckGoSearchTool` for live web search and a custom `WikipediaTool` that fetches 5-sentence article summaries
+- **Clean final answer**: the agent's conclusion is extracted and displayed separately from the full reasoning trace
+- **Swappable LLM**: change one line in `app.py` to switch from Mistral Small to DeepSeek V3 Flash via OpenRouter (see [Usage](#usage))
+- **Run/Clear controls**: a spinner confirms the agent is active; Clear resets all outputs instantly
 
 ## Tech Stack
 
 | Layer | Technology |
 |---|---|
-| Agent framework | [HuggingFace smolagents](https://github.com/huggingface/smolagents) — `CodeAgent` |
+| Agent framework | [HuggingFace smolagents](https://github.com/huggingface/smolagents) (`CodeAgent`) |
 | LLM | Mistral Small 4 (`mistral-small-latest`) via `LiteLLMModel` |
 | Web search | `DuckDuckGoSearchTool` (bundled with smolagents) |
 | Knowledge tool | Custom `WikipediaTool` using the `wikipedia` package |
@@ -32,7 +32,7 @@ Smolagents Code Agent wires together HuggingFace's **smolagents** `CodeAgent` an
 ## Prerequisites
 
 - Python 3.10 or later
-- A Mistral API key — get one at [platform.mistral.ai](https://platform.mistral.ai)
+- A Mistral API key. Get one at [platform.mistral.ai](https://platform.mistral.ai)
 
 ## Installation
 
@@ -109,3 +109,5 @@ smolagents-code-agent/
 └── assets/
     └── demo.png      # Screenshot used in README
 ```
+
+[Back to Top](#smolagents-code-agent)
