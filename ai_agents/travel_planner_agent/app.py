@@ -1,4 +1,4 @@
-"""Travel Planner Agent — Streamlit chat interface."""
+"""Travel Planner Agent - Streamlit chat interface."""
 
 import os
 
@@ -59,7 +59,7 @@ def main() -> None:
     with st.sidebar:
         st.title("✈️ Travel Planner")
         st.markdown(
-            "Plan your trip through conversation — weather, budget, "
+            "Plan your trip through conversation - weather, budget, "
             "highlights, and packing in one place."
         )
         if st.button("Clear conversation", use_container_width=True):
@@ -67,7 +67,7 @@ def main() -> None:
             st.rerun()
 
     st.title("Travel Planner Agent")
-    st.caption("Describe your trip in natural language — I'll research and build your plan.")
+    st.caption("Describe your trip in natural language - I'll research and build your plan.")
 
     if st.session_state.get("env_error"):
         st.error(st.session_state.env_error)

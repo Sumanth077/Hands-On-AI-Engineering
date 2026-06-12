@@ -1,10 +1,10 @@
 # Travel Planner Agent
 
-**Your AI co-pilot for end-to-end trip planning — from weather and budget to packing lists and day-by-day itineraries.**
+**Your AI co-pilot for end-to-end trip planning - from weather and budget to packing lists and day-by-day itineraries.**
 
 ## Overview
 
-Travel Planner Agent is a conversational travel assistant that helps you plan trips through natural language. Describe where you want to go, when, your budget, and what you enjoy — the agent gathers any missing details, researches your destination with live tools, and returns a structured travel plan you can use right away.
+Travel Planner Agent is a conversational travel assistant that helps you plan trips through natural language. Describe where you want to go, when, your budget, and what you enjoy - the agent gathers any missing details, researches your destination with live tools, and returns a structured travel plan you can use right away.
 
 Built with LangChain and Streamlit, it combines real-time weather, currency conversion, web research, and smart packing recommendations into a single chat experience.
 
@@ -14,13 +14,13 @@ Built with LangChain and Streamlit, it combines real-time weather, currency conv
 
 ## Features
 
-- **Conversational trip planning** — describe trips in plain English; the agent asks follow-up questions when details are missing
-- **Live weather data** — current conditions and a 5-day forecast for any destination via OpenWeatherMap
-- **Budget and currency tools** — convert amounts between currencies and estimate trip costs via ExchangeRate-API
-- **Destination research** — attractions, food, culture, and travel tips sourced from DuckDuckGo web search
-- **Smart packing lists** — recommendations tailored to forecast, climate, and trip length
-- **Structured travel plans** — overview, weather, budget, highlights, packing, and a suggested day-by-day itinerary
-- **Session-based chat history** — multi-turn conversations with context preserved in the Streamlit UI
+- **Conversational trip planning** - describe trips in plain English; the agent asks follow-up questions when details are missing
+- **Live weather data** - current conditions and a 5-day forecast for any destination via OpenWeatherMap
+- **Budget and currency tools** - convert amounts between currencies and estimate trip costs via ExchangeRate-API
+- **Destination research** - attractions, food, culture, and travel tips sourced from DuckDuckGo web search
+- **Smart packing lists** - recommendations tailored to forecast, climate, and trip length
+- **Structured travel plans** - overview, weather, budget, highlights, packing, and a suggested day-by-day itinerary
+- **Session-based chat history** - multi-turn conversations with context preserved in the Streamlit UI
 
 ## Tech Stack
 
@@ -37,9 +37,9 @@ Built with LangChain and Streamlit, it combines real-time weather, currency conv
 
 - **Python 3.10 or higher**
 - API keys for:
-  - [Orq.ai](https://orq.ai) — LLM routing
-  - [OpenWeatherMap](https://openweathermap.org/api) — weather and forecast data
-  - [ExchangeRate-API](https://www.exchangerate-api.com/) — currency conversion
+  - [Orq.ai](https://orq.ai) - LLM routing
+  - [OpenWeatherMap](https://openweathermap.org/api) - weather and forecast data
+  - [ExchangeRate-API](https://www.exchangerate-api.com/) - currency conversion
 
 ## Installation
 
@@ -123,12 +123,12 @@ Streamlit opens the app in your browser (typically at `http://localhost:8501`). 
 
 Once it has enough context, the agent calls its tools and delivers a structured plan with:
 
-1. **Trip Overview** — destination, dates, duration, and traveler preferences
-2. **Weather** — current conditions and a forecast summary from OpenWeatherMap
-3. **Budget & Currency** — cost estimates and currency conversions from ExchangeRate-API
-4. **Destination Highlights** — attractions, dining, culture, and travel tips from web research
-5. **Packing List** — clothing and essentials based on weather and trip length
-6. **Suggested Itinerary** — a day-by-day outline aligned with your interests and schedule
+1. **Trip Overview** - destination, dates, duration, and traveler preferences
+2. **Weather** - current conditions and a forecast summary from OpenWeatherMap
+3. **Budget & Currency** - cost estimates and currency conversions from ExchangeRate-API
+4. **Destination Highlights** - attractions, dining, culture, and travel tips from web research
+5. **Packing List** - clothing and essentials based on weather and trip length
+6. **Suggested Itinerary** - a day-by-day outline aligned with your interests and schedule
 
 The agent uses tools for all factual data (weather, rates, research) rather than guessing. If details are missing, it will ask clarifying questions before building the full plan.
 
