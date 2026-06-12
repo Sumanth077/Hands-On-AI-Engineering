@@ -1,5 +1,5 @@
 """
-GitHub Intelligence Agent — Streamlit UI
+GitHub Intelligence Agent: Streamlit UI
 Research anything on GitHub through natural language.
 Powered by Gemini 3 Flash + GitHub MCP Server via Haystack.
 

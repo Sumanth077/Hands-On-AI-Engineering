@@ -6,7 +6,7 @@
 
 ## Overview
 
-GitHub Intelligence Agent connects Gemini 3 Flash to GitHub's official MCP server through Haystack, giving you a conversational interface to the entire GitHub API. Ask it anything — surface trending repositories, profile a contributor, summarise open issues, or explore a codebase — and it figures out which tools to call on its own.
+GitHub Intelligence Agent connects Gemini 3 Flash to GitHub's official MCP server through Haystack, giving you a conversational interface to the entire GitHub API. Ask it anything: surface trending repositories, profile a contributor, summarise open issues, or explore a codebase. It figures out which tools to call on its own.
 
 The agent uses Haystack's **SearchableToolset** to dynamically discover tools from GitHub's catalog of 40+ API endpoints. Instead of loading every tool schema upfront (which would blow the context limit), it searches for relevant tools by keyword and loads only what it needs. This keeps the context lean and the agent focused.
 
@@ -22,25 +22,25 @@ The agent uses Haystack's **SearchableToolset** to dynamically discover tools fr
 ## Tech Stack
 
 **Frameworks and Libraries:**
-- [Haystack](https://haystack.deepset.ai/) — agent framework and tool orchestration
-- [Streamlit](https://streamlit.io/) — chat UI with streaming support
+- [Haystack](https://haystack.deepset.ai/): agent framework and tool orchestration
+- [Streamlit](https://streamlit.io/): chat UI with streaming support
 
 **Models and APIs:**
-- [Gemini 3 Flash](https://aistudio.google.com/) via Google AI — reasoning and tool calling
-- [GitHub MCP Server](https://api.githubcopilot.com/mcp/) — official GitHub API over MCP
+- [Gemini 3 Flash](https://aistudio.google.com/) via Google AI: reasoning and tool calling
+- [GitHub MCP Server](https://api.githubcopilot.com/mcp/): official GitHub API over MCP
 
 **Key Haystack Components:**
-- `MCPToolset` — connects to GitHub's MCP server
-- `SearchableToolset` — dynamically discovers tools to keep context lean
-- `GoogleAIGeminiChatGenerator` — Gemini 3 Flash integration
+- `MCPToolset`: connects to GitHub's MCP server
+- `SearchableToolset`: dynamically discovers tools to keep context lean
+- `GoogleAIGeminiChatGenerator`: Gemini 3 Flash integration
 
 ## Prerequisites
 
 - Python 3.11 or higher
 - [uv](https://docs.astral.sh/uv/) (recommended) or pip
 - API keys for:
-  - [ ] Google Gemini — free at https://aistudio.google.com
-  - [ ] GitHub Personal Access Token — read-only permissions are enough
+  - [ ] Google Gemini (free at https://aistudio.google.com)
+  - [ ] GitHub Personal Access Token (read-only permissions are enough)
 
 ### Getting a GitHub PAT
 
@@ -64,12 +64,6 @@ cd Hands-On-AI-Engineering/ai_agents/github_intelligence_agent
 
 ```bash
 uv sync
-```
-
-Or with pip:
-
-```bash
-pip install -r requirements.txt
 ```
 
 ### 3. Set Up Environment Variables
