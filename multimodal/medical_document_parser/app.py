@@ -1,3 +1,5 @@
+"""Gradio app for extracting structured clinical profiles from medical PDFs and images."""
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -23,6 +25,7 @@ CUSTOM_CSS = """
 
 
 def _format_flagged_text(flagged_items: list[str]) -> str:
+    """Format the list of flagged abnormal values into a human-readable string."""
     if not flagged_items:
         return "No abnormal or critical values flagged."
     return "\n".join(f"• {item}" for item in flagged_items)
@@ -32,6 +35,7 @@ def parse_document(
     upload: str | None,
     progress: gr.Progress = gr.Progress(),
 ) -> tuple[dict, str]:
+    """Process the uploaded medical document and return the structured profile and flagged values."""
     if upload is None:
         raise gr.Error("Please upload a medical PDF or image.")
 
@@ -62,6 +66,7 @@ def parse_document(
 
 
 def build_app() -> gr.Blocks:
+    """Construct and return the Gradio Blocks interface for the medical document parser."""
     with gr.Blocks(title="Medical Document Parser") as demo:
         gr.Markdown(
             """
