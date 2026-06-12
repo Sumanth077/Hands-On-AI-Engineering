@@ -1,3 +1,4 @@
+"""Streamlit app that runs a four-stage multi-agent pipeline using Mistral AI to plan, write, review, and refine Python code from a natural-language task description."""
 import os
 import streamlit as st
 from dotenv import load_dotenv
