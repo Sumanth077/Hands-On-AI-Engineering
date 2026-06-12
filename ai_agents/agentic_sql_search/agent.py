@@ -1,8 +1,8 @@
 """
-Agentic SQL Search — LangGraph ReAct agent with three tools:
-  • load_skill   — loads SQL syntax rules and schema reference
-  • get_schema   — inspects the live database schema
-  • execute_sql  — runs a SELECT query and returns results
+LangGraph ReAct agent for Agentic SQL Search, with three tools:
+  • load_skill: loads SQL syntax rules and schema reference
+  • get_schema: inspects the live database schema
+  • execute_sql: runs a SELECT query and returns results
 """
 
 import os
