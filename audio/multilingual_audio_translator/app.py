@@ -12,6 +12,7 @@ TARGET_LANGUAGES = list(LANGUAGE_NAMES.items())
 
 
 def process_audio(audio_path: str | None, target_language: str):
+    """Run the full transcribe, translate, and synthesize pipeline and return all outputs for the UI."""
     if not audio_path:
         raise gr.Error("Please upload or record an audio file.")
 
@@ -51,6 +52,7 @@ def process_audio(audio_path: str | None, target_language: str):
 
 
 def build_app() -> gr.Blocks:
+    """Construct and return the Gradio Blocks interface for the audio translator."""
     with gr.Blocks(
         title="Multilingual Audio Translator",
         theme=gr.themes.Soft(),
