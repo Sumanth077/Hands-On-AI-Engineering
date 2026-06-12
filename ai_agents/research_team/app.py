@@ -1,5 +1,5 @@
 """
-Research Team — Gradio UI
+Research Team: Gradio UI
 Seek + Scout powered by MiniMax M2.5 via OpenRouter.
 
 Usage:
@@ -64,6 +64,7 @@ def list_docs() -> str:
 # ── Research Function ──────────────────────────────────────────────────────────
 
 def run_research(query: str):
+    """Run the research team on the given query and yield the report and status as it streams."""
     query = query.strip()
     if not query:
         yield PLACEHOLDER, ""
@@ -82,6 +83,7 @@ def run_research(query: str):
 
 
 def clear_all():
+    """Reset the query input, report output, and status box to their default empty state."""
     return "", PLACEHOLDER, ""
 
 

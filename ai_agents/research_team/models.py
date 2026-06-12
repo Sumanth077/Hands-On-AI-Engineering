@@ -6,6 +6,7 @@ MODEL_ID = "minimax/minimax-m2.5:free"
 
 
 def get_model() -> OpenAILike:
+    """Return a configured OpenAILike model instance pointed at MiniMax M2.5 via OpenRouter."""
     return OpenAILike(
         id=MODEL_ID,
         api_key=os.getenv("OPENROUTER_API_KEY"),

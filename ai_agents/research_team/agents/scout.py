@@ -12,6 +12,7 @@ KNOWLEDGE_DIR = Path(__file__).parent.parent / "knowledge"
 
 
 def get_scout() -> Agent:
+    """Build and return the Scout agent configured to read and surface information from local files in the knowledge directory."""
     return Agent(
         name="Scout",
         role="Internal knowledge navigator",
