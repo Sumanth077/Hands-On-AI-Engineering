@@ -20,10 +20,10 @@ Multi-Agent Coding Assistant orchestrates a four-stage pipeline powered by Mistr
 
 ## Features
 
-- **Planner Agent** — breaks any coding task into a numbered, step-by-step implementation plan
-- **Coder Agent (Draft)** — translates the plan into typed, documented Python code
-- **Reviewer Agent** — audits the draft for bugs, edge cases, PEP 8 compliance, performance, and security issues
-- **Coder Agent (Final)** — applies every piece of reviewer feedback to produce production-ready code
+- **Planner Agent**: breaks any coding task into a numbered, step-by-step implementation plan
+- **Coder Agent (Draft)**: translates the plan into typed, documented Python code
+- **Reviewer Agent**: audits the draft for bugs, edge cases, PEP 8 compliance, performance, and security issues
+- **Coder Agent (Final)**: applies every piece of reviewer feedback to produce production-ready code
 - Expandable result sections so you can compare draft vs. final side by side
 - Inline API key input as a fallback when no `.env` file is present
 
@@ -39,7 +39,7 @@ Multi-Agent Coding Assistant orchestrates a four-stage pipeline powered by Mistr
 ## Prerequisites
 
 - Python 3.9 or higher
-- A [Mistral AI API key](https://platform.mistral.ai)
+- A [Mistral AI API key](https://platform.mistral.ai) (free tier available)
 
 ## Installation
 
@@ -90,9 +90,13 @@ Open `http://localhost:8501` in your browser, describe a coding task, and click 
 
 | Variable | Description |
 |---|---|
-| `MISTRAL_API_KEY` | Your Mistral AI API key — obtain one at [platform.mistral.ai](https://platform.mistral.ai) |
+| `MISTRAL_API_KEY` | Your Mistral AI API key. Obtain one at [platform.mistral.ai](https://platform.mistral.ai) |
 
 If `MISTRAL_API_KEY` is not set, the app will prompt you to paste it directly in the UI.
+
+---
+
+[⬆ Back to Top](#multi-agent-coding-assistant)
 
 ## Project Structure
 
