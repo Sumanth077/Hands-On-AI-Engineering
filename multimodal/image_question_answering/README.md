@@ -4,7 +4,7 @@
 
 ## Overview
 
-Upload a PDF, select a page, and ask a natural-language question about its visual content. PyMuPDF renders each page into a high-quality image, which is sent alongside your question to Gemma 4 (`gemma-4-31b-it`) via the Gemini API. The model reasons over the rendered image — including charts, tables, diagrams, and figures — and returns a grounded answer in the Gradio interface.
+Upload a PDF, select a page, and ask a natural-language question about its visual content. PyMuPDF renders each page into a high-quality image, which is sent alongside your question to Gemma 4 (`gemma-4-31b-it`) via the Gemini API. The model reasons over the rendered image, including charts, tables, diagrams, and figures, and returns a grounded answer in the Gradio interface.
 
 ## Demo
 
@@ -16,7 +16,7 @@ Upload a PDF, select a page, and ask a natural-language question about its visua
 - Page slider lets you navigate and preview any page before asking
 - Answers visual questions grounded in the actual rendered content (charts, tables, figures)
 - Gemma 4 thinking mode (`high`) for multi-step reasoning over complex layouts
-- Clean two-column Gradio UI — page viewer on the left, Q&A on the right
+- Clean two-column Gradio UI with the page viewer on the left and Q&A on the right
 
 ## Tech Stack
 
@@ -88,7 +88,7 @@ Create a `.env` file in the project root with the following key:
 
 | Variable | Description |
 |---|---|
-| `GOOGLE_API_KEY` | Gemini API key — obtain one at [aistudio.google.com](https://aistudio.google.com) |
+| `GOOGLE_API_KEY` | Gemini API key; obtain one at [aistudio.google.com](https://aistudio.google.com) |
 
 ```env
 GOOGLE_API_KEY=your_api_key_here
@@ -103,3 +103,7 @@ image-question-answering/
 ├── .env.example    # Environment variable template
 └── requirements.txt
 ```
+
+---
+
+[Back to Top](#image-question-answering)
