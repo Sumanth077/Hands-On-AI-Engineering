@@ -14,11 +14,13 @@ _STOP_WORDS = {
 
 
 def _query_terms(query: str) -> list[str]:
+    """Tokenises a query string and returns non-stop-word terms longer than two characters."""
     words = re.findall(r'\b\w+\b', query.lower())
     return [w for w in words if w not in _STOP_WORDS and len(w) > 2]
 
 
 def _score_node(node_name: str, terms: list[str]) -> float:
+    """Returns a relevance score for a graph node based on how many query terms match its name."""
     name_lower = node_name.lower()
     score = 0.0
     for term in terms:
@@ -30,6 +32,7 @@ def _score_node(node_name: str, terms: list[str]) -> float:
 
 
 def retrieve_from_graph(G: nx.Graph, query: str, max_entities: int) -> dict[str, Any]:
+    """Performs BFS from top-scoring seed nodes and returns matched entities and relationships up to max_entities."""
     if G.number_of_nodes() == 0:
         return {"entities": [], "relationships": [], "seed_nodes": []}
 
