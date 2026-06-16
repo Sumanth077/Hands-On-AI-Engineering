@@ -2,6 +2,7 @@ from typing import Any
 
 
 def format_graph_context(graph_results: dict[str, Any]) -> str:
+    """Formats graph retrieval results into a plain-text block listing entities and relationships."""
     entities = graph_results.get("entities", [])
     relationships = graph_results.get("relationships", [])
 
@@ -27,6 +28,7 @@ def format_graph_context(graph_results: dict[str, Any]) -> str:
 
 
 def format_vector_context(vector_results: list[dict[str, Any]]) -> str:
+    """Formats vector retrieval results into a plain-text block of numbered chunks with similarity scores."""
     if not vector_results:
         return "No vector context available."
     lines = []
@@ -42,6 +44,7 @@ def fuse_context(
     graph_results: dict[str, Any],
     vector_results: list[dict[str, Any]],
 ) -> str:
+    """Combines formatted graph and vector contexts into a single prompt-ready string."""
     graph_ctx = format_graph_context(graph_results)
     vector_ctx = format_vector_context(vector_results)
     return (

@@ -7,6 +7,7 @@ def retrieve_from_vector(
     query: str,
     top_k: int,
 ) -> list[dict[str, Any]]:
+    """Queries ChromaDB for the top-k most semantically similar chunks to the query string."""
     count = collection.count()
     if count == 0:
         return []

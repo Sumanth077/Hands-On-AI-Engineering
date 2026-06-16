@@ -18,6 +18,7 @@ Provide a clear, well-structured answer based on the context above."""
 
 
 def generate_answer(client: Mistral, question: str, fused_context: str) -> str:
+    """Sends the fused context and question to Mistral Small 4 and returns the generated answer string."""
     resp = client.chat.complete(
         model="mistral-small-latest",
         messages=[
