@@ -16,7 +16,7 @@ Extracted data lands in a local SQLite database. The dashboard tab aggregates sp
 
 - Fully offline after first-run model download
 - Handles crumpled, low-light, and thermal-printed receipts via Pillow preprocessing
-- Gemma 4 E2B vision (Q4_K_M GGUF) via llama-cpp-python, auto-detects Metal (Apple Silicon), CUDA, or falls back to CPU
+- Gemma 4 E2B vision (Q4_K_M GGUF) via llama-cpp-python, auto-detects GPU acceleration or falls back to CPU
 - Extracts vendor, date, line items, subtotal, tax, total, and auto-assigns a spending category
 - Editable extraction results before saving, so you can correct anything the model missed
 - SQLite ledger via pandas, no database server needed
@@ -27,12 +27,12 @@ Extracted data lands in a local SQLite database. The dashboard tab aggregates sp
 
 | Component | Minimum |
 |---|---|
-| RAM | 8 GB (unified memory on Apple Silicon counts) |
+| RAM | 8 GB |
 | Disk space | 4 GB free (3.1 GB model + 557 MB mmproj) |
 | Python | 3.9 or higher |
 | Internet | Required on first run only, for model download |
 
-The app runs on CPU if no GPU is available, but inference will be slower. Apple Silicon (M1/M2/M3) with Metal and NVIDIA GPUs with CUDA both run noticeably faster.
+The app runs on CPU if no GPU is available, but inference will be slower. A GPU with CUDA or Metal support will speed things up significantly.
 
 ## Prerequisites
 
@@ -41,27 +41,14 @@ The app runs on CPU if no GPU is available, but inference will be slower. Apple 
 
 ### Platform-specific install for llama-cpp-python
 
-llama-cpp-python must be built with the right backend for your hardware.
+llama-cpp-python needs to be built for your hardware. Pick the command that matches your machine:
 
-**CPU only (any machine)**
-```bash
-pip install llama-cpp-python
-```
-
-**NVIDIA GPU (CUDA)**
-```bash
-CMAKE_ARGS="-DGGML_CUDA=on" pip install llama-cpp-python
-```
-
-**Apple Silicon (Metal)**
-```bash
-CMAKE_ARGS="-DGGML_METAL=on" pip install llama-cpp-python
-```
-
-**AMD GPU (ROCm)**
-```bash
-CMAKE_ARGS="-DGGML_HIPBLAS=on" pip install llama-cpp-python
-```
+| Hardware | Install command |
+|---|---|
+| CPU only (any machine) | `pip install llama-cpp-python` |
+| NVIDIA GPU (CUDA) | `CMAKE_ARGS="-DGGML_CUDA=on" pip install llama-cpp-python` |
+| Apple Silicon (Metal) | `CMAKE_ARGS="-DGGML_METAL=on" pip install llama-cpp-python` |
+| AMD GPU (ROCm) | `CMAKE_ARGS="-DGGML_HIPBLAS=on" pip install llama-cpp-python` |
 
 ## Setup
 
