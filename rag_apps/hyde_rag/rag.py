@@ -18,7 +18,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 from embedder import GeminiEmbedder
 
-# ── Prompts ────────────────────────────────────────────────────────────────────
+# Prompts
 
 HYPOTHETICAL_PROMPT = """\
 You are a knowledgeable assistant. A user has asked the following question:
@@ -26,7 +26,7 @@ You are a knowledgeable assistant. A user has asked the following question:
 "{question}"
 
 Write a detailed, factual hypothetical document excerpt that directly answers \
-this question. Write it as if extracted from a real reference document — \
+this question. Write it as if extracted from a real reference document, \
 specific, informative, and self-contained. Do not explain that it is hypothetical.
 """
 
@@ -44,7 +44,7 @@ Answer:
 """
 
 
-# ── Pipeline ───────────────────────────────────────────────────────────────────
+# Pipeline
 
 class HyDERAG:
     """End-to-end HyDE retrieval-augmented generation pipeline."""
@@ -59,7 +59,7 @@ class HyDERAG:
         self._collection = self._chroma.get_or_create_collection(self.COLLECTION)
         self.doc_info: dict | None = None
 
-    # ── Ingest ──────────────────────────────────────────────────────────────
+    # Ingest
 
     def ingest(
         self,
@@ -121,7 +121,7 @@ class HyDERAG:
         }
         return self.doc_info
 
-    # ── Query ───────────────────────────────────────────────────────────────
+    # Query
 
     def _generate_hypothetical_docs(self, question: str, n: int) -> list[str]:
         """Use Gemini 3 Flash to generate N hypothetical answer documents."""
@@ -154,13 +154,13 @@ class HyDERAG:
 
         n_results = min(n_results, self._collection.count())
 
-        # Step 1 — generate hypothetical documents
+        # Step 1: generate hypothetical documents
         hypo_docs = self._generate_hypothetical_docs(question, n_hypothetical)
 
-        # Step 2 — HyDE embedding (average of hypothetical doc embeddings)
+        # Step 2: HyDE embedding (average of hypothetical doc embeddings)
         hyde_vector = self.embedder.hyde_embed(hypo_docs)
 
-        # Step 3 — retrieve from ChromaDB using the HyDE vector
+        # Step 3: retrieve from ChromaDB using the HyDE vector
         results = self._collection.query(
             query_embeddings=[hyde_vector],
             n_results=n_results,
@@ -168,7 +168,7 @@ class HyDERAG:
         retrieved_texts = results["documents"][0]
         retrieved_meta = results["metadatas"][0]
 
-        # Step 4 — generate final answer
+        # Step 4: generate final answer
         context = "\n\n---\n\n".join(retrieved_texts)
         response = self.client.models.generate_content(
             model=self.MODEL_ID,
