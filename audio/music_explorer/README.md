@@ -1,31 +1,31 @@
 # 🎧 Music Explorer
 
-> **Powered by [Gemini 3 Flash](https://ai.google.dev/gemini-api/docs/audio) — ask anything about any audio file or YouTube video**
+> **Powered by [Gemini 3 Flash](https://ai.google.dev/gemini-api/docs/audio), ask anything about any audio file or YouTube video**
 
 ![Music Explorer Demo](assets/demo.gif)
 
 ## Overview
 
-Music Explorer lets you analyze any audio through natural language. Upload a file or paste a YouTube URL, and ask questions — transcribe lyrics, identify instruments, detect emotion, break down track structure, or describe anything you hear. The conversation is multi-turn, so you can keep asking follow-ups without re-uploading.
+Music Explorer lets you analyze any audio through natural language. Upload a file or paste a YouTube URL, and ask questions: transcribe lyrics, identify instruments, detect emotion, break down track structure, or describe anything you hear. The conversation is multi-turn, so you can keep asking follow-ups without re-uploading.
 
-Gemini 3 Flash handles the audio understanding entirely via the Gemini Files API — no local model, no GPU required.
+Gemini 3 Flash handles the audio understanding entirely via the Gemini Files API, no local model and no GPU required.
 
 ## Features
 
-- **Multi-turn chat** — ask follow-up questions about the same audio without re-uploading
-- **YouTube support** — paste any YouTube URL to download and analyze the audio automatically
-- **Five quick-analysis presets** — one click to run full description, transcription, emotion analysis, instrument identification, or track structure breakdown
-- **Timestamp-aware responses** — Gemini can reference specific moments in the audio
-- **Microphone input** — record directly in the browser for live audio analysis
-- **No GPU needed** — runs entirely through the Gemini API
+- **Multi-turn chat**: ask follow-up questions about the same audio without re-uploading
+- **YouTube support**: paste any YouTube URL to download and analyze the audio automatically
+- **Five quick-analysis presets**: one click to run full description, transcription, emotion analysis, instrument identification, or track structure breakdown
+- **Timestamp-aware responses**: Gemini can reference specific moments in the audio
+- **Microphone input**: record directly in the browser for live audio analysis
+- **No GPU needed**: runs entirely through the Gemini API
 
 ## What You Can Ask
 
-- "Describe this track — genre, tempo, key, instruments, and mood"
+- "Describe this track: genre, tempo, key, instruments, and mood"
 - "Transcribe the lyrics with timestamps"
 - "What emotion does this convey? Does it shift throughout?"
 - "List every instrument and when each one enters"
-- "Break down the structure — intro, verse, chorus — with timestamps"
+- "Break down the structure (intro, verse, chorus) with timestamps"
 - "What language is being spoken?"
 - "Summarize what's being said in this podcast clip"
 - "What chord progression is used in the chorus?"
@@ -65,7 +65,7 @@ winget install ffmpeg
 
 ```bash
 git clone https://github.com/Sumanth077/Hands-On-AI-Engineering.git
-cd Hands-On-AI-Engineering/audio/audio_intelligence
+cd Hands-On-AI-Engineering/audio/music_explorer
 ```
 
 ### 2. Set Up Environment Variables
@@ -98,7 +98,7 @@ Navigate to `http://localhost:7860`.
 
 1. **Upload an audio file** or paste a YouTube URL and click **Load YouTube Audio**
 2. **Type a question** or click a **Quick Analysis** preset
-3. **Keep asking follow-ups** — the conversation is multi-turn, no need to re-upload
+3. **Keep asking follow-ups**: the conversation is multi-turn, no need to re-upload
 
 ## How It Works
 
@@ -121,10 +121,10 @@ Audio file / YouTube URL
 ## Project Structure
 
 ```text
-audio_intelligence/
+music_explorer/
 ├── app.py            # Gradio UI and Gemini inference logic
 ├── assets/
-│   └── demo.png      # App screenshot
+│   └── demo.gif      # App demo
 ├── .env.example      # API key template
 ├── pyproject.toml    # Dependencies (uv)
 └── README.md
