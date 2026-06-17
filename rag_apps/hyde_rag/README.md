@@ -7,7 +7,7 @@
 
 Standard RAG embeds the user's raw query and uses it to search the vector store. The problem: a short question and a long detailed answer live in very different regions of the embedding space, so the nearest-neighbour search often misses the most relevant chunks.
 
-HyDE solves this by flipping the retrieval signal. Instead of embedding the query, the system prompts an LLM to generate N hypothetical answers — documents that *would* contain the answer. Each is embedded, the resulting vectors are averaged into a single HyDE embedding, and that richer signal is used to retrieve from the vector store. Hypothetical answers sit much closer to real answers in embedding space than the original query does.
+HyDE solves this by flipping the retrieval signal. Instead of embedding the query, the system prompts an LLM to generate N hypothetical answers, documents that *would* contain the answer. Each is embedded, the resulting vectors are averaged into a single HyDE embedding, and that richer signal is used to retrieve from the vector store. Hypothetical answers sit much closer to real answers in embedding space than the original query does.
 
 ## Demo
 
@@ -15,9 +15,9 @@ HyDE solves this by flipping the retrieval signal. Instead of embedding the quer
 
 ## Features
 
-- **Hypothetical Document Generation:** MiniMax M2.5 generates N configurable hypothetical answer documents per query
+- **Hypothetical Document Generation:** Gemini 3 Flash generates N configurable hypothetical answer documents per query
 - **HyDE Averaging:** Gemini Embedding 2 embeds each hypothetical doc; vectors are averaged with NumPy into a single retrieval signal
-- **ChromaDB Vector Store:** Lightweight, in-process vector store — no external service required
+- **ChromaDB Vector Store:** Lightweight, in-process vector store that requires no external service
 - **Transparent Intermediate Steps:** The UI surfaces the hypothetical documents and retrieved chunks so you can see exactly how retrieval worked
 - **Configurable Retrieval:** Sliders for chunk size, chunk overlap, number of hypothetical docs, and number of retrieved chunks
 - **PDF and TXT support:** LangChain document loaders handle both formats
@@ -36,7 +36,7 @@ HyDE solves this by flipping the retrieval signal. Instead of embedding the quer
 ## Prerequisites
 
 - Python 3.11 or later
-- A Google API key — get one free at [aistudio.google.com](https://aistudio.google.com)
+- A Google API key, get one free at [aistudio.google.com](https://aistudio.google.com)
 
 ## Installation
 
@@ -64,7 +64,7 @@ python -m venv .venv
 **Install dependencies**
 
 ```bash
-pip install -r pyproject.toml
+pip install .
 ```
 
 Or with `uv`:
@@ -109,7 +109,7 @@ Open `http://127.0.0.1:7860` in your browser.
 User question
       │
       ▼
-MiniMax M2.5 generates N hypothetical answer documents
+Gemini 3 Flash generates N hypothetical answer documents
       │
       ▼
 Gemini Embedding 2 embeds each hypothetical document
@@ -124,7 +124,7 @@ ChromaDB similarity search with HyDE embedding
 Top-K chunks retrieved
       │
       ▼
-MiniMax M2.5 synthesises final answer from retrieved context
+Gemini 3 Flash synthesises final answer from retrieved context
 ```
 
 ## Project Structure
@@ -132,11 +132,13 @@ MiniMax M2.5 synthesises final answer from retrieved context
 ```text
 hyde_rag/
 ├── app.py            # Gradio UI
-├── rag.py            # HyDERAG class — ingest and query pipeline
-├── embedder.py       # GeminiEmbedder — embedding + HyDE vector averaging
+├── rag.py            # HyDERAG class, ingest and query pipeline
+├── embedder.py       # GeminiEmbedder, embedding + HyDE vector averaging
 ├── pyproject.toml    # Project dependencies
 ├── .env              # Your API keys (git-ignored)
 ├── .env.example      # Template for .env
 └── assets/
-    └── demo.png
+    └── demo.gif
 ```
+
+[Back to top](#hyde-rag)

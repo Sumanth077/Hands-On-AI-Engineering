@@ -1,7 +1,7 @@
 [project]
 name = "hyde-rag"
 version = "0.1.0"
-description = "HyDE RAG pipeline — Hypothetical Document Embeddings with Gemini 3 Flash and Gemini Embedding 2"
+description = "HyDE RAG pipeline using Hypothetical Document Embeddings with Gemini 3 Flash and Gemini Embedding 2"
 requires-python = ">=3.11"
 
 dependencies = [
