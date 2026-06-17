@@ -1,5 +1,5 @@
 """
-Music Explorer — Gemini-powered audio analysis
+Music Explorer: Gemini-powered audio analysis.
 Ask anything about any audio file or YouTube video.
 Run: python app.py
 """
@@ -27,6 +27,7 @@ _yt_cache: dict[str, tuple[str, str]] = {}  # url → (audio_path, title)
 
 
 def _extract_video_id(url: str) -> str | None:
+    """Extract the 11-character video ID from a YouTube URL, or None if it doesn't match."""
     patterns = [
         r"(?:https?://)?(?:www\.)?youtube\.com/watch\?v=([^&=%?]{11})",
         r"(?:https?://)?(?:www\.)?youtu\.be/([^&=%?]{11})",
@@ -40,6 +41,7 @@ def _extract_video_id(url: str) -> str | None:
 
 
 def _youtube_embed(url: str) -> str:
+    """Build an HTML iframe embed for the given YouTube URL, or an empty string if invalid."""
     vid = _extract_video_id(url)
     if not vid:
         return ""
@@ -53,6 +55,7 @@ def _youtube_embed(url: str) -> str:
 
 
 def download_youtube(url: str, force: bool = False) -> tuple[str | None, str]:
+    """Download a YouTube video's audio as MP3, using a cached copy unless force is set."""
     url = url.strip()
     if not _extract_video_id(url):
         return None, "❌ Invalid YouTube URL."
@@ -348,6 +351,7 @@ with gr.Blocks(title="Music Explorer") as demo:
     # ── Event wiring ──────────────────────────────────────────────────────────
 
     def load_yt(url):
+        """Download the YouTube URL's audio and return the audio path, status, and embed."""
         if not url.strip():
             return None, gr.update(value="❌ Enter a URL first.", visible=True), gr.update(visible=False)
         path, msg = download_youtube(url.strip(), force=True)
@@ -365,6 +369,7 @@ with gr.Blocks(title="Music Explorer") as demo:
     )
 
     def clear_yt():
+        """Reset the YouTube URL field, audio input, status, and embed."""
         return "", None, gr.update(value="", visible=False), gr.update(visible=False)
 
     yt_clear_btn.click(fn=clear_yt, outputs=[yt_url, audio_input, yt_status, yt_embed])
