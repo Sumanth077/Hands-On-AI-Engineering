@@ -1,0 +1,5 @@
+llama-cpp-python>=0.3.0
+huggingface-hub>=0.23.0
+Pillow>=10.0.0
+pandas>=2.0.0
+streamlit>=1.35.0
