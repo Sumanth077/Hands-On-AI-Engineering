@@ -1,0 +1,6 @@
+expenses.db
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.env
