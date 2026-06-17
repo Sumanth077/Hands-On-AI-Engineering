@@ -2,10 +2,12 @@ from pydantic import BaseModel, Field
 from typing import List, Optional
 
 class ProductAttribute(BaseModel):
+    """A single key-value attribute describing a product."""
     key: str
     value: str
 
 class StructuredProduct(BaseModel):
+    """A single product extracted from an image, with pricing and attributes."""
     name: str
     brand: Optional[str]
     price: Optional[float]
@@ -19,6 +21,7 @@ class ProductCollection(BaseModel):
     products: List[StructuredProduct]
 
 class InvoiceData(BaseModel):
+    """A single invoice extracted from an image, with vendor, total, and line items."""
     vendor_name: str
     date: str
     total_amount: float

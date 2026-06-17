@@ -2,6 +2,10 @@
 
 A high-fidelity, visual extraction framework that converts images into validated, structured JSON using Mistral Large 3 and Pydantic.
 
+## Demo
+
+![Demo](assets/demo.png)
+
 ## Overview
 
 This project demonstrates how to move beyond raw text OCR to **Structured Visual Extraction**. Instead of getting a messy block of text, this tool uses the `instructor` library to force the VLM (Vision Language Model) to output data that fits a strict Pydantic schema. 
@@ -37,7 +41,7 @@ Before you begin, ensure you have:
 
 - Python 3.10 or higher (Recommended)
 - API keys for:
-  - [ ] [Mistral AI Console](https://console.mistral.ai/)
+  - [Mistral AI Console](https://console.mistral.ai/)
 - Basic understanding of Pydantic and Multimodal LLMs.
 
 ## Installation
