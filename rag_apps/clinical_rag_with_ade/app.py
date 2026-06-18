@@ -1,3 +1,4 @@
+"""Streamlit dashboard for uploading clinical PDFs and querying them with visually grounded RAG."""
 import streamlit as st
 import os
 from processor import ClinicalRAGProcessor
