@@ -1,0 +1,18 @@
+# VectorAI DB local data volume
+vectorai_data/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+
+# Environment variables (never commit secrets)
+.env
+
+# macOS
+.DS_Store
+
+# HuggingFace model cache (large, re-downloaded on first run)
+~/.cache/huggingface/
+
