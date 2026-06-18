@@ -1,3 +1,4 @@
+"""Streamlit app that runs a multi-agent CrewAI pipeline to analyze a stock and generate a markdown investment report."""
 import streamlit as st
 import os
 import pandas as pd
@@ -23,17 +24,20 @@ class StockAnalysis(BaseModel):
     technical_indicators: dict
     fundamental_metrics: dict
 
-# Initialize SambaNova LLM
+# Initialize Orq.ai LLM
 @st.cache_resource
 def load_llm():
+    """Create and cache the Orq.ai LLM client used by the agents."""
     return LLM(
-        model="sambanova/Llama-4-Maverick-17B-128E-Instruct",
-        api_key=os.getenv("SAMBANOVA_API_KEY"),
+        model="openai/alibaba/qwen3.6-flash",
+        base_url="https://api.orq.ai/v3/router",
+        api_key=os.getenv("ORQ_API_KEY"),
         temperature=0.3
     )
 
 # Create agents and tasks
 def create_agents_and_tasks(symbol: str):
+    """Build the stock analysis and report writing agents, their tasks, and the crew that runs them for the given symbol."""
     llm = load_llm()
     
     # Initialize tools
@@ -170,16 +174,6 @@ st.title("🎯 Multi-Agent AI Financial Analyst")
 # Sidebar
 with st.sidebar:
     st.header("Configuration")
-    
-    # API Key input
-    api_key = st.text_input(
-        "SambaNova API Key",
-        type="password",
-        value=os.getenv("SAMBANOVA_API_KEY", ""),
-        help="Enter your SambaNova API key"
-    )
-    if api_key:
-        os.environ["SAMBANOVA_API_KEY"] = api_key
 
     # Stock Symbol input
     symbol = st.text_input(
