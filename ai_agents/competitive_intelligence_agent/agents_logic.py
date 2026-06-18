@@ -1,6 +1,10 @@
+"""CrewAI agent and task definitions for the Competitive Intelligence Agent."""
 import os
+from dotenv import load_dotenv
 from crewai import Agent, Task, Crew, Process, LLM
 from crewai_tools import TavilySearchTool
+
+load_dotenv()
 
 # Gemma 4 via LiteLLM/Gemini API
 gemma_llm = LLM(
@@ -9,6 +13,7 @@ gemma_llm = LLM(
 )
 
 def get_research_crew(my_company, competitor, pain_point, goal):
+    """Build and return a sequential CrewAI crew configured for the given company context and competitor."""
     # Specialized Tools
     search_tool = TavilySearchTool(api_key=os.getenv("TAVILY_API_KEY"), max_results=3)
 
