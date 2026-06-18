@@ -18,6 +18,8 @@ from .embeddings import OrqEmbeddings
 
 @dataclass
 class RetrievedDoc:
+    """A single document retrieved from a Qdrant collection, with its similarity score."""
+
     text: str
     score: float
     source: str
