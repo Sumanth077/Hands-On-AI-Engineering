@@ -1,6 +1,10 @@
+"""MCP server exposing the financial stock analysis tools backed by Mistral Small 4."""
+
+from dotenv import load_dotenv
 from mcp.server.fastmcp import FastMCP
 from financial_agents import run_financial_analysis
 
+load_dotenv()
 
 # Create FastMCP instance
 mcp = FastMCP("financial-analyst")
