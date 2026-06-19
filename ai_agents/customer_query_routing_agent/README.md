@@ -1,6 +1,6 @@
 # Customer Query Routing and Resolution Agent
 
-> A fully offline AI agent that routes incoming customer support queries to the right department and generates grounded responses, powered by Actian VectorAI DB as the memory and retrieval layer.
+> A fully offline AI agent that routes incoming customer support queries to the right department and generates grounded responses, powered by [Actian VectorAI](https://www.actian.com/databases/vectorai-db/) DB as the memory and retrieval layer.
 
 ## Demo
 
@@ -163,7 +163,7 @@ Both models download automatically on first run and are cached in `~/.cache/hugg
 
 | Component | Library |
 |---|---|
-| Vector database | Actian VectorAI DB (Docker) |
+| Vector database | [Actian VectorAI DB (Docker)](https://www.actian.com/databases/vectorai-db/) |
 | Vector DB client | actian-vectorai-client |
 | Embeddings | sentence-transformers (all-MiniLM-L6-v2) |
 | Language model | Ministral 3B via llama-cpp-python |
