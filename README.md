@@ -71,6 +71,7 @@ Intelligent ai agents for various automation tasks.
 - [**Travel Planner Agent**](./ai_agents/travel_planner_agent) - AI trip planning assistant covering weather, budget, packing lists, and day-by-day itineraries from a single request.
 - [**Personal Finance Agent**](./ai_agents/personal_finance_agent) - Upload a bank statement CSV, auto-categorize transactions, and ask natural language questions about your spending. Powered by a LangChain tool-calling agent backed by Orq.ai with SQLite persistence.
 - [**Offline Medical Agent**](./ai_agents/offline_medical_agent) - Fully offline agentic RAG system for clinical protocol lookup at remote clinics and field hospitals.
+- [**Customer Query Routing and Resolution Agent**](./ai_agents/customer_query_routing_agent) - Routes incoming support queries to the right department and generates grounded responses using [Actian VectorAI DB](https://www.actian.com/databases/vectorai-db/) as a local persistent memory and retrieval layer. 
 
 ### 📸 OCR
 
