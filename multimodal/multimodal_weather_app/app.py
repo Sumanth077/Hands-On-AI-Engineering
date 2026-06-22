@@ -1,6 +1,9 @@
+"""Multimodal weather app that uses Mistral Small vision to identify a city from a map image, then fetches live weather via native tool calling."""
+
 import os
 import base64
 import asyncio
+import logging
 import tempfile
 import threading
 import gradio as gr
@@ -13,11 +16,13 @@ from langchain_core.messages import HumanMessage
 load_dotenv()
 
 MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")
+logger = logging.getLogger(__name__)
 
 
 # ── Image helpers ────────────────────────────────────────────────────────────
 
 def image_to_base64(image: Image.Image) -> str:
+    """Convert a PIL image to a base64-encoded JPEG string for use in API requests."""
     # Write to a real temp file first to ensure a complete, valid JPEG on disk
     with tempfile.NamedTemporaryFile(suffix=".jpg", delete=False) as tmp:
         tmp_path = tmp.name
@@ -25,13 +30,14 @@ def image_to_base64(image: Image.Image) -> str:
     with open(tmp_path, "rb") as f:
         b64 = base64.b64encode(f.read()).decode("utf-8")
     os.remove(tmp_path)
-    print(f"[base64 preview]: {b64[:100]!r}  (total length: {len(b64)})")
+    logger.debug("[base64 preview]: %r  (total length: %d)", b64[:100], len(b64))
     return b64
 
 
 # ── City identification via Mistral Small (vision) ───────────────────────────
 
 def identify_city(image: Image.Image) -> str:
+    """Use Mistral Small vision to read a map image and return the identified city name."""
     b64 = image_to_base64(image)
     llm = ChatMistralAI(model="mistral-small-latest", api_key=MISTRAL_API_KEY)
     message = HumanMessage(content=[
@@ -40,7 +46,7 @@ def identify_city(image: Image.Image) -> str:
     ])
     response = llm.invoke([message])
     raw = response.content.strip()
-    print(f"[mistral vision identified city]: {raw!r}")
+    logger.debug("[mistral vision identified city]: %r", raw)
     return raw
 
 
@@ -122,6 +128,7 @@ _WEATHER_TOOL_SCHEMA = {
 
 
 def call_weather_tool(city: str) -> str:
+    """Ask Mistral Small to invoke the weather tool for the given city and return the formatted result."""
     llm = ChatMistralAI(model="mistral-small-latest", api_key=MISTRAL_API_KEY)
     llm_with_tools = llm.bind_tools([_WEATHER_TOOL_SCHEMA])
     response = llm_with_tools.invoke([HumanMessage(content=f"Get the current weather for {city}.")])
@@ -134,6 +141,7 @@ def call_weather_tool(city: str) -> str:
 # ── Output parser ─────────────────────────────────────────────────────────────
 
 def parse_weather(text: str) -> tuple:
+    """Extract temperature, conditions, humidity, and wind speed from a formatted weather string."""
     temp = conditions = humidity = wind = ""
     for line in text.splitlines():
         if "Temperature:" in line:
@@ -150,6 +158,7 @@ def parse_weather(text: str) -> tuple:
 # ── Main pipeline ─────────────────────────────────────────────────────────────
 
 def analyze(image):
+    """Run the full pipeline: identify the city from the uploaded map image, then fetch and return live weather data."""
     if image is None:
         return "Please upload a map image.", "", "", "", ""
 

@@ -1,6 +1,6 @@
 # Multimodal Weather App
 
-> Upload a map image and get live weather — Mistral Small identifies the city via vision, then fetches real-time conditions through native tool calling.
+> Upload a map image and get live weather: Mistral Small identifies the city via vision, then fetches real-time conditions through native tool calling.
 
 ## Overview
 
@@ -12,11 +12,11 @@ This app combines two AI capabilities in a single pipeline: **vision** and **too
 
 ## Features
 
-- **Vision-powered city detection** — Mistral Small 4 reads map images and extracts the city name
-- **Native tool calling** — Mistral Small 4 decides when and how to invoke the weather tool
-- **Live weather data** — temperature, conditions, humidity, and wind speed fetched in real time
-- **No weather API key needed** — uses `python_weather`, a free weather client
-- **Simple one-click UI** — built with Gradio Blocks
+- **Vision-powered city detection:** Mistral Small 4 reads map images and extracts the city name
+- **Native tool calling:** Mistral Small 4 decides when and how to invoke the weather tool
+- **Live weather data:** temperature, conditions, humidity, and wind speed fetched in real time
+- **No weather API key needed:** uses `python_weather`, a free weather client
+- **Simple one-click UI:** built with Gradio Blocks
 
 ## Tech Stack
 
@@ -30,7 +30,7 @@ This app combines two AI capabilities in a single pipeline: **vision** and **too
 ## Prerequisites
 
 - Python 3.10 or higher
-- A Mistral AI API key — get one at [platform.mistral.ai](https://platform.mistral.ai)
+- A Mistral AI API key; get one at [platform.mistral.ai](https://platform.mistral.ai)
 
 ## Installation
 
@@ -93,7 +93,7 @@ MISTRAL_API_KEY=your_mistral_api_key_here
 
 | Variable | Required | Description |
 |---|---|---|
-| `MISTRAL_API_KEY` | Yes | Your Mistral AI API key — get one at [platform.mistral.ai](https://platform.mistral.ai) |
+| `MISTRAL_API_KEY` | Yes | Your Mistral AI API key; get one at [platform.mistral.ai](https://platform.mistral.ai) |
 
 ## Project Structure
 
@@ -104,3 +104,7 @@ multimodal-weather-app/
 ├── .env.example        # Environment variable template
 └── .env                # Your local secrets (not committed)
 ```
+
+---
+
+[Back to Top](#multimodal-weather-app)
