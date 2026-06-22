@@ -23,12 +23,12 @@ The agent is powered by **MiniMax M2.5** (via OpenRouter) and uses Firecrawl to 
 ## Tech Stack
 
 **Frameworks and Libraries:**
-- [Agno](https://github.com/agno-agi/agno) — agent framework
-- [Gradio](https://www.gradio.app/) — web UI with streaming support
+- [Agno](https://github.com/agno-agi/agno) for the agent framework
+- [Gradio](https://www.gradio.app/) for the web UI with streaming support
 
 **Models and APIs:**
-- [MiniMax M2.5](https://openrouter.ai/minimax/minimax-m2.5) via [OpenRouter](https://openrouter.ai/) — reasoning and report generation
-- [Firecrawl](https://firecrawl.dev/) — website scraping and crawling
+- [MiniMax M2.5](https://openrouter.ai/minimax/minimax-m2.5) via [OpenRouter](https://openrouter.ai/) for reasoning and report generation
+- [Firecrawl](https://firecrawl.dev/) for website scraping and crawling
 
 ## Prerequisites
 
@@ -51,12 +51,6 @@ cd Hands-On-AI-Engineering/ai_agents/startup_analyst
 
 ```bash
 uv sync
-```
-
-Or with pip:
-
-```bash
-pip install -r requirements.txt
 ```
 
 ### 3. Set Up Environment Variables
