@@ -11,6 +11,7 @@ from models import get_model
 
 
 def get_seek() -> Agent:
+    """Build and return the Seek agent configured for external web research using DuckDuckGo and WebsiteTools."""
     return Agent(
         name="Seek",
         role="External web researcher",
