@@ -1,6 +1,6 @@
 import os
 import pytest
-os.environ.setdefault("OPENAI_API_KEY", "test-key-no-llm-calls")
+os.environ.setdefault("MISTRAL_API_KEY", "test-key-no-llm-calls")
 
 def test_agents_instantiate():
     """Verify agent setup does not raise — no LLM calls made."""
@@ -34,7 +34,7 @@ def test_tool_registration():
     from tools.research_tools import web_search, fetch_page_content
     from autogen import AssistantAgent, UserProxyAgent, LLMConfig, register_function
 
-    llm = LLMConfig({"model": "gpt-4o-mini", "api_key": "test"})
+    llm = LLMConfig({"api_type": "mistral", "model": "mistral-small-latest", "api_key": "test"})
     researcher = AssistantAgent(name="r", system_message="test", llm_config=llm)
     executor = UserProxyAgent(name="e", human_input_mode="NEVER", code_execution_config=False)
     for fn in (web_search, fetch_page_content):

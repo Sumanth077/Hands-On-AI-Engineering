@@ -1,6 +1,6 @@
 import base64
 import instructor
-from mistralai import Mistral
+from mistralai.client import Mistral
 from PIL import Image
 import io
 
@@ -17,6 +17,7 @@ def process_and_encode_image(image_file, max_size=(2048, 2048)):
     return base64.b64encode(buffered.getvalue()).decode('utf-8')
 
 def extract_structured_data(image_file, schema_model, api_key: str):
+    """Send the image to Mistral Large 3 and return data validated against the given schema."""
     client = instructor.from_mistral(Mistral(api_key=api_key))
     base64_image = process_and_encode_image(image_file)
 
