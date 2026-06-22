@@ -8,14 +8,14 @@
 
 ## Overview
 
-Instead of manually browsing five separate agent registries, this agent lets you ask in plain English — "find code review agents", "show me trading bots on Virtuals", "what MCP servers handle databases?" — and get structured results back in seconds.
+Instead of manually browsing five separate agent registries, this agent lets you ask in plain English: "find code review agents", "show me trading bots on Virtuals", "what MCP servers handle databases?" It returns structured results in seconds.
 
 The agent connects to the [Registry Broker API](https://hol.org/registry/docs), a universal index that abstracts NANDA, MCP, Virtuals Protocol, A2A, and ERC-8004 into a single interface. No registry-specific integrations needed.
 
 ## Features
 
 - **Universal Search:** Query AI agents across 5 registries with a single natural language request
-- **Agent Details:** Full metadata for any agent — capabilities, endpoints, trust score, and verification status
+- **Agent Details:** Full metadata for any agent including capabilities, endpoints, trust score, and verification status
 - **Similar Agents:** Find alternatives and compare agents with similar functionality
 - **Faceted Browsing:** Explore available categories, registries, and capability filters
 - **Streamlit Chat UI:** Dark-themed conversational interface with example queries and session history
@@ -36,14 +36,15 @@ The agent connects to the [Registry Broker API](https://hol.org/registry/docs), 
 |---|---|
 | LLM | Gemini 3 Flash (`gemini-3-flash-preview`) |
 | Agent SDK | [Google GenAI SDK](https://github.com/googleapis/python-genai) (`google-genai`) |
-| Registry API | [Registry Broker API](https://hol.org/registry/docs) — public, no key required |
+| Registry API | [Registry Broker API](https://hol.org/registry/docs) (public, no key required) |
 | HTTP client | httpx |
 | UI | Streamlit |
 
 ## Prerequisites
 
 - Python 3.10 or later
-- A Google API key — get one free at [aistudio.google.com](https://aistudio.google.com)
+- [uv](https://docs.astral.sh/uv/getting-started/installation/) (Python package manager)
+- A Google API key. Get one free at [aistudio.google.com](https://aistudio.google.com)
 
 ## Installation
 
@@ -61,6 +62,12 @@ cp .env.example .env
 ```
 
 Open `.env` and add your Google API key.
+
+**Install dependencies**
+
+```bash
+uv sync
+```
 
 ## Usage
 

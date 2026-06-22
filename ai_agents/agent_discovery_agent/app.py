@@ -1,5 +1,5 @@
 """
-Agent Discovery Agent — Streamlit UI
+Agent Discovery Agent: Streamlit UI for searching and comparing AI agents across multiple registries.
 """
 
 import json
@@ -228,6 +228,7 @@ if "total_queries" not in st.session_state:
 # ── Agent logic ────────────────────────────────────────────────────────────────
 
 def get_client(api_key: str) -> genai.Client:
+    """Create and return a Google GenAI client authenticated with the provided API key."""
     return genai.Client(api_key=api_key)
 
 
