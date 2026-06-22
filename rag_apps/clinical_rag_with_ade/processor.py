@@ -1,3 +1,4 @@
+import logging
 import os
 import shutil
 from pathlib import Path
@@ -13,6 +14,8 @@ from langchain_chroma import Chroma
 from langchain_core.documents import Document
 
 load_dotenv()
+
+logger = logging.getLogger(__name__)
 
 class ClinicalRAGProcessor:
     def __init__(self, db_path="./chroma_db"):
@@ -33,7 +36,7 @@ class ClinicalRAGProcessor:
         Parses a PDF using ADE and indexes structured chunks into ChromaDB.
         Returns the number of chunks indexed.
         """
-        print(f"--- ADE Parsing Started: {file_path} ---")
+        logger.info("ADE parsing started: %s", file_path)
         
         # ADE expects a pathlib.Path object for local file parsing
         response = self.ade_client.parse(
@@ -120,4 +123,4 @@ class ClinicalRAGProcessor:
         if os.path.exists(self.db_path):
             shutil.rmtree(self.db_path)
         self.vector_store = None
-        print(f"Database at {self.db_path} has been wiped.")
+        logger.info("Database at %s has been wiped.", self.db_path)
