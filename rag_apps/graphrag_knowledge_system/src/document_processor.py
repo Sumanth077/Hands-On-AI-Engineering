@@ -8,6 +8,7 @@ from langchain_community.document_loaders import PyPDFLoader, TextLoader
 
 class DocumentProcessor:
     def __init__(self, chunk_size: int = 800, chunk_overlap: int = 150):
+        """Configure the text splitter used to chunk loaded documents."""
         self.splitter = RecursiveCharacterTextSplitter(
             chunk_size=chunk_size,
             chunk_overlap=chunk_overlap,
@@ -15,6 +16,7 @@ class DocumentProcessor:
         )
 
     def process(self, file_content: bytes, filename: str) -> list:
+        """Load a PDF or TXT file from bytes and split it into text chunks."""
         suffix = Path(filename).suffix.lower()
         if suffix not in {".pdf", ".txt"}:
             raise ValueError(f"Unsupported file type: {suffix}. Use PDF or TXT.")

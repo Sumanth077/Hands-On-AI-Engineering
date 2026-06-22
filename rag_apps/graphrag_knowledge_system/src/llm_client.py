@@ -6,6 +6,7 @@ from langchain_core.messages import HumanMessage, SystemMessage
 
 class LLMClient:
     def __init__(self):
+        """Create the plain-text and JSON-mode Mistral chat clients."""
         api_key = os.getenv("MISTRAL_API_KEY")
         if not api_key:
             raise ValueError("MISTRAL_API_KEY not set in environment")
@@ -22,6 +23,7 @@ class LLMClient:
         )
 
     def complete(self, prompt: str, json_mode: bool = False, max_retries: int = 3) -> str:
+        """Send a single prompt to Mistral, retrying with backoff on failure."""
         client = self.llm_json if json_mode else self.llm
         messages = [HumanMessage(content=prompt)]
         for attempt in range(max_retries):
@@ -37,6 +39,7 @@ class LLMClient:
     def complete_with_system(
         self, system: str, user: str, json_mode: bool = False
     ) -> str:
+        """Send a system and user message pair to Mistral and return the response text."""
         client = self.llm_json if json_mode else self.llm
         messages = [SystemMessage(content=system), HumanMessage(content=user)]
         response = client.invoke(messages)
