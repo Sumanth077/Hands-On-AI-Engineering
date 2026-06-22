@@ -1,3 +1,4 @@
+"""Streamlit application combining knowledge graph retrieval and vector retrieval into a hybrid RAG pipeline for document question answering."""
 import os
 import sys
 import time

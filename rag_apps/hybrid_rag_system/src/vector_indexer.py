@@ -21,6 +21,7 @@ class OllamaEmbeddingFunction(EmbeddingFunction):
 
 
 def check_ollama() -> tuple[bool, str]:
+    """Checks whether Ollama is reachable and whether the embedding model is installed, returning a status tuple."""
     try:
         resp = requests.get(f"{OLLAMA_URL}/api/tags", timeout=5)
         if resp.status_code == 200:
@@ -35,6 +36,7 @@ def check_ollama() -> tuple[bool, str]:
 
 
 def get_chroma_collection() -> chromadb.Collection:
+    """Creates or retrieves the persistent ChromaDB collection using the Ollama embedding function."""
     client = chromadb.PersistentClient(path=str(CHROMA_DIR))
     return client.get_or_create_collection(
         name=CHROMA_COLLECTION,
@@ -49,6 +51,7 @@ def index_chunks(
     doc_hash: str,
     progress_cb: Optional[Callable[[int, int], None]] = None,
 ) -> None:
+    """Embeds and stores text chunks in ChromaDB, calling progress_cb after each batch."""
     batch_size = 5
     total = len(chunks)
     for i in range(0, total, batch_size):
@@ -61,6 +64,7 @@ def index_chunks(
 
 
 def collection_has_doc(collection: chromadb.Collection, doc_hash: str) -> bool:
+    """Returns True if the ChromaDB collection already contains chunks for the given document hash."""
     try:
         results = collection.get(where={"doc_hash": doc_hash}, limit=1)
         return len(results["ids"]) > 0
