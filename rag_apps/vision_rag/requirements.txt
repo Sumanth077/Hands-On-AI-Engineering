@@ -1,6 +1,6 @@
 streamlit
 cohere
-openai==1.83.0
+mistralai
 python-dotenv
 PyMuPDF
 Pillow

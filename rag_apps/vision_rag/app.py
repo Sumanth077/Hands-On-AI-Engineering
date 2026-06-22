@@ -1,10 +1,14 @@
+"""
+VisionRAG: Multimodal Search & Visual Question Answering Streamlit app.
+"""
+
 import streamlit as st
 import os
 import datetime
 from PIL import Image
 import numpy as np
 from dotenv import load_dotenv, find_dotenv
-from utils import get_cohere_embedding, openai_vqa, pdf_to_images, image_to_bytes, find_most_similar
+from utils import get_cohere_embedding, mistral_vqa, pdf_to_images, image_to_bytes, find_most_similar
 
 # Load environment variables
 load_dotenv(find_dotenv())
@@ -14,7 +18,7 @@ st.set_page_config(page_title="VisionRAG: Multimodal Search & VQA", layout="wide
 st.title("VisionRAG: Multimodal Search & Visual Question Answering")
 
 cohere_api = os.getenv("COHERE_API_KEY")
-openai_api = os.getenv("OPENAI_API_KEY")
+mistral_api = os.getenv("MISTRAL_API_KEY")
 
 # Initialize session state
 if 'items' not in st.session_state:
@@ -102,8 +106,8 @@ with st.form("question_form"):
 
 # Process question submission
 if submit_button:
-    if not cohere_api or not openai_api:
-        st.error("Please provide both Cohere and OpenAI API keys.")
+    if not cohere_api or not mistral_api:
+        st.error("Please provide both Cohere and Mistral API keys.")
     elif not question:
         st.error("Please enter a question.")
     elif not st.session_state['items']:
@@ -124,10 +128,10 @@ if submit_button:
             idx, sim = find_most_similar(q_emb, emb_list)
             best_item = st.session_state['items'][idx]
             
-            # Generate answer using OpenAI
-            st.info("Generating answer with OpenAI Vision...")
+            # Generate answer using Mistral
+            st.info("Generating answer with Mistral Vision...")
             img_bytes = image_to_bytes(best_item['img'])
-            answer = openai_vqa(openai_api, img_bytes, question)
+            answer = mistral_vqa(mistral_api, img_bytes, question)
             
             # Add to conversation history
             timestamp = datetime.datetime.now().strftime("%H:%M:%S")
