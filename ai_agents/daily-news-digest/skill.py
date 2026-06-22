@@ -175,7 +175,7 @@ for article in selected:
     cat = article.get("category", "Notable")
     grouped.setdefault(cat, []).append(article)
 
-message_parts = [f"🗞️ *Daily AI Digest — {today}*"]
+message_parts = [f"🗞️ *Daily AI Digest: {today}*"]
 
 for cat in CATEGORY_ORDER:
     if cat not in grouped:
@@ -189,7 +189,7 @@ for cat in CATEGORY_ORDER:
         source = art["source"]
         url = art["url"]
         message_parts.append(
-            f"{emoji} *{title}* — {summary}\n"
+            f"{emoji} *{title}*: {summary}\n"
             f"Source: {source} | [Read more]({url})"
         )
 
