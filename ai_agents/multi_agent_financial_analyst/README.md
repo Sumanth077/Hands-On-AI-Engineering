@@ -1,6 +1,24 @@
+<a id="top"></a>
 # 🎯 Multi-Agent AI Financial Analyst
 
 A powerful multi-agent system that performs comprehensive stock analysis and generates detailed financial reports.
+
+## Demo
+
+![Demo](assets/demo.png)
+
+## Tech Stack
+
+- **Provider:** Orq.ai
+- **Model:** alibaba/qwen3.6-flash via Orq.ai
+- **Agent framework:** CrewAI
+- **UI:** Streamlit
+- **Market data:** yfinance
+
+## Prerequisites
+
+- Python 3.10 or higher
+- An Orq.ai account and API key, available at https://orq.ai
 
 ## Features
 
@@ -23,9 +41,9 @@ A powerful multi-agent system that performs comprehensive stock analysis and gen
 pip install -r requirements.txt
 ```
 
-3. Create a `.env` file in the root directory and add your SambaNova API key:
+3. Create a `.env` file in the root directory and add your Orq.ai API key:
 ```bash
-SAMBANOVA_API_KEY=your_api_key_here
+ORQ_API_KEY=your_orq_api_key_here
 ```
 
 ## Usage
@@ -63,4 +81,6 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details. 
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+[Back to top](#top)
