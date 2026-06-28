@@ -34,6 +34,11 @@ _KEYWORDS: dict[str, list[str]] = {
 
 
 class RoutingDecision(BaseModel):
+<<<<<<< HEAD
+=======
+    """Holds which database a query was routed to and why."""
+
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     database: Literal["products", "support", "financial"]
     reasoning: str
 

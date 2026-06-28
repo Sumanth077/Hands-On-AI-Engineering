@@ -1,3 +1,11 @@
+<<<<<<< HEAD
+=======
+"""
+GraphRAG Knowledge System Streamlit app: document ingestion, knowledge graph
+construction, community detection, and Local/Global search over the graph.
+"""
+
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 import uuid
 import json
 import os
@@ -69,6 +77,10 @@ st.markdown(
 
 @st.cache_resource(show_spinner=False)
 def get_components():
+<<<<<<< HEAD
+=======
+    """Construct and cache the pipeline components shared across reruns."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     graph_store = GraphStore()
     vector_store = VectorStore()
     entity_extractor = EntityExtractor()
@@ -105,6 +117,10 @@ Summary:"""
 def run_community_detection(
     graph_store: GraphStore, llm_client: LLMClient, status_fn
 ) -> int:
+<<<<<<< HEAD
+=======
+    """Detect entity communities in the graph and summarise each one with the LLM."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     full_graph = graph_store.get_full_graph()
     entities = full_graph["entities"]
     relationships = full_graph["relationships"]
@@ -179,12 +195,20 @@ def ingest_document(
     cache_manager: CacheManager,
     llm_client: LLMClient,
 ) -> dict:
+<<<<<<< HEAD
+=======
+    """Chunk, extract entities from, and index a single uploaded document."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     file_hash = cache_manager.file_hash(file_content)
 
     if cache_manager.is_processed(file_hash):
         return {
             "status": "cached",
+<<<<<<< HEAD
             "message": f"'{filename}' was already processed — skipping.",
+=======
+            "message": f"'{filename}' was already processed, skipping.",
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
         }
 
     # ── Step 1: Load and chunk ────────────────────────────────────────────────
@@ -214,7 +238,11 @@ def ingest_document(
         chunk_id = f"{doc_id}_chunk_{idx}"
         chunk_text = chunk.page_content
 
+<<<<<<< HEAD
         # Store chunk in Neo4j
+=======
+        # Store chunk in the knowledge graph
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
         graph_store.create_chunk(chunk_id, chunk_text, doc_id)
 
         # Extract entities and relationships
@@ -296,6 +324,10 @@ TYPE_COLORS = {
 
 
 def _type_badge(entity_type: str) -> str:
+<<<<<<< HEAD
+=======
+    """Render an entity type as a small colored HTML badge."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     color = TYPE_COLORS.get(entity_type, "#888")
     return (
         f'<span style="background:{color};color:#fff;padding:2px 10px;'
@@ -305,6 +337,10 @@ def _type_badge(entity_type: str) -> str:
 
 
 def render_entity_list(entities: list):
+<<<<<<< HEAD
+=======
+    """Render up to 20 entities as name, description, and type badge rows."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     if not entities:
         st.caption("No entities retrieved.")
         return
@@ -323,6 +359,10 @@ def render_entity_list(entities: list):
 
 
 def render_relationship_list(relationships: list):
+<<<<<<< HEAD
+=======
+    """Render up to 15 relationships as source-target-weight rows."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     if not relationships:
         st.caption("No relationships retrieved.")
         return
@@ -341,6 +381,10 @@ def render_relationship_list(relationships: list):
 
 
 def main():
+<<<<<<< HEAD
+=======
+    """Render the Streamlit page: ingestion sidebar, search controls, and results."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     # ── Header ────────────────────────────────────────────────────────────────
     st.markdown(
         '<div class="main-header">🕸️ GraphRAG Knowledge System</div>', unsafe_allow_html=True
@@ -364,8 +408,13 @@ def main():
     except Exception as e:
         st.error(f"Failed to initialise components: {e}")
         st.info(
+<<<<<<< HEAD
             "Check your `.env` file — make sure NEO4J_URI, NEO4J_PASSWORD, "
             "MISTRAL_API_KEY are set and Ollama is running on http://localhost:11434"
+=======
+            "Check your `.env` file, make sure MISTRAL_API_KEY is set "
+            "and Ollama is running on http://localhost:11434"
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
         )
         get_components.clear()
         return
@@ -391,7 +440,11 @@ def main():
             "Upload PDF or TXT files",
             type=["pdf", "txt"],
             accept_multiple_files=True,
+<<<<<<< HEAD
             help="Documents are chunked, entity-extracted, and stored in Neo4j + ChromaDB.",
+=======
+            help="Documents are chunked, entity-extracted, and stored in the local knowledge graph and ChromaDB.",
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
         )
 
         if uploaded_files and st.button("⚙️ Process Documents", type="primary", use_container_width=True):
@@ -433,13 +486,21 @@ def main():
             try:
                 st.metric("Chunks", vector_store.count())
             except Exception:
+<<<<<<< HEAD
                 st.metric("Chunks", "—")
+=======
+                st.metric("Chunks", "N/A")
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
         with col2:
             try:
                 communities = graph_store.get_all_communities()
                 st.metric("Communities", len(communities))
             except Exception:
+<<<<<<< HEAD
                 st.metric("Communities", "—")
+=======
+                st.metric("Communities", "N/A")
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
         if st.button("🔄 Refresh Stats", use_container_width=True):
             st.rerun()
@@ -485,7 +546,11 @@ def main():
 
         # ── Answer ────────────────────────────────────────────────────────────
         mode_label = "Local Search" if "Local" in search_mode else "Global Search"
+<<<<<<< HEAD
         st.markdown(f"### Answer — {mode_label}")
+=======
+        st.markdown(f"### Answer: {mode_label}")
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
         st.markdown(result["answer"])
 
         # ── Supporting context ────────────────────────────────────────────────
@@ -532,7 +597,11 @@ def main():
         with info_col2:
             st.info(
                 "**2. Knowledge Graph Built**\n\n"
+<<<<<<< HEAD
                 "Entities and relationships are stored in Neo4j. "
+=======
+                "Entities and relationships are stored in the local knowledge graph. "
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
                 "Text embeddings go into ChromaDB via Ollama."
             )
         with info_col3:

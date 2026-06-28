@@ -59,6 +59,10 @@ Answer:"""
 
 class SearchEngine:
     def __init__(self, graph_store: GraphStore, vector_store: VectorStore):
+<<<<<<< HEAD
+=======
+        """Wire up the graph store, vector store, and LLM client used for search."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
         self.graph = graph_store
         self.vector = vector_store
         self.llm = LLMClient()
@@ -66,6 +70,10 @@ class SearchEngine:
     # ── Local Search ──────────────────────────────────────────────────────────
 
     def local_search(self, query: str, n_chunks: int = 5) -> Dict:
+<<<<<<< HEAD
+=======
+        """Retrieve matching chunks and their graph context, then answer the question."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
         if self.vector.count() == 0:
             return self._no_docs_result()
 
@@ -124,6 +132,10 @@ class SearchEngine:
     # ── Global Search ─────────────────────────────────────────────────────────
 
     def global_search(self, query: str) -> Dict:
+<<<<<<< HEAD
+=======
+        """Rate each community's relevance to the question and synthesise an answer from the top ones."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
         communities = self.graph.get_all_communities()
         if not communities:
             return self.local_search(query)
@@ -196,6 +208,10 @@ class SearchEngine:
 
     @staticmethod
     def _no_docs_result() -> Dict:
+<<<<<<< HEAD
+=======
+        """Build the placeholder result returned when no documents have been indexed."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
         return {
             "answer": "No documents have been indexed yet. Please upload and process documents first.",
             "entities": [],

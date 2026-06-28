@@ -14,6 +14,10 @@ MODEL_ID = "minimax/minimax-m2.5:free"
 
 
 def get_analyst() -> Agent:
+<<<<<<< HEAD
+=======
+    """Build and return a configured Startup Analyst agent with Firecrawl scraping and crawling tools."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     return Agent(
         name="Startup Analyst",
         model=OpenAILike(

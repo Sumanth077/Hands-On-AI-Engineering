@@ -28,7 +28,11 @@ Extraction rules:
 - Extract 3–12 meaningful, specific entities; skip generic words
 - Every relationship source and target MUST be an entity you extracted
 - weight is 0.0–1.0 reflecting relationship strength or importance
+<<<<<<< HEAD
 - Return only valid JSON — no markdown fences, no extra text
+=======
+- Return only valid JSON, no markdown fences, no extra text
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
 Text to analyze:
 {text}"""
@@ -36,9 +40,17 @@ Text to analyze:
 
 class EntityExtractor:
     def __init__(self):
+<<<<<<< HEAD
         self.llm = LLMClient()
 
     def extract(self, text: str, chunk_id: str) -> dict:
+=======
+        """Create the LLM client used for entity and relationship extraction."""
+        self.llm = LLMClient()
+
+    def extract(self, text: str, chunk_id: str) -> dict:
+        """Extract typed entities and weighted relationships from a text chunk via Mistral."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
         prompt = EXTRACTION_PROMPT.format(text=text[:3000])
 
         try:

@@ -30,7 +30,7 @@ The memory layer is what sets this apart from a simple FAQ retrieval system. Eve
 
 ## Architecture
 
-![Architecture diagram](assets/architecture.png)
+![Architecture diagram](assets/architecture_nobg.png)
 
 The orchestrator agent is the routing brain. It receives the raw query, the VectorAI DB confidence score, and pre-detected signals from a fast regex pass. It reasons over all of that and outputs a structured JSON decision, which path to take and why, before any response-generation LLM call happens.
 

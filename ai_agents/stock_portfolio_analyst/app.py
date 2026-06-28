@@ -66,6 +66,10 @@ def analyze(portfolio_df, question):
 
 
 def reset():
+<<<<<<< HEAD
+=======
+    """Restore the portfolio table to the default example and clear the question and output."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     return (
         pd.DataFrame(DEFAULT_PORTFOLIO, columns=["Ticker (e.g. AAPL)", "Shares Owned", "Avg Purchase Price ($)"]),
         "",

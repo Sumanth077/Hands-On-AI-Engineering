@@ -2,9 +2,19 @@
 
 > Extract, structure, and validate handwritten or printed prescriptions using Mistral Large 3 and RxNorm.
 
+<<<<<<< HEAD
 ## Overview
 
 Upload a prescription image — handwritten or printed — and the app uses Mistral Large 3's vision capabilities to read and interpret it, including messy handwriting and medical abbreviations. Extracted drug names are then validated against the [RxNorm](https://rxnav.nlm.nih.gov/) drug database (free, no API key required). Validated drugs are highlighted in green; unrecognised or flagged ones appear in red.
+=======
+## Demo
+
+![Demo](assets/demo.gif)
+
+## Overview
+
+Upload a prescription image (handwritten or printed) and the app uses Mistral Large 3's vision capabilities to read and interpret it, including messy handwriting and medical abbreviations. Extracted drug names are then validated against the [RxNorm](https://rxnav.nlm.nih.gov/) drug database (free, no API key required). Validated drugs are highlighted in green; unrecognised or flagged ones appear in red.
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
 ## Features
 
@@ -28,13 +38,21 @@ Upload a prescription image — handwritten or printed — and the app uses Mist
 ## Prerequisites
 
 - Python 3.10 or higher
+<<<<<<< HEAD
 - A Mistral API key — get one at [platform.mistral.ai](https://platform.mistral.ai)
+=======
+- A Mistral API key. Get one at [platform.mistral.ai](https://platform.mistral.ai)
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
 ## Installation
 
 ```bash
 git clone https://github.com/Sumanth077/Hands-On-AI-Engineering.git
+<<<<<<< HEAD
 cd Hands-On-AI-Engineering/ocr/medical-prescription-digitizer
+=======
+cd Hands-On-AI-Engineering/OCR/medical_prescription_digitizer
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 ```
 
 **Windows**
@@ -74,9 +92,15 @@ Patient: John Smith          Date: 04/18/2026
 Dr. Sarah Lee, MD
 
 Rx:
+<<<<<<< HEAD
 1. Amoxicillin 500mg — TID x 7 days
 2. Ibuprofen 400mg  — BID PRN pain
 3. [illegible] 10mg — QD
+=======
+1. Amoxicillin 500mg, TID x 7 days
+2. Ibuprofen 400mg, BID PRN pain
+3. [illegible] 10mg, QD
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 ```
 
 **Structured output:**
@@ -89,7 +113,11 @@ Date         04/18/2026
 Medications
 ✅ Amoxicillin   500 mg · three times daily · 7 days   [RxNorm ID: 723]
 ✅ Ibuprofen     400 mg · twice daily · as needed       [RxNorm ID: 5640]
+<<<<<<< HEAD
 ⚠️ [illegible]  10 mg  · once daily                   Drug name not found in RxNorm — possible misread
+=======
+⚠️ [illegible]  10 mg  · once daily                   Drug name not found in RxNorm, possible misread
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
 Illegible fields
 • Medication 3 drug name unclear
@@ -105,10 +133,21 @@ Illegible fields
 
 ```text
 medical-prescription-digitizer/
+<<<<<<< HEAD
 ├── app.py            # Streamlit UI — upload, display, and orchestration
+=======
+├── app.py            # Streamlit UI: upload, display, and orchestration
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 ├── extractor.py      # Sends image to Mistral Large 3 and returns a Prescription object
 ├── schemas.py        # Pydantic models: Prescription and Medication
 ├── validator.py      # Queries RxNorm API to validate each drug name
 ├── requirements.txt  # Python dependencies
 └── .env.example      # Environment variable template
 ```
+<<<<<<< HEAD
+=======
+
+---
+
+[Back to top](#medical-prescription-digitizer)
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a

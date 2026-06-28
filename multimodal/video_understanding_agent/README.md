@@ -1,16 +1,33 @@
 # Video Understanding Agent
 
+<<<<<<< HEAD
 > Paste a YouTube URL and get an AI-powered chapter summary, key takeaways, and action items — powered by Gemini 3 Flash.
 
 ## Overview
 
 Video Understanding Agent lets you drop any public YouTube URL into a Streamlit interface and receive a structured breakdown of the video in seconds. Gemini 3 Flash reads the video natively through the Gemini API — no downloading, no transcription, no third-party tools.
+=======
+> Paste a YouTube URL and get an AI-powered chapter summary, key takeaways, and action items, powered by Gemini 3 Flash.
+
+## Demo
+
+![Demo](assets/demo.png)
+
+## Overview
+
+Video Understanding Agent lets you drop any public YouTube URL into a Streamlit interface and receive a structured breakdown of the video in seconds. Gemini 3 Flash reads the video natively through the Gemini API. No downloading, no transcription, no third-party tools.
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
 ## Features
 
 - **Chapter-by-chapter summary** with timestamps for each major segment
+<<<<<<< HEAD
 - **Key takeaways** — 5–8 bullet points covering the most important insights
 - **Action items** — 4–6 concrete steps the viewer can act on immediately
+=======
+- **Key takeaways**: 5–8 bullet points covering the most important insights
+- **Action items**: 4–6 concrete steps the viewer can act on immediately
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 - Clean, expandable sections in a Streamlit UI
 - Input validation rejects private, unavailable, or malformed URLs with clear error messages
 
@@ -19,7 +36,11 @@ Video Understanding Agent lets you drop any public YouTube URL into a Streamlit 
 | Layer | Tool |
 |---|---|
 | AI Model | Gemini 3 Flash (`gemini-3-flash-preview`) |
+<<<<<<< HEAD
 | AI SDK | Google Generative AI (`google-generativeai`) |
+=======
+| AI SDK | Google Gen AI SDK (`google-genai`) |
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 | UI | Streamlit |
 | Environment | python-dotenv |
 
@@ -83,8 +104,13 @@ https://www.youtube.com/watch?v=dQw4w9WgXcQ
 **Output:**
 
 > **Chapter-by-Chapter Summary**
+<<<<<<< HEAD
 > - `0:00 - Introduction` — The video opens with an energetic hook establishing the central theme...
 > - `1:12 - Main Segment` — The speaker dives into the core content, covering...
+=======
+> - `0:00 - Introduction`: The video opens with an energetic hook establishing the central theme...
+> - `1:12 - Main Segment`: The speaker dives into the core content, covering...
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
 > **Key Takeaways**
 > - The most important insight from the video is...
@@ -104,8 +130,19 @@ https://www.youtube.com/watch?v=dQw4w9WgXcQ
 
 ```text
 video-understanding-agent/
+<<<<<<< HEAD
 ├── app.py              # Streamlit app — UI, validation, Gemini API call, response parsing
+=======
+├── app.py              # Streamlit app: UI, validation, Gemini API call, response parsing
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 ├── requirements.txt    # Python dependencies
 ├── .env.example        # Template for environment variables
 └── .env                # Your local secrets (not committed)
 ```
+<<<<<<< HEAD
+=======
+
+---
+
+[Back to top](#video-understanding-agent)
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a

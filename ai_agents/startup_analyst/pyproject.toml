@@ -1,7 +1,11 @@
 [project]
 name = "startup-analyst"
 version = "0.1.0"
+<<<<<<< HEAD
 description = "Elite startup due-diligence agent powered by Qwen3-235B via the orq.ai router"
+=======
+description = "Elite startup due-diligence agent powered by MiniMax M2.5 via OpenRouter"
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 requires-python = ">=3.11"
 
 dependencies = [

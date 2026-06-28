@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+"""Streamlit app that extracts and validates structured prescription data from uploaded images using Mistral Large 3 and RxNorm."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 import os
 import io
 
@@ -43,6 +47,7 @@ st.caption("Upload a prescription image — handwritten or printed — to extrac
 st.divider()
 
 
+<<<<<<< HEAD
 # ── Sidebar: API key ──────────────────────────────────────────────────────────
 with st.sidebar:
     st.header("⚙️ Configuration")
@@ -53,6 +58,12 @@ with st.sidebar:
         help="Your Mistral API key. Store it in .env as MISTRAL_API_KEY to avoid re-entering.",
     )
     st.markdown("---")
+=======
+api_key = os.getenv("MISTRAL_API_KEY")
+
+# ── Sidebar ───────────────────────────────────────────────────────────────────
+with st.sidebar:
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     st.markdown("**How it works**")
     st.markdown(
         "1. Upload a prescription image\n"
@@ -84,7 +95,11 @@ if uploaded_file:
         st.subheader("Extraction & Validation")
 
         if not api_key:
+<<<<<<< HEAD
             st.error("Please enter your Mistral API key in the sidebar to proceed.")
+=======
+            st.error("MISTRAL_API_KEY not found. Add it to your .env file and restart the app.")
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
             st.stop()
 
         if st.button("🔍 Digitize Prescription", type="primary", use_container_width=True):

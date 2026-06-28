@@ -10,7 +10,11 @@ class GeminiEmbedder:
     """Wraps the google-genai SDK to embed text using Gemini Embedding 2.
 
     Also provides hyde_embed(), which embeds N hypothetical documents and
+<<<<<<< HEAD
     returns their averaged vector — the core of the HyDE retrieval strategy.
+=======
+    returns their averaged vector, the core of the HyDE retrieval strategy.
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     """
 
     MODEL = "gemini-embedding-2"

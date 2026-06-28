@@ -12,6 +12,7 @@ Hybrid RAG System dual-indexes every uploaded document: a knowledge graph captur
 
 ## Features
 
+<<<<<<< HEAD
 - **Dual indexing** — every document is indexed into both a knowledge graph and a vector store in a single ingestion pass
 - **Parallel retrieval** — graph and vector queries run concurrently via `ThreadPoolExecutor`, minimising latency
 - **Context fusion** — graph entities/relationships and ranked vector chunks are merged into one unified prompt
@@ -20,6 +21,16 @@ Hybrid RAG System dual-indexes every uploaded document: a knowledge graph captur
 - **Progress tracking** — two-phase progress bar shows entity extraction and embedding status during ingestion
 - **Source transparency** — answer panel shows graph sources and vector sources in separate labelled sections with similarity scores
 - **Performance metrics** — per-query timing for graph retrieval, vector retrieval, and generation
+=======
+- **Dual indexing**: every document is indexed into both a knowledge graph and a vector store in a single ingestion pass
+- **Parallel retrieval**: graph and vector queries run concurrently via `ThreadPoolExecutor`, minimising latency
+- **Context fusion**: graph entities/relationships and ranked vector chunks are merged into one unified prompt
+- **Adjustable retrieval**: sliders to tune top-K vector chunks (1–20) and max graph entities (5–50) at query time
+- **Document cache**: SHA-256 hash check skips re-indexing files that are already processed
+- **Progress tracking**: two-phase progress bar shows entity extraction and embedding status during ingestion
+- **Source transparency**: answer panel shows graph sources and vector sources in separate labelled sections with similarity scores
+- **Performance metrics**: per-query timing for graph retrieval, vector retrieval, and generation
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
 ## Tech Stack
 
@@ -29,8 +40,13 @@ Hybrid RAG System dual-indexes every uploaded document: a knowledge graph captur
 | Vector retrieval | LangChain + ChromaDB |
 | LLM | Mistral Small 4 (`mistral-small-latest`) via Mistral AI API |
 | Embeddings | `nomic-embed-text` via Ollama (local, no API key needed) |
+<<<<<<< HEAD
 | Graph store | NetworkX — persisted as JSON |
 | Vector database | ChromaDB — local persistent storage |
+=======
+| Graph store | NetworkX, persisted as JSON |
+| Vector database | ChromaDB, local persistent storage |
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 | UI | Streamlit |
 | Configuration | python-dotenv |
 
@@ -94,7 +110,11 @@ streamlit run app.py
 The app opens at `http://localhost:8501`.
 
 1. Upload a PDF or TXT file using the sidebar uploader
+<<<<<<< HEAD
 2. Click **Process Document** — the progress bar tracks entity extraction (Phase 1) then chunk embedding (Phase 2)
+=======
+2. Click **Process Document**. The progress bar tracks entity extraction (Phase 1) then chunk embedding (Phase 2)
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 3. Type a question in the main panel and click **Ask**
 4. Review the answer and expand **Graph Sources** and **Vector Sources** to inspect the retrieved evidence
 
@@ -116,7 +136,11 @@ Ollama runs locally and requires no API key.
 
 ```text
 hybrid-rag-system/
+<<<<<<< HEAD
 ├── app.py                        # Streamlit application — UI, session state, parallel retrieval
+=======
+├── app.py                        # Streamlit application: UI, session state, parallel retrieval
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 ├── config.py                     # Constants and automatic data-directory creation
 ├── src/
 │   ├── document_processor.py     # PDF/TXT loading, text chunking, hash-based document cache
@@ -136,3 +160,10 @@ hybrid-rag-system/
 ├── .env.example                  # Environment variable template
 └── requirements.txt              # Python dependencies
 ```
+<<<<<<< HEAD
+=======
+
+---
+
+[Back to top](#hybrid-rag-system)
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a

@@ -4,4 +4,10 @@ python-dotenv>=1.0.0
 pydantic>=2.5.0
 yfinance>=0.2.35
 pandas>=2.1.0
+<<<<<<< HEAD
 plotly>=5.18.0 
+=======
+plotly>=5.18.0
+openai>=1.0.0
+litellm>=1.0.0 
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a

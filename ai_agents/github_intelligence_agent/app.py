@@ -1,5 +1,9 @@
 """
+<<<<<<< HEAD
 GitHub Intelligence Agent — Streamlit UI
+=======
+GitHub Intelligence Agent: Streamlit UI
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 Research anything on GitHub through natural language.
 Powered by Gemini 3 Flash + GitHub MCP Server via Haystack.
 

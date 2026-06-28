@@ -1,6 +1,16 @@
+<<<<<<< HEAD
 from mcp.server.fastmcp import FastMCP
 from financial_agents import run_financial_analysis
 
+=======
+"""MCP server exposing the financial stock analysis tools backed by Mistral Small 4."""
+
+from dotenv import load_dotenv
+from mcp.server.fastmcp import FastMCP
+from financial_agents import run_financial_analysis
+
+load_dotenv()
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
 # Create FastMCP instance
 mcp = FastMCP("financial-analyst")

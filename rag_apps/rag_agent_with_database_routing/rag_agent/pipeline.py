@@ -27,6 +27,11 @@ RAG_SYSTEM = (
 
 @dataclass
 class PipelineResult:
+<<<<<<< HEAD
+=======
+    """The final answer plus routing and retrieval metadata for a single query."""
+
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     answer: str
     routing: RoutingDecision
     docs: list[RetrievedDoc] = field(default_factory=list)

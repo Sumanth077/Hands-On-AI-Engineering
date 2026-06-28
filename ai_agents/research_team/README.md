@@ -8,7 +8,11 @@
 
 Research Team is a two-agent AI system that tackles deep research questions by splitting work between specialists. Seek searches the web for external information while Scout looks through local documents. A team leader powered by **MiniMax M2.5** coordinates both, then synthesises their findings into a clean, structured report.
 
+<<<<<<< HEAD
 You give it a question like "Research Anthropic — their products, key people, and recent developments" and it comes back with an executive summary, sourced key findings, and open questions.
+=======
+You give it a question like "Research Anthropic: their products, key people, and recent developments" and it comes back with an executive summary, sourced key findings, and open questions.
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
 ## Features
 
@@ -16,24 +20,41 @@ You give it a question like "Research Anthropic — their products, key people, 
 - **Scout agent**: Reads local files from the `knowledge/` directory to surface internal context
 - **Team leader**: Delegates work to each specialist, cross-references findings, and produces a unified report
 - **Streaming UI**: Report appears progressively in the Gradio interface as the team works
+<<<<<<< HEAD
 - **File upload**: Upload `.txt`, `.md`, or `.pdf` files directly from the UI — Scout reads them instantly on the next query
+=======
+- **File upload**: Upload `.txt`, `.md`, or `.pdf` files directly from the UI. Scout reads them instantly on the next query.
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
 ## Tech Stack
 
 **Frameworks and Libraries:**
+<<<<<<< HEAD
 - [Agno](https://github.com/agno-agi/agno) — agent and team framework
 - [Gradio](https://www.gradio.app/) — web UI with streaming support
 
 **Models and APIs:**
 - [MiniMax M2.5](https://openrouter.ai/minimax/minimax-m2.5) via [OpenRouter](https://openrouter.ai/) — team leader and both agents
 - [DuckDuckGo Search](https://pypi.org/project/duckduckgo-search/) — web search for Seek
+=======
+- [Agno](https://github.com/agno-agi/agno): agent and team framework
+- [Gradio](https://www.gradio.app/): web UI with streaming support
+
+**Models and APIs:**
+- [MiniMax M2.5](https://openrouter.ai/minimax/minimax-m2.5) via [OpenRouter](https://openrouter.ai/): team leader and both agents
+- [DuckDuckGo Search](https://pypi.org/project/duckduckgo-search/): web search for Seek
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
 ## Prerequisites
 
 - Python 3.11 or higher
 - [uv](https://docs.astral.sh/uv/) (recommended) or pip
 - API keys for:
+<<<<<<< HEAD
   - [ ] OpenRouter — get yours at https://openrouter.ai
+=======
+  - [ ] OpenRouter (get yours at https://openrouter.ai)
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
 ## Installation
 
@@ -50,12 +71,15 @@ cd Hands-On-AI-Engineering/ai_agents/research_team
 uv sync
 ```
 
+<<<<<<< HEAD
 Or with pip:
 
 ```bash
 pip install -r requirements.txt
 ```
 
+=======
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 ### 3. Set Up Environment Variables
 
 ```bash
@@ -83,7 +107,11 @@ Then open http://localhost:7860 in your browser.
 Enter a research query like:
 
 ```
+<<<<<<< HEAD
 Research Anthropic — their products, key people, and recent developments
+=======
+Research Anthropic: their products, key people, and recent developments
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 ```
 
 The team will search the web, check local docs, and stream back a structured report.
@@ -112,6 +140,10 @@ The team leader receives a research query and breaks it into two tracks. It dele
 
 Once both agents respond, the leader cross-references their findings, flags anything contradictory, and writes a final report with an executive summary, sourced key findings, and open questions.
 
+<<<<<<< HEAD
 The Gradio app uses the same stream-buffering technique as the other projects in this repo — output is held until the first markdown heading appears, so the UI never shows raw model narration.
+=======
+The Gradio app uses the same stream-buffering technique as the other projects in this repo. Output is held until the first markdown heading appears, so the UI never shows raw model narration.
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
 [Back to Top](#research-team)

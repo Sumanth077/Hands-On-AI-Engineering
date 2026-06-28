@@ -1,11 +1,30 @@
+<<<<<<< HEAD
 import os
 import asyncio
+=======
+"""Streamlit chat app that coordinates flight, hotel, and itinerary agents into one travel plan."""
+import os
+import asyncio
+import logging
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 import uuid
 
 # Load .env before any ADK/Google imports so API keys are available
 from dotenv import load_dotenv
 load_dotenv()
 
+<<<<<<< HEAD
+=======
+# ADK logs the full traceback for every transient model error (even ones it
+# or our own retry logic recovers from). We surface failures via the UI
+# instead, so quiet this logger to keep the terminal readable.
+logging.getLogger("google_adk").setLevel(logging.CRITICAL)
+
+_TRANSIENT_ERROR_MARKERS = ("503", "UNAVAILABLE", "high demand")
+_QUOTA_ERROR_MARKERS = ("429", "RESOURCE_EXHAUSTED")
+_QUOTA_RETRY_DELAY_SECONDS = 8
+
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 import nest_asyncio
 nest_asyncio.apply()  # Allow asyncio.run() inside Streamlit's existing event loop
 
@@ -13,6 +32,10 @@ import streamlit as st
 from google.adk.runners import Runner
 from google.adk.sessions import InMemorySessionService
 from google.genai import types
+<<<<<<< HEAD
+=======
+from google.genai.errors import ServerError
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
 from agents import root_agent
 
@@ -96,6 +119,7 @@ if "adk_runner" not in st.session_state:
 # Agent runner helper
 # ---------------------------------------------------------------------------
 
+<<<<<<< HEAD
 async def _stream_response(runner: Runner, session_id: str, user_id: str, content: types.Content) -> str:
     """Collect the final response text from a single runner.run_async() call."""
     final_text = ""
@@ -113,6 +137,78 @@ async def _stream_response(runner: Runner, session_id: str, user_id: str, conten
     return final_text
 
 
+=======
+def _is_transient_error(message: str) -> bool:
+    """Check whether an error message looks like a temporary model-overload error."""
+    return any(marker in message for marker in _TRANSIENT_ERROR_MARKERS)
+
+
+def _is_quota_error(message: str) -> bool:
+    """Check whether an error message looks like a 429 quota/rate-limit error."""
+    return any(marker in message for marker in _QUOTA_ERROR_MARKERS)
+
+
+async def _stream_response(runner: Runner, session_id: str, user_id: str, content: types.Content) -> str:
+    """Collect the final response text from a single runner.run_async() call."""
+    final_text = ""
+    agen = runner.run_async(
+        session_id=session_id,
+        user_id=user_id,
+        new_message=content,
+    )
+    try:
+        async for event in agen:
+            # Some failures surface as an error event on the stream rather than
+            # a raised exception, so check for that before looking for the final response.
+            if getattr(event, "error_code", None):
+                raise RuntimeError(event.error_message or event.error_code)
+            if event.is_final_response():
+                if event.content and event.content.parts:
+                    final_text = "\n".join(
+                        part.text for part in event.content.parts if hasattr(part, "text")
+                    )
+                break
+    finally:
+        # Close the generator here, in the same task/context it was opened in,
+        # so a retry doesn't start a new one while this one is still mid-teardown
+        # (that's what was producing the GeneratorExit / OpenTelemetry cleanup errors).
+        await agen.aclose()
+    return final_text
+
+
+async def _stream_response_with_retry(
+    runner: Runner,
+    session_id: str,
+    user_id: str,
+    content: types.Content,
+    max_attempts: int = 2,
+) -> str:
+    """Call _stream_response, retrying on transient model errors.
+
+    503/UNAVAILABLE overload errors use the existing short exponential backoff.
+    429/RESOURCE_EXHAUSTED quota errors get exactly one retry after a longer delay,
+    since retrying quota errors quickly just makes the exhaustion worse.
+    """
+    quota_retried = False
+    for attempt in range(1, max_attempts + 1):
+        try:
+            return await _stream_response(runner, session_id, user_id, content)
+        except (ServerError, RuntimeError) as e:
+            message = str(e)
+            if _is_quota_error(message):
+                if attempt == max_attempts or quota_retried:
+                    raise
+                quota_retried = True
+                await asyncio.sleep(_QUOTA_RETRY_DELAY_SECONDS)
+            elif _is_transient_error(message):
+                if attempt == max_attempts:
+                    raise
+                await asyncio.sleep(2 ** attempt)
+            else:
+                raise
+
+
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 async def _run_agent_async(runner: Runner, session_id: str, user_id: str, message: str) -> str:
     """Run the ADK agent and collect the final response text."""
     content = types.Content(
@@ -138,7 +234,11 @@ async def _run_agent_async(runner: Runner, session_id: str, user_id: str, messag
         )
 
     try:
+<<<<<<< HEAD
         final_text = await _stream_response(runner, session_id, user_id, content)
+=======
+        final_text = await _stream_response_with_retry(runner, session_id, user_id, content)
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     except Exception as e:
         if "Session not found" in str(e):
             new_session_id = str(uuid.uuid4())
@@ -148,7 +248,15 @@ async def _run_agent_async(runner: Runner, session_id: str, user_id: str, messag
                 session_id=new_session_id,
             )
             st.session_state.session_id = new_session_id
+<<<<<<< HEAD
             final_text = await _stream_response(runner, new_session_id, user_id, content)
+=======
+            final_text = await _stream_response_with_retry(runner, new_session_id, user_id, content)
+        elif isinstance(e, (ServerError, RuntimeError)) and _is_quota_error(str(e)):
+            return "The AI model's quota is temporarily exhausted. Please wait a bit before trying again."
+        elif isinstance(e, (ServerError, RuntimeError)) and _is_transient_error(str(e)):
+            return "The AI model is temporarily overloaded. Please try again in a moment."
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
         else:
             raise
 
