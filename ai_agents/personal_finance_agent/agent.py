@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import functools
+import json
 import os
 import re
 import sqlite3
@@ -95,6 +97,7 @@ def _parse_amount(row: pd.Series) -> float:
 
 
 def categorize_transaction(description: str, amount: float) -> str:
+    """Return the spending category for a transaction based on keyword matching."""
     text = (description or "").lower()
     if amount > 0 and any(k in text for k in INCOME_KEYWORDS):
         return "Other"
@@ -179,7 +182,82 @@ def ingest_csv(file_path: str | Path, replace: bool = True) -> dict[str, Any]:
     }
 
 
+def parse_pdf_to_dataframe(pdf_path: str | Path) -> pd.DataFrame:
+    """Extract transactions from a PDF bank statement via pdfplumber and the LLM, returning a date/description/amount DataFrame."""
+    import fitz
+
+    doc = fitz.open(str(Path(pdf_path)))
+    pages_text = []
+    for page_num in range(len(doc)):
+        page = doc[page_num]
+        t = page.get_text()
+        if not t.strip():
+            raw_dict = page.get_text("rawdict")
+            t = " ".join(
+                span["text"]
+                for block in raw_dict.get("blocks", [])
+                for line in block.get("lines", [])
+                for span in line.get("spans", [])
+                if span.get("text", "").strip()
+            )
+        pages_text.append(t)
+    doc.close()
+    text = "\n".join(pages_text)
+
+    if not text.strip():
+        print("WARNING: no text extracted from PDF - the file may be a scanned image.")
+
+    api_key = os.getenv("ORQ_API_KEY")
+    if not api_key:
+        raise ValueError("ORQ_API_KEY is not set. Copy .env.example to .env and add your key.")
+
+    client = OpenAI(base_url="https://api.orq.ai/v3/router", api_key=api_key)
+    model = os.getenv("ORQ_MODEL", "deepseek-v4-flash")
+
+    print("--- pymupdf extracted text ---")
+    print(text)
+    print("--- end extracted text ---")
+
+    prompt = (
+        "You are a bank statement parser. Read the bank statement text below and identify "
+        "every transaction regardless of the column names, layout, or format used. "
+        "For each transaction extract: a date, a short description or merchant name, and a "
+        "single amount (negative for money going out, positive for money coming in). "
+        "If the statement uses separate debit and credit columns, combine them into one amount. "
+        "Return ONLY a JSON array where every object has exactly these three keys: "
+        "\"date\" (YYYY-MM-DD string), \"description\" (string), \"amount\" (number). "
+        "Do not include any explanation, notes, markdown, or text outside the JSON array.\n\n"
+        f"Bank statement text:\n{text}"
+    )
+
+    response = client.chat.completions.create(
+        model=model,
+        messages=[{"role": "user", "content": prompt}],
+        max_tokens=4096,
+    )
+
+    raw = (response.choices[0].message.content or "").strip()
+    raw = re.sub(r"^```[^\n]*\n?", "", raw)
+    raw = re.sub(r"```$", "", raw.strip())
+
+    try:
+        records = json.loads(raw.strip())
+        if not isinstance(records, list):
+            raise ValueError("Response is not a JSON array")
+        df = pd.DataFrame(records)
+        if not {"date", "description", "amount"}.issubset(df.columns):
+            raise ValueError("Missing required columns in parsed response")
+    except Exception:
+        raise ValueError(
+            "Could not parse PDF as a bank statement. Please ensure it contains "
+            "transaction data with dates, descriptions and amounts."
+        )
+
+    return df[["date", "description", "amount"]]
+
+
 def load_transactions_df() -> pd.DataFrame:
+    """Load all transactions from SQLite into a DataFrame, returning empty if no DB exists."""
     if not DB_PATH.exists():
         return pd.DataFrame(
             columns=["id", "date", "description", "amount", "category", "is_income"]
@@ -233,6 +311,7 @@ def _format_weekly_budget() -> str:
 
 
 def get_llm():
+    """Instantiate and return the ChatOpenAI client pointed at the Orq.ai router."""
     from langchain_openai import ChatOpenAI
 
     api_key = os.getenv("ORQ_API_KEY")
@@ -388,10 +467,14 @@ For vague questions like "unnecessary expenses", use find_largest_discretionary_
 
 Be concise, use USD formatting, and cite figures from tool results. If no data is loaded, tell the user to upload a CSV.
 Today's reference date for relative periods is {today}.
+
+Always format responses using proper markdown: use **bold** (no spaces between asterisks and text) for key figures and category names, use bullet points for lists, and use clean line breaks between sections for readability.
 """
 
 
+@functools.lru_cache(maxsize=1)
 def build_agent_graph():
+    """Build and return the LangChain tool-calling agent graph with the finance tools."""
     from langchain.agents import create_agent
 
     llm = get_llm()
@@ -417,6 +500,7 @@ def ask_finance_agent(
     question: str,
     chat_history: list[tuple[str, str]] | None = None,
 ) -> str:
+    """Run the finance agent on a question and return its plain-text reply."""
     from langchain_core.messages import AIMessage, HumanMessage
 
     graph = build_agent_graph()

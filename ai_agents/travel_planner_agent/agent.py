@@ -17,15 +17,15 @@ SYSTEM_PROMPT = """You are Travel Planner Agent, an expert travel planning assis
 
 Help users plan trips end to end. When they describe a trip, gather missing details (destination, dates, budget, interests, home currency) through natural conversation, then use your tools to research and build a comprehensive plan.
 
-Always use tools for factual data — never invent weather, exchange rates, or attraction details.
+Always use tools for factual data - never invent weather, exchange rates, or attraction details.
 
 When you have enough information, return a structured travel plan with these sections:
-1. **Trip Overview** — destination, dates, duration, traveler context
-2. **Weather** — current conditions and forecast summary (from weather tool)
-3. **Budget & Currency** — estimated costs and conversions (from currency tool)
-4. **Destination Highlights** — attractions, food, culture, tips (from research tool)
-5. **Packing List** — tailored recommendations (from packing tool; pass weather summary)
-6. **Suggested Itinerary** — day-by-day outline based on interests and duration
+1. **Trip Overview** - destination, dates, duration, traveler context
+2. **Weather** - current conditions and forecast summary (from weather tool)
+3. **Budget & Currency** - estimated costs and conversions (from currency tool)
+4. **Destination Highlights** - attractions, food, culture, tips (from research tool)
+5. **Packing List** - tailored recommendations (from packing tool; pass weather summary)
+6. **Suggested Itinerary** - day-by-day outline based on interests and duration
 
 Be friendly, concise, and practical. Ask clarifying questions when key details are missing."""
 
@@ -74,7 +74,7 @@ def get_weather(destination: str) -> str:
         f"Weather for {current.get('name', destination)}, {current.get('sys', {}).get('country', '')}",
         "",
         "Current:",
-        f"  {weather.get('main', 'N/A')} — {weather.get('description', 'N/A')}",
+        f"  {weather.get('main', 'N/A')} - {weather.get('description', 'N/A')}",
         f"  Temperature: {main.get('temp', 'N/A')}°C (feels like {main.get('feels_like', 'N/A')}°C)",
         f"  Humidity: {main.get('humidity', 'N/A')}%",
         f"  Wind: {wind.get('speed', 'N/A')} m/s",
@@ -92,7 +92,7 @@ def get_weather(destination: str) -> str:
         w = (entry.get("weather") or [{}])[0]
         m = entry.get("main", {})
         lines.append(
-            f"  {day}: {w.get('main', 'N/A')} — "
+            f"  {day}: {w.get('main', 'N/A')} - "
             f"{m.get('temp_min', 'N/A')}°C to {m.get('temp_max', 'N/A')}°C, "
             f"{w.get('description', '')}"
         )
@@ -229,7 +229,7 @@ def get_packing_recommendations(
     if trip_days > 5:
         extras.append("Laundry soap sheets or plan for laundry mid-trip")
     if trip_days > 10:
-        extras.append("Extra outfit rotation — pack for 7–10 days and wash")
+        extras.append("Extra outfit rotation - pack for 7–10 days and wash")
 
     lines = [
         f"Packing list for {destination} ({trip_days} days)",

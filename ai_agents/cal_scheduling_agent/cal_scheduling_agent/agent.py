@@ -1,5 +1,9 @@
 """
+<<<<<<< HEAD
 Cal Scheduling Agent — Agno agent definition.
+=======
+Cal Scheduling Agent: Agno agent definition for managing Cal.com appointments.
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 """
 
 import os

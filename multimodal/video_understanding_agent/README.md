@@ -1,16 +1,20 @@
 # Video Understanding Agent
 
-> Paste a YouTube URL and get an AI-powered chapter summary, key takeaways, and action items — powered by Gemini 3 Flash.
+> Paste a YouTube URL and get an AI-powered chapter summary, key takeaways, and action items, powered by Gemini 3 Flash.
+
+## Demo
+
+![Demo](assets/demo.png)
 
 ## Overview
 
-Video Understanding Agent lets you drop any public YouTube URL into a Streamlit interface and receive a structured breakdown of the video in seconds. Gemini 3 Flash reads the video natively through the Gemini API — no downloading, no transcription, no third-party tools.
+Video Understanding Agent lets you drop any public YouTube URL into a Streamlit interface and receive a structured breakdown of the video in seconds. Gemini 3 Flash reads the video natively through the Gemini API. No downloading, no transcription, no third-party tools.
 
 ## Features
 
 - **Chapter-by-chapter summary** with timestamps for each major segment
-- **Key takeaways** — 5–8 bullet points covering the most important insights
-- **Action items** — 4–6 concrete steps the viewer can act on immediately
+- **Key takeaways**: 5–8 bullet points covering the most important insights
+- **Action items**: 4–6 concrete steps the viewer can act on immediately
 - Clean, expandable sections in a Streamlit UI
 - Input validation rejects private, unavailable, or malformed URLs with clear error messages
 
@@ -19,7 +23,7 @@ Video Understanding Agent lets you drop any public YouTube URL into a Streamlit 
 | Layer | Tool |
 |---|---|
 | AI Model | Gemini 3 Flash (`gemini-3-flash-preview`) |
-| AI SDK | Google Generative AI (`google-generativeai`) |
+| AI SDK | Google Gen AI SDK (`google-genai`) |
 | UI | Streamlit |
 | Environment | python-dotenv |
 
@@ -83,8 +87,8 @@ https://www.youtube.com/watch?v=dQw4w9WgXcQ
 **Output:**
 
 > **Chapter-by-Chapter Summary**
-> - `0:00 - Introduction` — The video opens with an energetic hook establishing the central theme...
-> - `1:12 - Main Segment` — The speaker dives into the core content, covering...
+> - `0:00 - Introduction`: The video opens with an energetic hook establishing the central theme...
+> - `1:12 - Main Segment`: The speaker dives into the core content, covering...
 
 > **Key Takeaways**
 > - The most important insight from the video is...
@@ -104,8 +108,12 @@ https://www.youtube.com/watch?v=dQw4w9WgXcQ
 
 ```text
 video-understanding-agent/
-├── app.py              # Streamlit app — UI, validation, Gemini API call, response parsing
+├── app.py              # Streamlit app: UI, validation, Gemini API call, response parsing
 ├── requirements.txt    # Python dependencies
 ├── .env.example        # Template for environment variables
 └── .env                # Your local secrets (not committed)
 ```
+
+---
+
+[Back to top](#video-understanding-agent)

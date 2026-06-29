@@ -70,11 +70,14 @@ Intelligent ai agents for various automation tasks.
 - [**LangChain Data Agent**](./ai_agents/langchain_data_agent) - Query the Chinook SQLite database in plain English through a conversational Streamlit chat interface.
 - [**Travel Planner Agent**](./ai_agents/travel_planner_agent) - AI trip planning assistant covering weather, budget, packing lists, and day-by-day itineraries from a single request.
 - [**Personal Finance Agent**](./ai_agents/personal_finance_agent) - Upload a bank statement CSV, auto-categorize transactions, and ask natural language questions about your spending. Powered by a LangChain tool-calling agent backed by Orq.ai with SQLite persistence.
+- [**Offline Medical Agent**](./ai_agents/offline_medical_agent) - Fully offline agentic RAG system for clinical protocol lookup at remote clinics and field hospitals.
+- [**Customer Query Routing and Resolution Agent**](./ai_agents/customer_query_routing_agent) - Routes incoming support queries to the right department and generates grounded responses using [Actian VectorAI DB](https://www.actian.com/databases/vectorai-db/) as a local persistent memory and retrieval layer. 
 
 ### 📸 OCR
 
 Extracting structure and meaning from visual data and documents.
 
+- [**AI Receipt and Expense Tracker**](./OCR/receipt_expense_tracker) — Extracts structured data from receipt photos and tracks spending in a local SQLite ledger. Powered by Gemma 4 E2B vision via llama-cpp-python. Fully offline after first run.
 - [**Image-to-Structured-Data Extractor**](./OCR/image_to_structured_data) — Converts images into validated, structured JSON using Mistral Large 3 and Instructor.
 - [**LaTeX Formula OCR**](./OCR/latex_formula_ocr) — Extracts math formulas from images and PDFs into LaTeX using a local vision-language model.
 - [**Medical Prescription Digitizer**](./OCR/medical_prescription_digitizer) — Digitizes handwritten or printed prescriptions into structured output using Mistral Large 3, with real-time drug name validation against RxNorm.

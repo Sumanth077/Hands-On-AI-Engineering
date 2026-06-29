@@ -1,3 +1,5 @@
+"""Streamlit app for asking questions about any YouTube video using local transcription and semantic search."""
+
 import streamlit as st
 import os
 import re
@@ -19,6 +21,7 @@ MISTRAL_MODEL = "mistral-small-latest"
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
 def extract_video_id(url: str) -> str | None:
+    """Extract the 11-character YouTube video ID from any supported URL format."""
     patterns = [
         r"[?&]v=([a-zA-Z0-9_-]{11})",
         r"youtu\.be/([a-zA-Z0-9_-]{11})",
@@ -34,6 +37,7 @@ def extract_video_id(url: str) -> str | None:
 
 
 def collection_name_for(video_id: str) -> str:
+    """Return a ChromaDB-safe collection name derived from the video ID."""
     # ChromaDB: 3-63 chars, [a-zA-Z0-9_-], no leading/trailing - or _
     # Wrapping with alpha chars guarantees valid boundaries
     name = f"yt{video_id}yt"
@@ -41,6 +45,7 @@ def collection_name_for(video_id: str) -> str:
 
 
 def fmt_ts(seconds: float) -> str:
+    """Format a timestamp in seconds as a human-readable M:SS or H:MM:SS string."""
     h = int(seconds // 3600)
     m = int((seconds % 3600) // 60)
     s = int(seconds % 60)
@@ -48,6 +53,7 @@ def fmt_ts(seconds: float) -> str:
 
 
 def yt_link(video_id: str, seconds: float) -> str:
+    """Build a YouTube URL that starts playback at the given second offset."""
     return f"https://youtu.be/{video_id}?t={int(seconds)}"
 
 
@@ -55,24 +61,28 @@ def yt_link(video_id: str, seconds: float) -> str:
 
 @st.cache_resource(show_spinner=False)
 def load_whisper_model():
+    """Load and cache the Whisper model for local audio transcription."""
     import whisper
     return whisper.load_model(WHISPER_MODEL_SIZE)
 
 
 @st.cache_resource(show_spinner=False)
 def get_embedding_fn():
+    """Return the cached SentenceTransformer embedding function for ChromaDB."""
     from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
     return SentenceTransformerEmbeddingFunction(model_name=EMBEDDING_MODEL)
 
 
 @st.cache_resource(show_spinner=False)
 def get_chroma_client():
+    """Return the cached persistent ChromaDB client."""
     import chromadb
     return chromadb.PersistentClient(path=CHROMA_DB_PATH)
 
 
 @st.cache_resource(show_spinner=False)
 def get_mistral_llm():
+    """Return the cached Mistral LLM instance, or None if the API key is not set."""
     from langchain_mistralai import ChatMistralAI
     api_key = os.getenv("MISTRAL_API_KEY")
     if not api_key:
@@ -83,6 +93,7 @@ def get_mistral_llm():
 # ── Core pipeline ─────────────────────────────────────────────────────────────
 
 def collection_exists(client, name: str) -> bool:
+    """Return True if a ChromaDB collection with the given name already exists."""
     try:
         client.get_collection(name)
         return True
@@ -91,6 +102,7 @@ def collection_exists(client, name: str) -> bool:
 
 
 def download_audio(url: str, out_dir: str) -> str:
+    """Download the best-quality audio from a YouTube URL and return the path to the MP3 file."""
     import yt_dlp
     out_path = os.path.join(out_dir, "audio")
     opts = {
@@ -106,6 +118,7 @@ def download_audio(url: str, out_dir: str) -> str:
 
 
 def transcribe_audio(audio_path: str) -> list[dict]:
+    """Transcribe an audio file with Whisper and return the list of timed segments."""
     model = load_whisper_model()
     result = model.transcribe(audio_path, verbose=False)
     return result["segments"]
@@ -159,12 +172,14 @@ def ingest_video(url: str, video_id: str, status_widget) -> object:
 
 
 def load_collection(video_id: str) -> object:
+    """Load an existing ChromaDB collection for the given video ID."""
     chroma = get_chroma_client()
     emb_fn = get_embedding_fn()
     return chroma.get_collection(collection_name_for(video_id), embedding_function=emb_fn)
 
 
 def retrieve_chunks(collection, question: str) -> list[dict]:
+    """Query the ChromaDB collection and return the top-K most relevant transcript chunks."""
     res = collection.query(query_texts=[question], n_results=TOP_K)
     return [
         {"text": doc, "start": meta["start"], "video_id": meta["video_id"]}
@@ -173,6 +188,7 @@ def retrieve_chunks(collection, question: str) -> list[dict]:
 
 
 def build_context_block(hits: list[dict]) -> str:
+    """Format retrieved chunks as a markdown context block with clickable timestamp links."""
     parts = []
     for h in hits:
         ts = fmt_ts(h["start"])
@@ -182,6 +198,7 @@ def build_context_block(hits: list[dict]) -> str:
 
 
 def generate_answer(question: str, hits: list[dict], history: list[dict]) -> str:
+    """Send the question and retrieved chunks to the Mistral LLM and return the grounded answer."""
     from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 
     llm = get_mistral_llm()
@@ -252,6 +269,11 @@ with st.sidebar:
         vid_id = st.session_state.video_id
         st.success(f"✓ Loaded: `{vid_id}`")
         st.markdown(f"[Open on YouTube ↗](https://youtu.be/{vid_id})")
+        if st.session_state.messages:
+            if st.button("🗑️ Clear Chat", use_container_width=True):
+                st.session_state.messages = []
+                st.session_state.history = []
+                st.rerun()
         if st.button("🔄 Reset", use_container_width=True):
             st.session_state.messages = []
             st.session_state.history = []

@@ -1,5 +1,9 @@
 """
+<<<<<<< HEAD
 HyDE RAG — Gradio UI
+=======
+HyDE RAG, Gradio UI
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 """
 
 import os
@@ -17,6 +21,10 @@ pipeline: HyDERAG | None = None
 
 
 def get_or_create_pipeline(google_key: str) -> HyDERAG:
+<<<<<<< HEAD
+=======
+    """Return the existing pipeline, creating one with the given key if none exists yet."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     global pipeline
     if pipeline is None:
         pipeline = HyDERAG(google_api_key=google_key)
@@ -26,12 +34,20 @@ def get_or_create_pipeline(google_key: str) -> HyDERAG:
 # ── Handlers ───────────────────────────────────────────────────────────────────
 
 def validate_keys(google_key: str) -> tuple[bool, str]:
+<<<<<<< HEAD
+=======
+    """Check that a Google API key was provided, returning a success flag and error message."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     if not google_key.strip():
         return False, "Google API key is required."
     return True, ""
 
 
 def ingest_document(file, chunk_size, chunk_overlap, google_key):
+<<<<<<< HEAD
+=======
+    """Validate inputs and run the uploaded file through the ingest pipeline, updating the status panel."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     if file is None:
         return gr.update(value="No file uploaded.", visible=True), gr.update(value=None, visible=False)
 
@@ -54,6 +70,10 @@ def ingest_document(file, chunk_size, chunk_overlap, google_key):
 
 
 def run_query(question, n_hypothetical, n_results, google_key):
+<<<<<<< HEAD
+=======
+    """Validate inputs, run the HyDE query pipeline, and format the hypothetical docs, chunks, and answer for display."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     if not question.strip():
         return "", "", ""
 
@@ -99,6 +119,10 @@ def run_query(question, n_hypothetical, n_results, google_key):
 
 
 def clear_all():
+<<<<<<< HEAD
+=======
+    """Reset the pipeline and clear all UI fields back to their initial state."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     global pipeline
     if pipeline is not None:
         pipeline.clear()

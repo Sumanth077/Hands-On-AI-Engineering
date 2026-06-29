@@ -1,5 +1,9 @@
+<<<<<<< HEAD
+# research_assistant.py
+=======
 """Multi-agent research pipeline using AG2 (AutoGen): researcher, analyst, and writer
 agents collaborate under GroupChat, powered by Mistral Small 4, with a Streamlit UI."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 import os
 import streamlit as st
 from datetime import datetime
@@ -10,6 +14,18 @@ from tools.research_tools import web_search, fetch_page_content
 
 load_dotenv()
 
+<<<<<<< HEAD
+# ── AG2 (formerly AutoGen) requires ag2>=0.11 ──────────────────────────────────
+
+def build_llm_config() -> LLMConfig:
+    api_key = os.getenv("OPENAI_API_KEY", "")
+    if not api_key:
+        raise ValueError("OPENAI_API_KEY is not set. Add it to .env or the sidebar.")
+    return LLMConfig(
+        {"model": os.getenv("LLM_MODEL", "gpt-4o-mini"),
+         "api_key": api_key,
+         "base_url": os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1")},
+=======
 # ── Patch: normalize Mistral citation chunks before AG2's message parser sees them ──
 # Mistral's grounding/web-search feature returns AssistantMessage.content as
 # list[TextChunk | ReferenceChunk] instead of a plain str. AG2's ChatCompletionMessage
@@ -51,12 +67,15 @@ def build_llm_config() -> LLMConfig:
         {"api_type": "mistral",
          "model": os.getenv("LLM_MODEL", "mistral-small-latest"),
          "api_key": api_key},
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
         temperature=0.3,
         cache_seed=None,  # always fetch fresh data
     )
 
 
 def run_research(topic: str) -> str:
+<<<<<<< HEAD
+=======
     """Runs the researcher, analyst, and writer agents and returns the final report.
 
     Tool calls are confined to an isolated researcher/executor exchange, separate from
@@ -65,14 +84,22 @@ def run_research(topic: str) -> str:
     "auto" speaker selection asks the LLM who should speak next while a tool call from
     researcher is still awaiting its response from executor.
     """
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     llm_config = build_llm_config()
 
     # ── Agents ─────────────────────────────────────────────────────────────────
 
     researcher = AssistantAgent(
         name="researcher",
+<<<<<<< HEAD
+        system_message="""You are a research specialist. Your job is to gather
+comprehensive information about the given topic using web_search and fetch_page_content.
+Perform at least 3 searches and fetch content from 2+ pages.
+Summarise all findings clearly. End with: RESEARCH COMPLETE.""",
+=======
         system_message="""You are a research specialist. Search for information about the given topic using web_search.
 Perform exactly 2 searches, then summarise the findings clearly. End with: RESEARCH COMPLETE.""",
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
         llm_config=llm_config,
     )
 
@@ -101,9 +128,13 @@ End with: REPORT COMPLETE""",
         name="executor",
         human_input_mode="NEVER",
         code_execution_config={"work_dir": "workspace", "use_docker": False},
+<<<<<<< HEAD
+        is_termination_msg=lambda msg: "REPORT COMPLETE" in (msg.get("content") or ""),
+=======
         is_termination_msg=lambda msg: any(
             phrase in (msg.get("content") or "") for phrase in ("RESEARCH COMPLETE", "REPORT COMPLETE")
         ),
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
         default_auto_reply="",
     )
 
@@ -121,6 +152,14 @@ End with: REPORT COMPLETE""",
             description=(fn.__doc__ or "").strip().split("\n")[0],
         )
 
+<<<<<<< HEAD
+    # ── GroupChat orchestration ────────────────────────────────────────────────
+    groupchat = GroupChat(
+        agents=[executor, researcher, analyst, writer],
+        messages=[],
+        max_round=20,
+        speaker_selection_method="auto",  # LLM selects the next speaker
+=======
     # ── Phase 1: isolated researcher/executor exchange ─────────────────────────
     # A plain two-agent chat always pairs a tool call with its response in the
     # same turn, so there is never an orphaned tool call in the history.
@@ -146,12 +185,17 @@ End with: REPORT COMPLETE""",
         messages=[],
         max_round=6,
         speaker_selection_method="round_robin",  # analyst then writer, no extra LLM call per round
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     )
     manager = GroupChatManager(groupchat=groupchat, llm_config=llm_config)
 
     executor.initiate_chat(
         manager,
+<<<<<<< HEAD
+        message=f"Research the following topic thoroughly: {topic}",
+=======
         message=f"Research on '{topic}' is complete. Analyst, please critically evaluate the findings below:\n\n{research_notes}",
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
         clear_history=True,
     )
 
@@ -168,10 +212,26 @@ End with: REPORT COMPLETE""",
 
 st.set_page_config(page_title="Multi-Agent Research Assistant (AG2)", layout="wide")
 st.title("Multi-Agent Research Assistant")
+<<<<<<< HEAD
+st.caption("Powered by AG2 (formerly AutoGen) — multi-agent research orchestration")
+
+with st.sidebar:
+    st.header("Configuration")
+    api_key = st.text_input("OpenAI API Key", type="password",
+                            value=os.getenv("OPENAI_API_KEY", ""))
+    if api_key:
+        os.environ["OPENAI_API_KEY"] = api_key
+    model = st.text_input("Model", value=os.getenv("LLM_MODEL", "gpt-4o-mini"))
+    if model:
+        os.environ["LLM_MODEL"] = model
+    topic = st.text_area("Research Topic", placeholder="e.g. 'Latest advances in quantum computing'")
+    run_btn = st.button("Start Research", type="primary")
+=======
 st.caption("Powered by AG2 (formerly AutoGen): multi-agent research orchestration")
 
 topic = st.text_area("Research Topic", placeholder="e.g. 'Latest advances in quantum computing'")
 run_btn = st.button("Start Research", type="primary")
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
 if "report" not in st.session_state:
     st.session_state.report = None

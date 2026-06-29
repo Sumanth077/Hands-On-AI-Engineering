@@ -1,7 +1,13 @@
+<<<<<<< HEAD
 google-generativeai>=0.3.0
 mcp>=0.1.0
 yfinance>=0.2.18
 pandas>=1.5.0
 numpy>=1.21.0
 matplotlib>=3.5.0
+=======
+mistralai>=1.0.0
+mcp>=0.1.0
+yfinance>=0.2.18
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 python-dotenv>=0.19.0

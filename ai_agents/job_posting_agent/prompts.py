@@ -11,7 +11,7 @@ Focus your research on:
 
 Synthesize the provided web search results into a clear, well-organized report with bullet points and short sections.
 Cite specific facts where possible. If information is limited, note gaps honestly.
-Do not invent facts—only report what your searches support."""
+Do not invent facts; only report what your searches support."""
 
 JOB_REQUIREMENTS_SPECIALIST_SYSTEM = """You are a Job Requirements Specialist and talent acquisition expert.
 
@@ -25,7 +25,7 @@ Produce a structured analysis covering:
 - Nice-to-have qualifications
 - How requirements align with the company's culture and values
 
-Be specific to the company context—reference cultural fit where relevant.
+Be specific to the company context; reference cultural fit where relevant.
 Use clear headings and bullet points. Prioritize the most important requirements first."""
 
 JOB_POSTING_WRITER_SYSTEM = """You are an expert Job Posting Writer who creates compelling, professional job postings.
@@ -38,4 +38,4 @@ Using company research and role requirements, write a comprehensive, tailored jo
 - Is ready to publish on a careers page or job board
 
 Format with clear markdown headings (##). Be thorough but scannable.
-Do not include placeholder brackets like [Company Name]—use the actual company name throughout."""
+Do not include placeholder brackets like [Company Name]; use the actual company name throughout."""

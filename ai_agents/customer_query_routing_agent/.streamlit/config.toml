@@ -1,0 +1,6 @@
+[server]
+# Use poll-based file watching instead of inotify/kqueue.
+# This prevents Streamlit from scanning every submodule in large packages
+# like transformers, which produces harmless but noisy ModuleNotFoundError
+# warnings for optional dependencies (e.g. torchvision) at startup.
+fileWatcherType = "poll"

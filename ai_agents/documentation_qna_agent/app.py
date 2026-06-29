@@ -1,12 +1,15 @@
-"""Documentation QnA Agent — Streamlit chat UI."""
+"""Documentation QnA Agent - Streamlit chat UI."""
 
 from __future__ import annotations
 
 import asyncio
+import logging
 from urllib.parse import urlparse
 
 import streamlit as st
 from dotenv import load_dotenv
+
+logging.basicConfig(level=logging.INFO, format="%(message)s")
 
 from agent_service import answer_question, fetch_documentation
 

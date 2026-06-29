@@ -1,6 +1,10 @@
 # Finagent - AI-Powered Financial Analysis Tool
 
-A sophisticated financial analysis system that leverages Google's Gemini AI and real-time market data to provide comprehensive stock analysis, automated code generation, and investment insights.
+A sophisticated financial analysis system that leverages Mistral Small 4 (mistral-small-latest) and real-time market data to provide comprehensive stock analysis, automated code generation, and investment insights.
+
+## Demo
+
+![Finagent demo](assets/demo.gif)
 
 ## Features
 
@@ -15,7 +19,7 @@ A sophisticated financial analysis system that leverages Google's Gemini AI and 
 ## Prerequisites
 
 - Python 3.8+
-- Google Gemini API key
+- Mistral API key (for the Mistral Small 4 / mistral-small-latest model)
 - Claude Desktop (for MCP integration)
 - Firecrawl API key (optional, for enhanced news features)
 
@@ -44,22 +48,22 @@ cd finagent
 2. **Install required packages**:
 
 ```bash
-pip install google-generativeai yfinance pandas matplotlib numpy mcp python-dotenv
+pip install -r requirements.txt
 ```
 
 3. **Set up environment variables**:
    Create a `.env` file in the project root:
 
 ```env
-GEMINI_API_KEY=your_gemini_api_key_here
+MISTRAL_API_KEY=your_mistral_api_key_here
 FIRECRAWL_API_KEY=your_firecrawl_api_key_here  # Optional
 ```
 
 ## API Keys Setup
 
-### Gemini API Key (Required)
+### Mistral API Key (Required)
 
-1. Visit [Google AI Studio](https://makersuite.google.com/app/apikey)
+1. Visit [Mistral Console](https://console.mistral.ai/api-keys)
 2. Create a new API key
 3. Add it to your `.env` file
 
@@ -96,7 +100,7 @@ FIRECRAWL_API_KEY=your_firecrawl_api_key_here  # Optional
          "command": "python",
          "args": ["/absolute/path/to/finagent/main.py"],
          "env": {
-           "GEMINI_API_KEY": "your_gemini_api_key_here",
+           "MISTRAL_API_KEY": "your_mistral_api_key_here",
            "FIRECRAWL_API_KEY": "your_firecrawl_api_key_here"
          }
        }
@@ -167,15 +171,12 @@ python main.py
 from financial_agents import FinancialAnalysisTeam
 
 team = FinancialAnalysisTeam(
-    gemini_api_key="your_gemini_key",
-    firecrawl_api_key="your_firecrawl_key"
+    mistral_api_key="your_mistral_key"
 )
 
 result = team.analyze("Analyze Apple stock over the last 6 months")
 
-print(f"Insights: {result.insights}")
-print(f"Recommendations: {result.recommendations}")
-print(f"Generated Code:\n{result.code}")
+print(result)
 ```
 
 ## Example Queries
@@ -193,7 +194,7 @@ The system understands natural language queries:
 ### Core Components
 
 1. **FinancialAnalysisTeam**: Main orchestrator class
-2. **GeminiAgent**: Base agent class using Gemini AI
+2. **MistralAgent**: Base agent class using Mistral Small 4 (mistral-small-latest)
 3. **FinancialTools**: Data acquisition utilities
 4. **MCP Server**: Model Context Protocol server for Claude Desktop
 
@@ -233,7 +234,7 @@ The system understands natural language queries:
 2. **Import Errors**:
 
 ```bash
-pip install google-generativeai yfinance pandas mcp python-dotenv
+pip install -r requirements.txt
 ```
 
 3. **API Key Issues**:
@@ -291,4 +292,4 @@ For questions and support:
 
 ---
 
-**Made with Google Gemini AI & Claude Desktop**
+**Made with Mistral Small 4 & Claude Desktop**

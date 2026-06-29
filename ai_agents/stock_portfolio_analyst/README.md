@@ -1,12 +1,12 @@
 # 📈 Stock Portfolio Analyst
 
-> **Powered by [DeepSeek-V4-Flash](https://build.nvidia.com/deepseek-ai/deepseek-v4-flash) via NVIDIA API — fast, cost-efficient reasoning for real-time financial analysis**
+> **Powered by [DeepSeek-V4-Flash](https://build.nvidia.com/deepseek-ai/deepseek-v4-flash) via NVIDIA API for fast, cost-efficient reasoning and real-time financial analysis**
 
 ![Stock Portfolio Analyst Demo](assets/demo.png)
 
 ## Overview
 
-An AI-powered portfolio analysis agent that evaluates stock holdings using live market data. Enter your tickers, share counts, and average purchase prices, and the agent fetches real-time pricing and fundamentals via YFinance, searches for recent news via DuckDuckGo, and generates a comprehensive portfolio review — streamed live in the UI as it builds.
+An AI-powered portfolio analysis agent that evaluates stock holdings using live market data. Enter your tickers, share counts, and average purchase prices, and the agent fetches real-time pricing and fundamentals via YFinance, searches for recent news via DuckDuckGo, and generates a comprehensive portfolio review, streamed live in the UI as it builds.
 
 The report covers P&L per position, portfolio-level metrics, concentration and valuation risk flags, sector breakdown, and specific rebalancing recommendations.
 
@@ -30,7 +30,7 @@ The report covers P&L per position, portfolio-level metrics, concentration and v
 - [CalculatorTools](https://docs.agno.com/): Precise P&L and concentration calculations
 
 **Model:**
-- **[DeepSeek-V4-Flash](https://build.nvidia.com/deepseek-ai/deepseek-v4-flash)** (`deepseek-ai/deepseek-v4-flash`) — fast and cost-efficient reasoning via the NVIDIA API
+- **[DeepSeek-V4-Flash](https://build.nvidia.com/deepseek-ai/deepseek-v4-flash)** (`deepseek-ai/deepseek-v4-flash`): fast and cost-efficient reasoning via the NVIDIA API
 
 **UI:**
 - [Gradio](https://www.gradio.app/): Interactive web interface with streaming markdown output

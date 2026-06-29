@@ -21,7 +21,7 @@ def run_brand_monitor(brand: str, scrapingdog_key: str, orq_key: str) -> dict:
         orq_key:          Orq.ai API key.
 
     Returns:
-        Dict with keys "web", "youtube", "twitter", "linkedin" — each
+        Dict with keys "web", "youtube", "twitter", "linkedin", each
         mapping to a structured markdown intelligence brief.
     """
     if not brand.strip():

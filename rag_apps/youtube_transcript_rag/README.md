@@ -4,7 +4,7 @@
 
 ## Overview
 
-Paste a YouTube URL, and the app downloads the audio, transcribes it locally with Whisper, and stores the transcript as embeddings in ChromaDB. You can then ask questions in a chat interface and get answers grounded in the video content — complete with clickable timestamp links pointing to the exact moment in the video.
+Paste a YouTube URL, and the app downloads the audio, transcribes it locally with Whisper, and stores the transcript as embeddings in ChromaDB. You can then ask questions in a chat interface and get answers grounded in the video content, complete with clickable timestamp links pointing to the exact moment in the video.
 
 ## Demo
 
@@ -12,10 +12,10 @@ Paste a YouTube URL, and the app downloads the audio, transcribes it locally wit
 
 ## Features
 
-- Local transcription with OpenAI Whisper — no third-party transcription API needed
+- Local transcription with OpenAI Whisper - no third-party transcription API needed
 - Semantic retrieval of the top 5 most relevant transcript chunks per question
 - Grounded answers from Mistral Small 4 with inline timestamp references
-- Persistent ChromaDB storage — the same URL is never re-transcribed
+- Persistent ChromaDB storage - the same URL is never re-transcribed
 - Source chunks shown in a collapsible expander with clickable timestamps
 - Multi-turn chat with the last 10 turns kept in context
 
@@ -91,12 +91,12 @@ streamlit run app.py
 
 The app opens in your browser at `http://localhost:8501`.
 
-1. Paste a YouTube URL in the sidebar — for example:
+1. Paste a YouTube URL in the sidebar, for example:
    ```text
    https://www.youtube.com/watch?v=dQw4w9WgXcQ
    ```
 2. Click **Process Video**. Whisper transcribes the audio locally (a few minutes for longer videos).
-3. Ask a question in the chat input — for example:
+3. Ask a question in the chat input, for example:
    ```text
    What is the main topic discussed in the video?
    ```
@@ -107,7 +107,7 @@ The app opens in your browser at `http://localhost:8501`.
    ```
 5. Expand **Source transcript chunks** below the answer to read the raw segments and jump to any timestamp.
 
-Pasting the same URL again loads the transcript from ChromaDB instantly — no re-transcription.
+Pasting the same URL again loads the transcript from ChromaDB instantly - no re-transcription.
 
 ## Environment Variables
 
@@ -119,7 +119,7 @@ Pasting the same URL again loads the transcript from ChromaDB instantly — no r
 
 ```text
 youtube-transcript-rag/
-├── app.py            # Streamlit app — pipeline, retrieval, chat UI
+├── app.py            # Streamlit app: pipeline, retrieval, chat UI
 ├── requirements.txt  # Python dependencies
 ├── .env.example      # Environment variable template
 └── chroma_db/        # Persistent ChromaDB storage (auto-created)

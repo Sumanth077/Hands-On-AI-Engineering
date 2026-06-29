@@ -1,10 +1,15 @@
+<a id="top"></a>
 # AI Travel Planning Agent
 
 > Multi-agent travel planner that turns a single natural language request into a complete trip plan with flights, hotels, and a day-by-day itinerary.
 
+## Demo
+
+![Demo](assets/demo.png)
+
 ## Overview
 
-The AI Travel Planning Agent uses a root Google ADK agent to coordinate three specialist sub-agents — Flight Agent, Hotel Agent, and Itinerary Agent. Each sub-agent independently searches the web in real time, and the root agent combines their results into one cohesive travel plan. Users interact through a Streamlit chat interface and can ask follow-up questions within the same conversational session.
+The AI Travel Planning Agent uses a root Google ADK agent to coordinate three specialist sub-agents: a Flight Agent, a Hotel Agent, and an Itinerary Agent. Each sub-agent independently searches the web in real time, and the root agent combines their results into one cohesive travel plan. Users interact through a Streamlit chat interface and can ask follow-up questions within the same conversational session.
 
 ## Features
 
@@ -12,14 +17,14 @@ The AI Travel Planning Agent uses a root Google ADK agent to coordinate three sp
 - Parallel specialist agents for flights, hotels, and itineraries
 - Real-time web search via Tavily on every query
 - Nearby place discovery using OpenStreetMap/Nominatim (no extra API key)
-- Multi-turn conversation — ask follow-ups after the initial plan
+- Multi-turn conversation, so you can ask follow-ups after the initial plan
 
 ## Tech Stack
 
 | Layer | Technology |
 |---|---|
 | Agent framework | Google ADK (`google-adk`) |
-| LLM | Gemini 3 Flash (`gemini-3-flash-preview`) |
+| LLM | Gemini 3.5 Flash (`gemini-3.5-flash`) |
 | Web search | Tavily Search API |
 | Location data | geopy + Nominatim (OpenStreetMap) |
 | UI | Streamlit |
@@ -112,5 +117,9 @@ ai-travel-planning-agent/
 ├── tools.py            # Tavily search and Nominatim location tools
 ├── requirements.txt    # Python dependencies
 ├── .env.example        # Environment variable template
-└── .env                # Your local API keys (git-ignored)
+├── .env                # Your local API keys (git-ignored)
+└── assets/
+    └── demo.png         # Demo screenshot
 ```
+
+[Back to top](#top)

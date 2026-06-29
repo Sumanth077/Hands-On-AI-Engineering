@@ -1,3 +1,4 @@
+import logging
 import os
 import re
 import smtplib
@@ -10,8 +11,11 @@ import trafilatura
 from google import genai
 from google.genai import types
 
+logger = logging.getLogger(__name__)
+
 
 def fetch_top_stories(count: int = 10) -> list[dict]:
+    """Fetch the most recent tech stories from Hacker News via the Algolia Search API and return them as a list of dicts."""
     url = "https://hn.algolia.com/api/v1/search_by_date?query=tech&tags=story&hitsPerPage=10"
     response = requests.get(
         url,
@@ -32,11 +36,12 @@ def fetch_top_stories(count: int = 10) -> list[dict]:
             "comments": hit.get("num_comments", 0),
         })
 
-    print(f"[fetch_top_stories] Algolia returned {len(stories)} stories")
+    logger.info("Algolia returned %d stories", len(stories))
     return stories
 
 
 def extract_content(url: str) -> str:
+    """Download and extract plain-text article content from a URL using Trafilatura, truncated to 1800 characters."""
     if not url or "news.ycombinator.com" in url:
         return f"[Full content unavailable — read at: {url}]"
     try:
@@ -56,6 +61,7 @@ def extract_content(url: str) -> str:
 
 
 def generate_newsletter(stories: list[dict]) -> str:
+    """Send the list of HN stories to Gemma 4 and return a raw HTML newsletter document."""
     date_str = datetime.now().strftime("%B %d, %Y")
 
     stories_text = ""
@@ -154,6 +160,7 @@ STORIES DATA:
 
 
 def send_email(newsletter: str, recipient: str) -> str:
+    """Send the HTML newsletter to the recipient via Gmail SMTP and return a status message string."""
     gmail_address = os.getenv("GMAIL_ADDRESS")
     gmail_password = os.getenv("GMAIL_APP_PASSWORD")
 

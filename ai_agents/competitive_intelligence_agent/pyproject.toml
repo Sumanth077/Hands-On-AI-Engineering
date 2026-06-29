@@ -1,7 +1,11 @@
 [project]
 name = "competitive-intelligence-agent"
 version = "0.1.0"
+<<<<<<< HEAD
 description = "Add your description here"
+=======
+description = "Multi-agent CrewAI system that generates strategic sales battlecards by analyzing competitors against your own business context"
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [

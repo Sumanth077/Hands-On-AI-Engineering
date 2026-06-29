@@ -12,12 +12,13 @@ Browser Automation Agent is a Gradio app that turns plain-English instructions i
 
 ## Features
 
-- **Natural language tasks** — describe what you want in plain English; no scripting required.
-- **Autonomous browsing** — the agent plans and executes real browser actions (navigate, click, read, extract) step by step.
-- **Structured results** — returns a clear summary plus the pages visited and a collapsible action log.
-- **Resilient error handling** — surfaces provider/model errors in the UI and tolerates transient step retries.
-- **Configurable model** — point at any Orq.ai-supported model via a single environment variable.
-- **Clean chat UI** — a Gradio chat interface with ready-to-run example prompts.
+- **Natural language tasks:** describe what you want in plain English; no scripting required.
+- **Autonomous browsing:** the agent plans and executes real browser actions (navigate, click, read, extract) step by step.
+- **Live progress updates:** streams step-by-step progress to the chat as the agent browses, so you can follow along in real time.
+- **Structured results:** returns a clear summary plus the pages visited and a collapsible action log.
+- **Resilient error handling:** surfaces provider/model errors in the UI and tolerates transient step retries.
+- **Configurable model:** point at any Orq.ai-supported model via a single environment variable.
+- **Clean chat UI:** a Gradio chat interface with ready-to-run example prompts.
 
 ## Tech Stack
 

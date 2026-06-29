@@ -29,6 +29,7 @@ and any abnormal or critical values in flagged_items."""
 
 
 def _build_client() -> OpenAI:
+    """Build and return an OpenAI client pointed at the Orq.ai router."""
     api_key = os.getenv("ORQ_API_KEY")
     if not api_key:
         raise ValueError("ORQ_API_KEY is not set. Add it to your .env file.")
@@ -39,6 +40,7 @@ def _build_client() -> OpenAI:
 
 
 def _system_message() -> str:
+    """Build the system prompt string with the clinical extraction instructions and JSON schema."""
     schema = json.dumps(ClinicalProfile.model_json_schema(), indent=2)
     return (
         f"{SYSTEM_INSTRUCTION}\n\n"
@@ -48,6 +50,7 @@ def _system_message() -> str:
 
 
 def _parse_response_text(text: str) -> ClinicalProfile:
+    """Strip markdown fences from the LLM response and parse it into a ClinicalProfile."""
     cleaned = text.strip()
     if cleaned.startswith("```"):
         cleaned = re.sub(r"^```(?:json)?\s*", "", cleaned)
@@ -57,6 +60,7 @@ def _parse_response_text(text: str) -> ClinicalProfile:
 
 
 def extract_from_page(client: OpenAI, page: ProcessedPage) -> ClinicalProfile:
+    """Send a single page to the LLM and return the extracted ClinicalProfile."""
     page_context = f"{EXTRACTION_PROMPT}\n\nPage {page.page_number}."
     messages: list[dict] = [{"role": "system", "content": _system_message()}]
 

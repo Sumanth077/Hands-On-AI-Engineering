@@ -1,5 +1,5 @@
 """
-Hotel Finder Agent — Google ADK definition.
+Google ADK agent definition for the Hotel Finder Agent.
 
 Uses LiteLlm to route through Orq.ai's qwen3.6-flash and
 McpToolset to connect to the Trivago MCP server.

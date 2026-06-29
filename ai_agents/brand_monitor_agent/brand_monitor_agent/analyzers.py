@@ -20,6 +20,7 @@ MODEL = "alibaba/deepseek-v4-flash"
 # ---------------------------------------------------------------------------
 
 def _call_llm(system: str, user: str, orq_key: str) -> str:
+    """Send a system and user prompt to the Orq.ai router and return the text response."""
     client = OpenAI(
         base_url="https://my.orq.ai/v3/router",
         api_key=orq_key,

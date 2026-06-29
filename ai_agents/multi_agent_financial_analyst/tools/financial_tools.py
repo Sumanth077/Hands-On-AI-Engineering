@@ -9,6 +9,10 @@ class StockInput(BaseModel):
     symbol: str = Field(..., description="The stock symbol to analyze (e.g., 'AAPL', 'GOOGL')")
 
 class YFinanceStockTool(BaseTool):
+<<<<<<< HEAD
+=======
+    """CrewAI tool that fetches real-time and historical stock data from Yahoo Finance."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     name: str = "stock_data_tool"
     description: str = """
     A tool for getting real-time and historical stock market data.
@@ -22,6 +26,10 @@ class YFinanceStockTool(BaseTool):
     args_schema: type[BaseModel] = StockInput
 
     def _run(self, symbol: str) -> str:
+<<<<<<< HEAD
+=======
+        """Fetch latest trading data, 52-week range, and key financial metrics for the given stock symbol."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
         try:
             stock = yf.Ticker(symbol)
             
@@ -70,5 +78,9 @@ class YFinanceStockTool(BaseTool):
             return f"Error fetching data for {symbol}: {str(e)}"
 
     def _arun(self, symbol: str) -> str:
+<<<<<<< HEAD
+=======
+        """Async counterpart of _run, not implemented for this tool."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
         # Async implementation if needed
         raise NotImplementedError("Async version not implemented") 

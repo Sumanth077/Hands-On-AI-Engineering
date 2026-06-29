@@ -4,6 +4,7 @@ from schemas import ClinicalProfile, ImagingResult, LabFinding, PatientInfo
 
 
 def _merge_patient(current: PatientInfo, incoming: PatientInfo) -> PatientInfo:
+    """Merge two PatientInfo objects, preferring the first non-empty value for each field."""
     return PatientInfo(
         name=current.name or incoming.name,
         age=current.age or incoming.age,
@@ -12,6 +13,7 @@ def _merge_patient(current: PatientInfo, incoming: PatientInfo) -> PatientInfo:
 
 
 def _dedupe_lab_findings(findings: list[LabFinding]) -> list[LabFinding]:
+    """Deduplicate lab findings by test name, keeping the most severe status."""
     seen: dict[str, LabFinding] = {}
     for finding in findings:
         key = finding.test.strip().lower()
@@ -24,6 +26,7 @@ def _dedupe_lab_findings(findings: list[LabFinding]) -> list[LabFinding]:
 
 
 def _dedupe_strings(items: list[str]) -> list[str]:
+    """Remove duplicate strings from a list using case-insensitive comparison while preserving order."""
     seen: set[str] = set()
     result: list[str] = []
     for item in items:
@@ -39,6 +42,7 @@ def _dedupe_strings(items: list[str]) -> list[str]:
 
 
 def merge_profiles(profiles: list[ClinicalProfile]) -> ClinicalProfile:
+    """Combine per-page ClinicalProfiles into a single deduplicated profile."""
     merged = ClinicalProfile()
 
     for profile in profiles:

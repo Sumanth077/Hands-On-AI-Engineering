@@ -39,6 +39,7 @@ _pipelines: dict[str, KPipeline] = {}
 
 
 def _get_pipeline(lang_code: str) -> KPipeline:
+    """Return the cached KPipeline for the given Kokoro language code, creating it if needed."""
     if lang_code not in _pipelines:
         _pipelines[lang_code] = KPipeline(lang_code=lang_code)
     return _pipelines[lang_code]

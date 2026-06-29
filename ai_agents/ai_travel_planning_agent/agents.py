@@ -2,7 +2,11 @@ from google.adk.agents import LlmAgent
 from google.adk.tools.agent_tool import AgentTool
 from tools import tavily_search, find_nearby_places
 
+<<<<<<< HEAD
 MODEL = "gemini-3-flash-preview"
+=======
+MODEL = "gemini-3.5-flash"
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
 # ---------------------------------------------------------------------------
 # Specialist sub-agents

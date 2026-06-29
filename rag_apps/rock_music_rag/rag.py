@@ -1,5 +1,5 @@
 """
-Rock Music RAG — core pipeline.
+Core RAG pipeline for the Rock Music app.
 
 Fetches Wikipedia pages for rock bands, indexes them with BM25,
 and answers questions using Gemma 4 via the Google GenAI API.
@@ -87,6 +87,8 @@ def _clean_text(text: str) -> str:
 # ── Main class ─────────────────────────────────────────────────────────────────
 
 class RockRAG:
+    """Manages a BM25-indexed rock music knowledge base and answers questions with Gemma 4."""
+
     def __init__(self, api_key: str):
         self.client = genai.Client(api_key=api_key)
         self.bands: dict[str, dict] = {}   # band_name -> {url, raw_content}
@@ -125,6 +127,7 @@ class RockRAG:
             self._rebuild_index()
 
     def band_titles(self) -> list[str]:
+        """Return an alphabetically sorted list of indexed band titles."""
         return sorted(self.bands.keys())
 
     # ── Indexing ───────────────────────────────────────────────────────────────
@@ -150,6 +153,7 @@ class RockRAG:
         self.bm25 = BM25Okapi(self._tokenized)
 
     def index_size(self) -> int:
+        """Return the total number of chunks currently in the BM25 index."""
         return len(self.chunks)
 
     # ── Retrieval ──────────────────────────────────────────────────────────────

@@ -37,6 +37,7 @@ LANGUAGE_NAMES = {
 
 
 def _get_client() -> OpenAI:
+    """Build and return an OpenAI client pointed at the Orq.ai router."""
     api_key = os.getenv("ORQ_API_KEY")
     if not api_key:
         raise ValueError(

@@ -36,6 +36,10 @@ def _has_knowledge() -> bool:
 
 
 def build_instructions() -> str:
+<<<<<<< HEAD
+=======
+    """Build the team leader's instruction string, adapting the workflow based on whether the knowledge directory has files."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     if _has_knowledge():
         scout_note = (
             "- Scout: Internal knowledge navigator. Use Scout to search the "

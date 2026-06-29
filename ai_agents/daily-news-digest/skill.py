@@ -175,7 +175,11 @@ for article in selected:
     cat = article.get("category", "Notable")
     grouped.setdefault(cat, []).append(article)
 
+<<<<<<< HEAD
 message_parts = [f"🗞️ *Daily AI Digest — {today}*"]
+=======
+message_parts = [f"🗞️ *Daily AI Digest: {today}*"]
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
 for cat in CATEGORY_ORDER:
     if cat not in grouped:
@@ -189,7 +193,11 @@ for cat in CATEGORY_ORDER:
         source = art["source"]
         url = art["url"]
         message_parts.append(
+<<<<<<< HEAD
             f"{emoji} *{title}* — {summary}\n"
+=======
+            f"{emoji} *{title}*: {summary}\n"
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
             f"Source: {source} | [Read more]({url})"
         )
 

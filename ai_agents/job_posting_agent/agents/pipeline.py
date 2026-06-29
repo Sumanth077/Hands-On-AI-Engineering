@@ -1,3 +1,4 @@
+import logging
 import re
 import time
 from collections.abc import Callable
@@ -5,6 +6,8 @@ from collections.abc import Callable
 import httpx
 
 from nvidia_client import NvidiaAPIError, chat_completion
+
+logger = logging.getLogger(__name__)
 
 SECTION_NAMES = ("COMPANY RESEARCH", "ROLE REQUIREMENTS", "JOB POSTING")
 MAX_OUTPUT_TOKENS = 1500
@@ -73,7 +76,7 @@ def run_pipeline(
             on_stage(stage)
 
     notify("Generating with DeepSeek V4 Flash (single request)...")
-    print(f"[Pipeline] Calling NVIDIA NIM for {company} / {role}", flush=True)
+    logger.info("[Pipeline] Calling NVIDIA NIM for %s / %s", company, role)
 
     try:
         response = chat_completion(
@@ -93,7 +96,7 @@ def run_pipeline(
     job_posting = parsed["JOB POSTING"] or response
 
     elapsed = time.perf_counter() - pipeline_start
-    print(f"[Pipeline] Finished in {elapsed:.1f}s", flush=True)
+    logger.info("[Pipeline] Finished in %.1fs", elapsed)
 
     notify("Complete")
     return PipelineResult(
