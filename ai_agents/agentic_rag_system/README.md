@@ -1,26 +1,28 @@
 # 🔄 Self-Reflective Agentic RAG
 
+> A LangGraph-powered RAG system that grades its own retrieved context, rewrites the search query when needed, and only generates an answer once the context passes validation.
+
 ![Self-Reflective Agentic RAG Demo](assets/demo.png)
 
 ## Overview
 
-Standard RAG pipelines retrieve context and generate an answer immediately — with no check on whether the retrieved chunks are actually relevant or sufficient. This leads to hallucinations when the retrieval misses the mark.
+Standard RAG pipelines retrieve context and generate an answer immediately, with no check on whether the retrieved chunks are actually relevant or sufficient. This leads to hallucinations when the retrieval misses the mark.
 
 This project solves that by introducing an **iterative retrieval-validation loop** before generation. Instead of answering right away, the system uses a LangGraph-driven state machine to:
 
 1. **Retrieve** context from the vector store
 2. **Grade** the retrieved context for relevance, sufficiency, and consistency
-3. **Rewrite** the query if the context doesn't pass — and re-retrieve with a better search
+3. **Rewrite** the query if the context doesn't pass, then re-retrieve with a better search
 4. **Generate** a grounded answer only once the context passes validation
 
-This loop runs up to 3 times, progressively refining the search query until the LLM is confident the context is good enough — or gracefully falls back to the best available context.
+This loop runs up to 3 times, progressively refining the search query until the LLM is confident the context is good enough, falling back gracefully to the best available context if the iteration limit is reached.
 
 ## Features
 
 - **Self-Reflection Loop:** LLM grades each retrieval attempt with a structured `VERDICT / REASON / REFINED_QUERY` output before generation
-- **Query Rewriting:** On a `NO` verdict, the system rewrites the search query based on what the grader says is missing — not just re-running the same query
+- **Query Rewriting:** On a `NO` verdict, the system rewrites the search query based on what the grader says is missing, rather than re-running the same query
 - **Iteration Cap:** Hard limit of 3 retrieval loops prevents infinite loops on ambiguous or unanswerable questions
-- **Hallucination Reduction:** Answer generation is strictly grounded — the prompt explicitly forbids the model from going beyond the validated context
+- **Hallucination Reduction:** Answer generation is strictly grounded because the prompt explicitly forbids the model from going beyond the validated context
 - **Full Reflection Log:** The UI surfaces the complete per-iteration grading log so you can see exactly why the system looped or stopped
 - **Clean Gradio UI:** Process/clear PDF controls, locked Ask button until a document is loaded, collapsible reflection accordion
 
@@ -33,7 +35,7 @@ This loop runs up to 3 times, progressively refining the search query until the 
 - [Gradio](https://www.gradio.app/): Interactive web UI
 
 **Models (via Google AI / Gemini API):**
-- **LLM:** [`gemma-4-26b-a4b-it`](https://ai.google.dev/gemma/docs/core/gemma_on_gemini_api) — used for retrieval grading, query rewriting, and answer generation
+- **LLM:** [`gemma-4-26b-a4b-it`](https://ai.google.dev/gemma/docs/core/gemma_on_gemini_api), used for retrieval grading, query rewriting, and answer generation
 - **Embeddings:** [`gemini-embedding-001`](https://ai.google.dev/gemini-api/docs/embeddings) with `retrieval_document` task type
 
 ## How It Works
@@ -55,10 +57,10 @@ This loop runs up to 3 times, progressively refining the search query until the 
 ```
 
 **Nodes:**
-- **`retrieve`** — Fetches the top-4 most similar chunks using the current query (original or rewritten)
-- **`grade_retrieval`** — Prompts Gemma to return a structured `VERDICT: YES/NO`, `REASON`, and `REFINED_QUERY`
-- **`rewrite_query`** — Parses `REFINED_QUERY` from the grader output and updates the state
-- **`generate`** — Produces the final answer, instructed to stay strictly within the validated context
+- **`retrieve`**: Fetches the top-4 most similar chunks using the current query (original or rewritten)
+- **`grade_retrieval`**: Prompts Gemma to return a structured `VERDICT: YES/NO`, `REASON`, and `REFINED_QUERY`
+- **`rewrite_query`**: Parses `REFINED_QUERY` from the grader output and updates the state
+- **`generate`**: Produces the final answer, instructed to stay strictly within the validated context
 
 **Router logic:**
 - `VERDICT: YES` → go to `generate`
@@ -109,7 +111,7 @@ uv run main.py
 Navigate to `http://127.0.0.1:7860` in your browser.
 
 1. **Upload a PDF** using the Document panel on the left
-2. Click **⚙️ Process** — the status shows how many chunks were indexed
+2. Click **⚙️ Process**; the status shows how many chunks were indexed
 3. Type a question in the Ask a Question panel and click **🔍 Ask**
 4. Expand the **Self-Reflection Loop** accordion to see the per-iteration grading logs
 5. Read the grounded answer in the Answer section below
@@ -120,7 +122,7 @@ Navigate to `http://127.0.0.1:7860` in your browser.
 ```text
 agentic_rag_system/
 ├── main.py            # Gradio UI and PDF processing logic
-├── rag_graph.py       # LangGraph state machine — nodes, edges, router
+├── rag_graph.py       # LangGraph state machine with nodes, edges, and router
 ├── assets/
 │   └── demo.png       # App screenshot
 ├── .env.example       # API key template
@@ -135,7 +137,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-This project is licensed under the MIT License — see the [LICENSE](../../LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](../../LICENSE) file for details.
 
 ---
 

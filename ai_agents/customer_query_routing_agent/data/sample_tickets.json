@@ -1,0 +1,72 @@
+[
+  {
+    "ticket_id": "TKT-0041",
+    "summary": "Customer wants to return shoes bought as a gift, recipient does not want them",
+    "thread": "Customer: Hi, I bought a pair of shoes as a birthday gift for my sister and she already has the same ones. I would like to return them but the order was placed under my account, not hers. Is that okay?\n\nAgent (Sam): Absolutely, gifts can be returned under the purchaser's account. I can see order #29801 for the shoes placed on April 2nd. Since we are still within the 30-day return window, I will generate a prepaid return label for you now. Would you like the refund back to your original payment method or as store credit?\n\nCustomer: Store credit would be great, my sister can use it herself.\n\nAgent (Sam): Done. I have issued a store credit voucher for $64.99 to the email on your account. The prepaid return label has been sent to the same address. Please drop the shoes off within 7 days.\n\nCustomer: Perfect. Thank you for making this easy.\n\nResolution: Gift return processed. Store credit of $64.99 issued. Prepaid label sent. No issues with the 30-day window.",
+    "department": "Returns & Refunds",
+    "resolution_type": "store_credit"
+  },
+  {
+    "ticket_id": "TKT-0058",
+    "summary": "Annual subscription renewed at full price despite loyalty discount applied last year",
+    "thread": "Customer: My annual plan just renewed and I was charged $119.99 but last year I had a loyalty discount and only paid $95.99. Why was the full price charged this time?\n\nAgent (Maya): I can see your account was on a loyalty discount promotion that applied to the first annual renewal only. That offer expired after one term, and standard pricing applied at your most recent renewal on May 1st. I understand that is frustrating, especially if it was not clearly communicated at renewal.\n\nCustomer: I did not get any warning that the price was going back up.\n\nAgent (Maya): You are right, our renewal reminder email should have flagged the price change. That is an oversight on our end. I am going to apply a one-time loyalty credit of $24.00 to your account, which brings your effective annual rate back to $95.99 for this cycle. Going forward, the standard rate will apply unless a new promotion is active.\n\nCustomer: That is fair, thank you.\n\nResolution: Pricing complaint resolved with $24.00 goodwill credit. Renewal notification gap flagged to product team.",
+    "department": "Billing & Payments",
+    "resolution_type": "goodwill_credit"
+  },
+  {
+    "ticket_id": "TKT-0072",
+    "summary": "Order split across two shipments, second parcel not moving for six days",
+    "thread": "Customer: I placed an order for three items and the first two arrived fine. The third item shipped separately and the tracking has not updated in six days. It just says In Transit.\n\nAgent (Leo): I can see order #33105 and the second shipment with tracking TRK-992817. The last carrier scan was at the regional sorting facility six days ago, which is longer than usual for domestic transit. I am opening a trace request with the carrier now. These typically resolve within 2 business days.\n\nCustomer: What if they cannot locate it?\n\nAgent (Leo): If the carrier confirms the parcel is lost, we will send a replacement immediately with no additional cost to you. I will follow up via email within 48 hours with an update from the trace.\n\nCustomer: Okay, I will wait to hear from you.\n\nAgent (Leo) - Follow-up email: The carrier has confirmed the parcel was lost in transit. A replacement has been dispatched with express shipping, tracking TRK-884491. Expected delivery tomorrow.\n\nResolution: Carrier trace opened. Parcel confirmed lost. Replacement sent on express shipping. Customer confirmed receipt.",
+    "department": "Order Tracking",
+    "resolution_type": "replacement_sent"
+  },
+  {
+    "ticket_id": "TKT-0089",
+    "summary": "Customer locked out of account after enabling 2FA and losing access to authenticator app",
+    "thread": "Customer: I set up two-factor authentication a few months ago using an authenticator app. I got a new phone and forgot to transfer the app before wiping the old one. Now I cannot get into my account.\n\nAgent (Priya): This is a common situation when switching devices. To verify your identity without the authenticator, I will need to confirm a few account details: the email address on the account, the billing postcode, and the last four digits of the payment card on file. Can you provide those?\n\nCustomer: Email is sarah.chen@gmail.com, postcode is SW1A 1AA, and card ends in 4821.\n\nAgent (Priya): Thank you, all three match. I have disabled the existing 2FA on your account and sent a password reset link to your email. Once you log in, I strongly recommend setting up 2FA again using your new phone before closing the session.\n\nCustomer: I am in. Setting up 2FA again now. Thank you.\n\nResolution: Identity verified via email, postcode, and card details. 2FA reset. Customer successfully re-enrolled on new device.",
+    "department": "Technical Support",
+    "resolution_type": "account_recovery"
+  },
+  {
+    "ticket_id": "TKT-0104",
+    "summary": "Customer requesting VAT invoice for business expense claim, order is six weeks old",
+    "thread": "Customer: I need a VAT invoice for an order I placed six weeks ago for a business expense claim. I can see the order in my account but the Download Invoice button is greyed out.\n\nAgent (Tom): The Download Invoice button becomes inactive after 30 days on orders where the billing address was not set to a business address at checkout. To generate a VAT invoice retrospectively, I will need your company name and VAT registration number.\n\nCustomer: The company is Meridian Design Ltd, VAT number GB 342 1987 56.\n\nAgent (Tom): Thank you. I have updated your billing details on order #40217 and generated a corrected VAT invoice. I have emailed it to the address on your account. The document reflects the original purchase date so it should be accepted for your expense claim.\n\nCustomer: Received it, looks correct. Thank you.\n\nResolution: VAT invoice generated retrospectively with correct company and VAT details. Emailed to customer.",
+    "department": "Billing & Payments",
+    "resolution_type": "invoice_issued"
+  },
+  {
+    "ticket_id": "TKT-0119",
+    "summary": "Warranty claim for a blender that stopped working after four months",
+    "thread": "Customer: I bought a blender in January and it has completely stopped turning on. It is only four months old. I still have the original box.\n\nAgent (Clara): I am sorry to hear that. Four months is well within our 12-month warranty. I will need a photo of the blender showing the model number on the base, and a photo of the fault if visible. Can you email those to support@example.com referencing this ticket TKT-0119?\n\nCustomer: Sent the photos.\n\nAgent (Clara): Thank you, I have received them. The model number confirms this unit is covered and the fault you have described is consistent with a known motor defect in this production run. I have raised a replacement request. A new unit will be dispatched within 2 business days and a prepaid return label for the faulty blender is being sent to your email now.\n\nCustomer: Replacement arrived. Works perfectly.\n\nResolution: Warranty claim approved. Known motor defect on affected batch. Replacement dispatched. Faulty unit collected.",
+    "department": "Returns & Refunds",
+    "resolution_type": "warranty_replacement"
+  },
+  {
+    "ticket_id": "TKT-0133",
+    "summary": "Customer never received shipping confirmation email, unsure if order went through",
+    "thread": "Customer: I placed an order about two hours ago and never got a confirmation email. I am not sure if the order actually went through or whether I was charged.\n\nAgent (James): I can look this up by email address. Can you confirm the email you used and the approximate order time?\n\nCustomer: jasmine.okafor@email.com, around 3pm today.\n\nAgent (James): I can see order #47882 placed at 3:08pm for $87.50, status is confirmed and payment was captured successfully. The confirmation email was sent but our logs show a delivery failure, possibly a spam filter issue on your email provider. I have re-sent the confirmation now. You should also check your spam and promotions folders.\n\nCustomer: Found it in spam. All good now.\n\nResolution: Order confirmed in system. Confirmation email had been filtered to spam. Resent and confirmed received.",
+    "department": "Order Tracking",
+    "resolution_type": "email_resent"
+  },
+  {
+    "ticket_id": "TKT-0148",
+    "summary": "Customer asking whether a promotional gift card can be used toward a subscription upgrade",
+    "thread": "Customer: I received a $20 promotional gift card from the rewards programme. Can I use it to pay for upgrading my subscription from monthly to annual?\n\nAgent (Rita): Promotional gift cards can be applied to most purchases, including subscription upgrades. To use it, go to Account > Subscription > Upgrade to Annual, and at the payment step you will see a Gift Card field where you can enter the code. The remaining balance after the gift card is deducted will be charged to your default payment method.\n\nCustomer: It worked, I upgraded and the $20 was applied. Thanks.\n\nResolution: Customer confirmed gift card applied successfully to subscription upgrade. No further action needed.",
+    "department": "Billing & Payments",
+    "resolution_type": "query_resolved"
+  },
+  {
+    "ticket_id": "TKT-0162",
+    "summary": "Customer received an item they did not order, their original item is missing from the package",
+    "thread": "Customer: I ordered a white desk lamp but received a completely different product in the box. It looks like a kitchen timer. The packing slip in the box has my name and address but the wrong item.\n\nAgent (Nadia): That sounds like a fulfilment mix-up at the warehouse. I can see order #52104 for a white desk lamp. I am raising a priority replacement now. You do not need to return the incorrect item. The correct lamp will be dispatched today with express shipping and should arrive tomorrow.\n\nCustomer: That was fast. Replacement arrived and it is the right one this time.\n\nResolution: Fulfilment error confirmed. Correct item dispatched same day on express shipping. Customer confirmed correct item received. Incident reported to warehouse operations.",
+    "department": "Order Tracking",
+    "resolution_type": "replacement_sent"
+  },
+  {
+    "ticket_id": "TKT-0175",
+    "summary": "Customer unable to apply a valid referral code during checkout, code shows as invalid",
+    "thread": "Customer: I have a referral code from a friend: REFER-JX44K. Every time I try to apply it at checkout it says the code is invalid. My friend used the same code last month and it worked for them.\n\nAgent (Chris): Referral codes are single-use per account and they also require the referee to be a new customer making their first purchase. I can see this is your third order with us, so the referral code cannot be applied to your account. This is a limitation of how the referral programme works.\n\nCustomer: Oh, I did not realise it was for new customers only. That is a bit disappointing.\n\nAgent (Chris): I completely understand. Since the code terms were not prominently displayed, I am going to apply a 10% one-time discount to your current cart as a goodwill gesture. I will send you a single-use code now.\n\nCustomer: The code worked. Thank you for being understanding about it.\n\nResolution: Referral code correctly rejected due to existing account. 10% goodwill discount issued. Customer satisfied.",
+    "department": "General Inquiry",
+    "resolution_type": "goodwill_discount"
+  }
+]

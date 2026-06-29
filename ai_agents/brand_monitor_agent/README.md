@@ -1,5 +1,7 @@
 # Brand Monitor
 
+> Get a structured intelligence report on any brand across Web, YouTube, Twitter/X, and LinkedIn in a single run.
+
 ![Brand Monitor Demo](assets/demo.gif)
 
 Get a structured intelligence report on any brand across Web, YouTube, Twitter/X, and LinkedIn in a single run. Powered by [Scrapingdog](https://www.scrapingdog.com) for data collection and DeepSeek V4 Flash for analysis.
@@ -8,23 +10,30 @@ Get a structured intelligence report on any brand across Web, YouTube, Twitter/X
 
 Each run collects platform data via Scrapingdog and passes it to one LLM call per platform — 4 LLM calls total. Results are presented in a Streamlit UI with tabs per platform.
 
-- **Web** — Google SERP + Google News via Scrapingdog
-- **YouTube** — YouTube search results, with Google SERP fallback
-- **Twitter/X** — Google SERP filtered to twitter.com
-- **LinkedIn** — Google SERP filtered to linkedin.com
+- **Web:** Google SERP and Google News via Scrapingdog
+- **YouTube:** YouTube search results, with Google SERP fallback
+- **Twitter/X:** Google SERP filtered to twitter.com
+- **LinkedIn:** Google SERP filtered to linkedin.com
+
+## Prerequisites
+
+- Python 3.10 or higher
+- [uv](https://docs.astral.sh/uv/) package manager
+- A [Scrapingdog](https://www.scrapingdog.com) account and API key (free tier available)
+- An [Orq.ai](https://orq.ai) account and API key (free tier available); Orq.ai routes requests to DeepSeek V4 Flash for analysis
 
 ## Setup
 
-### 1. Prerequisites
+### 1. Clone the repository
 
-- [UV](https://docs.astral.sh/uv/) package manager
-- [Scrapingdog API key](https://www.scrapingdog.com)
-- DeepSeek V4 Flash API key
+```bash
+git clone https://github.com/Sumanth077/Hands-On-AI-Engineering.git
+cd Hands-On-AI-Engineering/ai_agents/brand_monitor_agent
+```
 
 ### 2. Install dependencies
 
 ```bash
-cd ai_agents/brand_monitor_agent
 uv sync
 ```
 
@@ -66,4 +75,8 @@ brand_monitor_agent/
 | Variable | Description |
 |---|---|
 | `SCRAPINGDOG_API_KEY` | Scrapingdog API key for all data collection |
-| `ORQ_API_KEY` | API key for LLM analysis |
+| `ORQ_API_KEY` | [Orq.ai](https://orq.ai) API key; Orq.ai routes requests to DeepSeek V4 Flash for analysis |
+
+---
+
+[⬆ Back to Top](#brand-monitor)

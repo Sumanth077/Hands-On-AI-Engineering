@@ -73,6 +73,7 @@ Return ONLY the improved Python code. No explanations — just the final code.""
 
 
 def create_llm(api_key: str) -> ChatMistralAI:
+    """Create and return a ChatMistralAI instance configured with the given API key."""
     return ChatMistralAI(
         model="mistral-small-latest",
         api_key=api_key,
@@ -81,6 +82,7 @@ def create_llm(api_key: str) -> ChatMistralAI:
 
 
 def run_planner(llm: ChatMistralAI, task: str) -> str:
+    """Send the coding task to the Planner Agent and return a structured implementation plan."""
     messages = [
         SystemMessage(content=PLANNER_SYSTEM_PROMPT),
         HumanMessage(content=f"Coding task: {task}"),
@@ -90,6 +92,7 @@ def run_planner(llm: ChatMistralAI, task: str) -> str:
 
 
 def run_coder(llm: ChatMistralAI, plan: str) -> str:
+    """Send the implementation plan to the Coder Agent and return a first-draft Python implementation."""
     messages = [
         SystemMessage(content=CODER_SYSTEM_PROMPT),
         HumanMessage(content=f"Implementation plan:\n\n{plan}"),
@@ -99,6 +102,7 @@ def run_coder(llm: ChatMistralAI, plan: str) -> str:
 
 
 def run_reviewer(llm: ChatMistralAI, code: str) -> str:
+    """Send the draft code to the Reviewer Agent and return actionable review feedback."""
     messages = [
         SystemMessage(content=REVIEWER_SYSTEM_PROMPT),
         HumanMessage(content=f"Review this Python code:\n\n```python\n{code}\n```"),
@@ -108,6 +112,7 @@ def run_reviewer(llm: ChatMistralAI, code: str) -> str:
 
 
 def run_final_coder(llm: ChatMistralAI, plan: str, draft_code: str, review: str) -> str:
+    """Send the plan, draft, and review feedback to the Coder Agent and return the polished final implementation."""
     messages = [
         SystemMessage(content=FINAL_CODER_SYSTEM_PROMPT),
         HumanMessage(

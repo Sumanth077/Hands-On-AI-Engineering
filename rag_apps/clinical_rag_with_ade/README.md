@@ -1,4 +1,7 @@
 # 🏥 Clinical RAG with ADE
+
+> Query dense clinical PDFs and get answers grounded in the document's exact visual layout.
+
 ![Clinical RAG Architecture](assets/clinical_rag.png)
 
 ## Overview

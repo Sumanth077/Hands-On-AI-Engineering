@@ -14,12 +14,14 @@ _model: WhisperModel | None = None
 
 
 def _get_device_config() -> tuple[str, str]:
+    """Return the appropriate device and compute type based on CUDA availability."""
     if torch.cuda.is_available():
         return "cuda", "float16"
     return "cpu", "int8"
 
 
 def get_model() -> WhisperModel:
+    """Return the cached WhisperModel, loading it on first call."""
     global _model
     if _model is None:
         device, compute_type = _get_device_config()
@@ -29,6 +31,7 @@ def get_model() -> WhisperModel:
 
 @dataclass
 class TranscriptionResult:
+    """Holds the transcript text, detected language code, and detection confidence."""
     text: str
     language: str
     language_probability: float

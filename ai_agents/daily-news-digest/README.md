@@ -2,6 +2,14 @@
 
 Automated daily digest from 92 Karpathy-curated tech blogs, delivered to Telegram at 8 AM every morning. MiniMax M2.7 scores every article fetched in the last 24 hours and picks the 3 most significant stories.
 
+## Architecture
+
+![Architecture diagram](docs/architecture.svg)
+
+## Demo
+
+![Daily AI Digest demo](assets/demo.png)
+
 ## How it works
 
 ```text
@@ -10,7 +18,7 @@ Automated daily digest from 92 Karpathy-curated tech blogs, delivered to Telegra
 
 1. `scripts/fetch_rss.py` fetches all feeds in parallel and keeps only articles published in the last 24 hours
 2. `skill.py` sends the article list to MiniMax M2.7, which scores each one and returns the top 3 as structured JSON
-3. Articles are grouped into categories — **Breaking**, **Important**, or **Notable** — and formatted as a Telegram message
+3. Articles are grouped into categories (**Breaking**, **Important**, or **Notable**) and formatted as a Telegram message
 4. Empty categories are omitted automatically
 
 
@@ -23,13 +31,13 @@ Automated daily digest from 92 Karpathy-curated tech blogs, delivered to Telegra
 
 ## Tech Stack
 **Models & Frameworks:**
-- MiniMax M2.7 — article scoring and ranking
-- OpenClaw — skill orchestration and cron scheduling
+- MiniMax M2.7: article scoring and ranking
+- OpenClaw: skill orchestration and cron scheduling
 
 **Libraries:**
-- `feedparser` — RSS feed parsing
-- `python-dotenv` — environment variable management
-- `requests` — HTTP requests for RSS feed fetching
+- `feedparser`: RSS feed parsing
+- `python-dotenv`: environment variable management
+- `requests`: HTTP requests for RSS feed fetching
 
 
 ## Prerequisites
@@ -101,7 +109,7 @@ cp -r . ~/.openclaw/skills/daily-ai-news-digest
 openclaw cron add "0 8 * * *" skill.py
 ```
 
-This schedules the digest to run every day at **08:00 UTC**. Adjust the cron expression to change the time — for example `"0 7 * * 1-5"` for weekdays at 07:00 UTC.
+This schedules the digest to run every day at **08:00 UTC**. Adjust the cron expression to change the time. For example, `"0 7 * * 1-5"` schedules it for weekdays at 07:00 UTC.
 
 ## Running manually
 
@@ -112,18 +120,18 @@ python skill.py
 ## Output format
 
 ```text
-🗞️ Daily AI Digest — April 1, 2026
+🗞️ Daily AI Digest: April 1, 2026
 
 🔴 BREAKING
-🔴 Article Title — Summary sentence one. Sentence two.
+🔴 Article Title: Summary sentence one. Sentence two.
 Source: Blog Name | [Read more](https://...)
 
 🟡 IMPORTANT
-🟡 Article Title — Summary sentence one. Sentence two.
+🟡 Article Title: Summary sentence one. Sentence two.
 Source: Blog Name | [Read more](https://...)
 
 🔵 NOTABLE
-🔵 Article Title — Summary sentence one. Sentence two.
+🔵 Article Title: Summary sentence one. Sentence two.
 Source: Blog Name | [Read more](https://...)
 ```
 
@@ -131,7 +139,7 @@ Source: Blog Name | [Read more](https://...)
 
 ```text
 daily-ai-news-digest/
-├── skill.py              # Main pipeline — fetch, score, format, send
+├── skill.py              # Main pipeline: fetch, score, format, send
 ├── scripts/
 │   └── fetch_rss.py      # Parallel RSS fetcher with 24h date filter
 ├── sources.json          # 92 Karpathy-curated RSS feed sources
@@ -143,10 +151,10 @@ daily-ai-news-digest/
 
 ## Customisation
 
-**Change the number of top articles** — edit the system prompt in `skill.py` and update the instruction from "top 3" to your preferred number.
+**Change the number of top articles**: edit the system prompt in `skill.py` and update the instruction from "top 3" to your preferred number.
 
-**Change the lookback window** — the `--hours` argument in `fetch_articles()` defaults to 24. Pass a different value to cast a wider or narrower net.
+**Change the lookback window**: the `--hours` argument in `fetch_articles()` defaults to 24. Pass a different value to cast a wider or narrower net.
 
-**Add or remove sources** — edit `sources.json`. Each entry needs a `name`, `xmlUrl` (the feed URL), and `htmlUrl` (the site URL).
+**Add or remove sources**: edit `sources.json`. Each entry needs a `name`, `xmlUrl` (the feed URL), and `htmlUrl` (the site URL).
 
-**Change the schedule** — update the cron expression in the `trigger` field of `SKILL.md` and re-register with `openclaw cron add`.
+**Change the schedule**: update the cron expression in the `trigger` field of `SKILL.md` and re-register with `openclaw cron add`.

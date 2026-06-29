@@ -6,6 +6,7 @@ A high-fidelity, visual extraction framework that converts images into validated
 
 ![Demo](assets/demo.png)
 
+
 ## Overview
 
 This project demonstrates how to move beyond raw text OCR to **Structured Visual Extraction**. Instead of getting a messy block of text, this tool uses the `instructor` library to force the VLM (Vision Language Model) to output data that fits a strict Pydantic schema. 

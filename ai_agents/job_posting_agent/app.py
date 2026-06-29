@@ -1,5 +1,10 @@
+"""Streamlit app for the Job Posting Agent. Enter a company and role to generate a tailored, professional job posting using a multi-agent LangChain pipeline backed by DeepSeek V4 Flash on NVIDIA NIM."""
+
 import json
+import logging
 import traceback
+
+logging.basicConfig(level=logging.INFO, format="%(message)s")
 
 import streamlit as st
 import streamlit.components.v1 as components
@@ -109,9 +114,9 @@ with st.sidebar:
     st.header("How it works")
     st.markdown(
         """
-        1. **Research Analyst** — searches DuckDuckGo for company culture, values, and news
-        2. **Job Requirements Specialist** — defines skills and qualifications for the role
-        3. **Job Posting Writer** — produces a polished, tailored job posting
+        1. **Research Analyst**: searches DuckDuckGo for company culture, values, and news
+        2. **Job Requirements Specialist**: defines skills and qualifications for the role
+        3. **Job Posting Writer**: produces a polished, tailored job posting
 
         Powered by **DeepSeek V4 Flash** via NVIDIA NIM.
         """

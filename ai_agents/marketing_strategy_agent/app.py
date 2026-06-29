@@ -163,6 +163,7 @@ body, .gradio-container {
 # -- Core function -------------------------------------------------------------
 
 def generate_campaign(product_description: str, target_audience: str):
+    """Run the three-agent pipeline and yield progressive outputs for each Gradio tab."""
     product_description = product_description.strip()
     target_audience = target_audience.strip()
 

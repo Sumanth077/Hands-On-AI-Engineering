@@ -31,6 +31,10 @@ JSON:"""
 
 
 def _parse_extraction(raw: str) -> dict:
+<<<<<<< HEAD
+=======
+    """Extracts the first JSON object from a raw string and returns it as a dict, or an empty scaffold on failure."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     match = re.search(r'\{.*\}', raw, re.DOTALL)
     if match:
         try:
@@ -41,6 +45,10 @@ def _parse_extraction(raw: str) -> dict:
 
 
 def _extract_from_chunk(client: Mistral, text: str) -> dict:
+<<<<<<< HEAD
+=======
+    """Sends a text chunk to Mistral and returns extracted entities and relationships, retrying up to three times."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     for attempt in range(3):
         try:
             resp = client.chat.complete(
@@ -61,6 +69,10 @@ def build_doc_graph(
     client: Mistral,
     progress_cb: Optional[Callable[[int, int], None]] = None,
 ) -> nx.Graph:
+<<<<<<< HEAD
+=======
+    """Builds a NetworkX graph from a list of text chunks by extracting entities and relationships via Mistral."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     G = nx.Graph()
     for i, chunk in enumerate(chunks):
         if progress_cb:
@@ -106,6 +118,10 @@ def build_doc_graph(
 
 
 def merge_into_combined(G_new: nx.Graph) -> nx.Graph:
+<<<<<<< HEAD
+=======
+    """Merges a new document graph into the persisted combined graph and saves it."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     G = load_combined_graph()
     for node, data in G_new.nodes(data=True):
         if G.has_node(node):
@@ -127,12 +143,20 @@ def merge_into_combined(G_new: nx.Graph) -> nx.Graph:
 
 
 def save_doc_graph(G: nx.Graph, doc_hash: str) -> None:
+<<<<<<< HEAD
+=======
+    """Serialises a document graph to a JSON file named by its hash."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     path = GRAPHS_DIR / f"{doc_hash}.json"
     data = nx.node_link_data(G)
     path.write_text(json.dumps(data, indent=2), encoding="utf-8")
 
 
 def load_combined_graph() -> nx.Graph:
+<<<<<<< HEAD
+=======
+    """Loads the combined graph from disk, returning an empty graph if not found."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     if COMBINED_GRAPH_FILE.exists():
         try:
             data = json.loads(COMBINED_GRAPH_FILE.read_text(encoding="utf-8"))
@@ -143,5 +167,9 @@ def load_combined_graph() -> nx.Graph:
 
 
 def save_combined_graph(G: nx.Graph) -> None:
+<<<<<<< HEAD
+=======
+    """Serialises the combined graph to its fixed JSON path."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     data = nx.node_link_data(G)
     COMBINED_GRAPH_FILE.write_text(json.dumps(data, indent=2), encoding="utf-8")

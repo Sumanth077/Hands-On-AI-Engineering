@@ -1,6 +1,22 @@
+<a id="top"></a>
+
 # 🦅 Eagle Eye
 
 AI-powered GitHub PR review agent using [OpenClaw](https://openclaw.dev), MiniMax M2.7, and GitHub MCP. Triggered via Telegram.
+
+---
+
+## ✅ Prerequisites
+
+- [OpenClaw](https://openclaw.dev) installed
+- A Telegram bot, created via [@BotFather](https://t.me/BotFather)
+- A GitHub Personal Access Token with repo and pull request scopes, created at [GitHub's token settings page](https://github.com/settings/tokens)
+
+---
+
+## 📸 Demo
+
+![Eagle Eye demo](assets/demo.png)
 
 ---
 
@@ -97,3 +113,7 @@ The agent will respond with the review and a prompt:
 - **Scope**: Does not see CI/CD logs or test results unless pasted into the chat.
 - **Large PRs**: For very large changes, the agent prioritizes security and correctness.
 - **Stateless**: Each Telegram session starts fresh; previous review context is not retained unless manually provided.
+
+---
+
+[Back to top](#top)

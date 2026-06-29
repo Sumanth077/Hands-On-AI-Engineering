@@ -8,7 +8,7 @@
 
 Research Team is a two-agent AI system that tackles deep research questions by splitting work between specialists. Seek searches the web for external information while Scout looks through local documents. A team leader powered by **MiniMax M2.5** coordinates both, then synthesises their findings into a clean, structured report.
 
-You give it a question like "Research Anthropic — their products, key people, and recent developments" and it comes back with an executive summary, sourced key findings, and open questions.
+You give it a question like "Research Anthropic: their products, key people, and recent developments" and it comes back with an executive summary, sourced key findings, and open questions.
 
 ## Features
 
@@ -16,24 +16,24 @@ You give it a question like "Research Anthropic — their products, key people, 
 - **Scout agent**: Reads local files from the `knowledge/` directory to surface internal context
 - **Team leader**: Delegates work to each specialist, cross-references findings, and produces a unified report
 - **Streaming UI**: Report appears progressively in the Gradio interface as the team works
-- **File upload**: Upload `.txt`, `.md`, or `.pdf` files directly from the UI — Scout reads them instantly on the next query
+- **File upload**: Upload `.txt`, `.md`, or `.pdf` files directly from the UI. Scout reads them instantly on the next query.
 
 ## Tech Stack
 
 **Frameworks and Libraries:**
-- [Agno](https://github.com/agno-agi/agno) — agent and team framework
-- [Gradio](https://www.gradio.app/) — web UI with streaming support
+- [Agno](https://github.com/agno-agi/agno): agent and team framework
+- [Gradio](https://www.gradio.app/): web UI with streaming support
 
 **Models and APIs:**
-- [MiniMax M2.5](https://openrouter.ai/minimax/minimax-m2.5) via [OpenRouter](https://openrouter.ai/) — team leader and both agents
-- [DuckDuckGo Search](https://pypi.org/project/duckduckgo-search/) — web search for Seek
+- [MiniMax M2.5](https://openrouter.ai/minimax/minimax-m2.5) via [OpenRouter](https://openrouter.ai/): team leader and both agents
+- [DuckDuckGo Search](https://pypi.org/project/duckduckgo-search/): web search for Seek
 
 ## Prerequisites
 
 - Python 3.11 or higher
 - [uv](https://docs.astral.sh/uv/) (recommended) or pip
 - API keys for:
-  - [ ] OpenRouter — get yours at https://openrouter.ai
+  - [ ] OpenRouter (get yours at https://openrouter.ai)
 
 ## Installation
 
@@ -83,7 +83,7 @@ Then open http://localhost:7860 in your browser.
 Enter a research query like:
 
 ```
-Research Anthropic — their products, key people, and recent developments
+Research Anthropic: their products, key people, and recent developments
 ```
 
 The team will search the web, check local docs, and stream back a structured report.
@@ -112,6 +112,6 @@ The team leader receives a research query and breaks it into two tracks. It dele
 
 Once both agents respond, the leader cross-references their findings, flags anything contradictory, and writes a final report with an executive summary, sourced key findings, and open questions.
 
-The Gradio app uses the same stream-buffering technique as the other projects in this repo — output is held until the first markdown heading appears, so the UI never shows raw model narration.
+The Gradio app uses the same stream-buffering technique as the other projects in this repo. Output is held until the first markdown heading appears, so the UI never shows raw model narration.
 
 [Back to Top](#research-team)

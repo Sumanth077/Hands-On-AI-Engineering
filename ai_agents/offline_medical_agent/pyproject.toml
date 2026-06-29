@@ -1,0 +1,16 @@
+[project]
+name = "offline-medical-agent"
+version = "0.1.0"
+description = "Fully offline agentic RAG system for clinical protocol lookup at edge sites"
+requires-python = ">=3.9,<3.14"
+
+dependencies = [
+    "llama-cpp-python>=0.3.0",
+    "huggingface-hub>=0.23.0",
+    "sentence-transformers>=3.0.0",
+    "qdrant-client>=1.9.0",
+    "gradio>=5.0.0",
+]
+
+[tool.setuptools.packages.find]
+include = ["offline_medical_agent*"]

@@ -3,6 +3,10 @@ from smolagents import Tool
 
 
 class WikipediaTool(Tool):
+<<<<<<< HEAD
+=======
+    """A smolagents tool that fetches a concise Wikipedia summary for any search query."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     name = "wikipedia"
     description = (
         "Searches Wikipedia and returns a summary of the most relevant article "
@@ -18,6 +22,10 @@ class WikipediaTool(Tool):
     output_type = "string"
 
     def forward(self, query: str) -> str:
+<<<<<<< HEAD
+=======
+        """Search Wikipedia for the query and return a 5-sentence summary with title and URL."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
         try:
             results = wikipedia.search(query, results=3)
             if not results:

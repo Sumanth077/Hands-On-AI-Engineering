@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+"""Smolagents Code Agent: a Gradio web app that streams live reasoning steps from a smolagents CodeAgent powered by Mistral Small via LiteLLM."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 import os
 import queue
 import threading

@@ -1,8 +1,11 @@
+<<<<<<< HEAD
+=======
 """
 Image-to-Structured-Data Extractor Streamlit app: upload an image and extract
 validated, structured JSON from it using Mistral Large 3 and Instructor.
 """
 
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 import streamlit as st
 from processor import extract_structured_data
 from schemas import ProductCollection, InvoiceCollection 
@@ -16,6 +19,13 @@ st.set_page_config(page_title="Mistral Vision Extractor", layout="wide")
 st.title("📸 Image-to-Structured-Data")
 st.write("Using **Mistral Large 3** for high-fidelity visual OCR and structured extraction.")
 
+<<<<<<< HEAD
+with st.sidebar:
+    # Use the MISTRAL_API_KEY from .env if available
+    api_key = st.text_input("Mistral API Key", value=os.getenv("MISTRAL_API_KEY", ""), type="password")
+    schema_choice = st.selectbox("Select Extraction Schema", ["Product", "Invoice"])
+    
+=======
 api_key = os.getenv("MISTRAL_API_KEY", "")
 
 with st.sidebar:
@@ -23,6 +33,7 @@ with st.sidebar:
         st.warning("MISTRAL_API_KEY is not set in your .env file.")
     schema_choice = st.selectbox("Select Extraction Schema", ["Product", "Invoice"])
 
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     # These names now match the updated import above
     schema_map = {
         "Product": ProductCollection,

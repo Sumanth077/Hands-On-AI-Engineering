@@ -17,16 +17,16 @@ Hacker News Newsletter Agent is a Streamlit app that automates the full newslett
 - Generates a structured HTML newsletter with story summaries and key insights using Gemma 4
 - Live newsletter preview rendered in the Streamlit UI before sending
 - Delivers the newsletter via Gmail SMTP with SSL encryption
-- Single-page Streamlit UI — enter your email and click generate
+- Single-page Streamlit UI: enter your email and click generate
 
 ## Tech Stack
 
 | Layer | Technology |
 |---|---|
 | LLM | Gemma 4 (`gemma-4-31b-it`) via Google AI Studio (`google-genai`) |
-| News Fetching | Hacker News Algolia API — free, no API key needed |
+| News Fetching | Hacker News Algolia API (free, no API key needed) |
 | Content Extraction | `trafilatura` |
-| Email Delivery | `smtplib` — Gmail SMTP on port 465 (SSL) |
+| Email Delivery | `smtplib` via Gmail SMTP on port 465 (SSL) |
 | UI | Streamlit |
 
 ## Prerequisites
@@ -41,7 +41,7 @@ Hacker News Newsletter Agent is a Streamlit app that automates the full newslett
 
 ```bash
 git clone https://github.com/Sumanth077/Hands-On-AI-Engineering.git
-cd Hands-On-AI-Engineering/ai_agents/hacker_news_newsletter_agentc
+cd Hands-On-AI-Engineering/ai_agents/hacker_news_newsletter_agent
 ```
 
 **2. Create and activate a virtual environment**
@@ -72,6 +72,22 @@ cp .env.example .env
 
 Open `.env` and fill in your credentials (see [Environment Variables](#environment-variables) below).
 
+## Environment Variables
+
+| Variable | Description |
+|---|---|
+| `GOOGLE_API_KEY` | API key from [aistudio.google.com](https://aistudio.google.com/apikey) |
+| `GMAIL_ADDRESS` | The Gmail address the newsletter is sent from |
+| `GMAIL_APP_PASSWORD` | 16-character App Password from [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords); remove spaces when copying |
+
+> **Note:** Gmail App Passwords require 2-Step Verification to be enabled. Do not use your regular Gmail password.
+
+```env
+GOOGLE_API_KEY=your_google_api_key_here
+GMAIL_ADDRESS=your_gmail_address@gmail.com
+GMAIL_APP_PASSWORD=your16charapppassword
+```
+
 ## Usage
 
 ```bash
@@ -84,22 +100,6 @@ streamlit run app.py
 4. Review the rendered HTML preview
 5. Click **Send Newsletter** to deliver it to your inbox
 
-## Environment Variables
-
-| Variable | Description |
-|---|---|
-| `GOOGLE_API_KEY` | API key from [aistudio.google.com](https://aistudio.google.com/apikey) |
-| `GMAIL_ADDRESS` | The Gmail address the newsletter is sent from |
-| `GMAIL_APP_PASSWORD` | 16-character App Password from [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords) — remove spaces |
-
-> **Note:** Gmail App Passwords require 2-Step Verification to be enabled. Do not use your regular Gmail password.
-
-```env
-GOOGLE_API_KEY=your_google_api_key_here
-GMAIL_ADDRESS=your_gmail_address@gmail.com
-GMAIL_APP_PASSWORD=your16charapppassword
-```
-
 ## Project Structure
 
 ```text
@@ -111,3 +111,7 @@ hacker-news-newsletter-agent/
 └── assets/
     └── demo.png        # Demo screenshot
 ```
+
+---
+
+[⬆ Back to Top](#hacker-news-newsletter-agent)

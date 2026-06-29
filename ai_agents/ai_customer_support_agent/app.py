@@ -1,3 +1,5 @@
+"""Streamlit customer support chatbot for NovaMart, powered by Mem0 persistent memory and Mistral Small 4."""
+
 import time
 import streamlit as st
 import os
@@ -24,11 +26,13 @@ st.set_page_config(
 # ---------------------------------------------------------------------------
 @st.cache_resource(show_spinner="Connecting to memory…")
 def init_memory() -> MemoryClient:
+    """Create and cache the Mem0 MemoryClient singleton."""
     return MemoryClient(api_key=MEM0_API_KEY)
 
 
 @st.cache_resource(show_spinner="Loading AI model…")
 def init_llm() -> ChatMistralAI:
+    """Create and cache the Mistral LLM singleton."""
     return ChatMistralAI(
         model=LLM_MODEL,
         mistral_api_key=MISTRAL_API_KEY,
@@ -48,6 +52,7 @@ def _unwrap(results) -> list:
 
 
 def get_all_memories(user_id: str) -> list:
+    """Return all stored memories for the given user, or an empty list on error."""
     try:
         return _unwrap(init_memory().get_all(filters={"user_id": user_id}))
     except Exception:
@@ -55,6 +60,7 @@ def get_all_memories(user_id: str) -> list:
 
 
 def search_memories(query: str, user_id: str, limit: int = 5) -> list:
+    """Search stored memories for the most relevant results matching the query."""
     try:
         return _unwrap(init_memory().search(query, filters={"user_id": user_id}, limit=limit))
     except Exception:
@@ -62,6 +68,7 @@ def search_memories(query: str, user_id: str, limit: int = 5) -> list:
 
 
 def add_to_memory(user_msg: str, assistant_msg: str, user_id: str) -> None:
+    """Save a user/assistant message pair to Mem0 and record the outcome in session state."""
     # Store outcome in session_state so it survives st.rerun() and can be
     # displayed in the sidebar on the next render pass.
     try:
@@ -84,6 +91,7 @@ def add_to_memory(user_msg: str, assistant_msg: str, user_id: str) -> None:
 
 
 def memory_text(mem) -> str:
+    """Extract the display text from a memory object returned by Mem0."""
     if isinstance(mem, dict):
         return mem.get("memory", mem.get("text", str(mem)))
     return str(mem)
@@ -93,6 +101,7 @@ def memory_text(mem) -> str:
 # LLM response
 # ---------------------------------------------------------------------------
 def build_system_prompt(user_name: str, memories: list) -> str:
+    """Build the CartMate system prompt with user context and relevant memories injected."""
     if memories:
         bullet_list = "\n".join(f"- {memory_text(m)}" for m in memories)
         memory_block = (
@@ -129,6 +138,7 @@ def build_system_prompt(user_name: str, memories: list) -> str:
 
 
 def generate_response(user_name: str, user_msg: str, history: list, memories: list) -> str:
+    """Invoke the LLM with the system prompt, recent history, and current message to produce a reply."""
     llm = init_llm()
     msgs = [SystemMessage(content=build_system_prompt(user_name, memories))]
 

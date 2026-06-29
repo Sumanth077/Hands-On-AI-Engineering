@@ -2,9 +2,9 @@
 
 Two agents collaborate:
 
-* **Retriever agent** — turns a user question into a focused search query and
+* **Retriever agent** - turns a user question into a focused search query and
   pulls the most semantically relevant chunks out of ChromaDB.
-* **Reasoning agent** — works through the retrieved evidence step by step and
+* **Reasoning agent** - works through the retrieved evidence step by step and
   produces a grounded, cited answer.
 
 Both agents use the OpenAI SDK pointed at the Orq.ai router.

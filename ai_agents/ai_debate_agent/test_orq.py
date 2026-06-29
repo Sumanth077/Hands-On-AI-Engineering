@@ -20,6 +20,7 @@ MODELS = [
 
 
 def main() -> int:
+    """Test connectivity to the Orq.ai router for all three debate models and return an exit code."""
     api_key = os.getenv("ORQ_API_KEY", "").strip()
     if not api_key or api_key.startswith("your-orq"):
         print("FAIL: Set a real ORQ_API_KEY in .env (copy from .env.example if needed).")
@@ -53,7 +54,7 @@ def main() -> int:
             failures += 1
             detail = str(exc).strip() or type(exc).__name__
             if exc.__cause__ and str(exc.__cause__) not in detail:
-                detail = f"{detail} — {exc.__cause__}"
+                detail = f"{detail} - {exc.__cause__}"
             print(f"FAIL {label}: {model}")
             print(f"     -> {type(exc).__name__}: {detail}\n")
 

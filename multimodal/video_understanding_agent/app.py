@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 import streamlit as st
 import google.generativeai as genai
+=======
+"""Streamlit app that accepts a YouTube URL and returns a structured AI-powered summary using the Gemini API."""
+import streamlit as st
+from google import genai
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 from dotenv import load_dotenv
 import os
 import re
@@ -24,9 +30,17 @@ YOUTUBE_PATTERN = re.compile(
 )
 
 def is_valid_youtube_url(url: str) -> bool:
+<<<<<<< HEAD
     return bool(YOUTUBE_PATTERN.search(url))
 
 def parse_sections(text: str) -> dict:
+=======
+    """Returns True if the given string matches a recognized YouTube URL pattern."""
+    return bool(YOUTUBE_PATTERN.search(url))
+
+def parse_sections(text: str) -> dict:
+    """Splits a Gemini response into chapters, takeaways, and action items by matching section headings."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     sections = {"chapters": "", "takeaways": "", "actions": ""}
 
     chapter_match = re.search(
@@ -71,8 +85,13 @@ List 4–6 concrete, actionable steps the viewer can take based on the video's c
 Be concise, specific, and use the viewer's perspective. Do not include any preamble before the first heading."""
 
 def analyze_video(youtube_url: str) -> dict:
+<<<<<<< HEAD
     genai.configure(api_key=GEMINI_API_KEY)
     model = genai.GenerativeModel("gemini-3-flash-preview")
+=======
+    """Sends the YouTube URL to Gemini and returns the parsed structured summary as a dict."""
+    client = genai.Client(api_key=GEMINI_API_KEY)
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
     video_part = {
         "file_data": {
@@ -81,7 +100,14 @@ def analyze_video(youtube_url: str) -> dict:
         }
     }
 
+<<<<<<< HEAD
     response = model.generate_content([video_part, PROMPT])
+=======
+    response = client.models.generate_content(
+        model="gemini-3-flash-preview",
+        contents=[video_part, PROMPT],
+    )
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     return parse_sections(response.text)
 
 

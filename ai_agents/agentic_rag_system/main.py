@@ -1,3 +1,5 @@
+"""Gradio UI and PDF processing logic for the Self-Reflective Agentic RAG system."""
+
 import gradio as gr
 import os
 import shutil
@@ -10,6 +12,7 @@ from rag_graph import app, embeddings, CHROMA_DB_PATH
 # ── PDF Processing ─────────────────────────────────────────────────────────────
 
 def process_pdf(file):
+    """Load, chunk, and index a PDF into the ChromaDB vector store."""
     if file is None:
         return (
             gr.update(value="⚠️ No file selected. Please upload a PDF first."),
@@ -41,6 +44,7 @@ def process_pdf(file):
 
 
 def clear_pdf():
+    """Delete the current ChromaDB vector store and reset the UI to its initial state."""
     if os.path.exists(CHROMA_DB_PATH):
         shutil.rmtree(CHROMA_DB_PATH)
     return (
@@ -53,6 +57,7 @@ def clear_pdf():
 # ── Question Answering ─────────────────────────────────────────────────────────
 
 def ask_question(question):
+    """Run the RAG graph on the given question and return the reflection log and final answer."""
     if not question or not question.strip():
         return gr.update(value=""), gr.update(value="*Ask a question to get started.*")
 
@@ -92,6 +97,7 @@ def ask_question(question):
 
 
 def clear_question():
+    """Clear the question input, reflection log, and answer output."""
     return "", gr.update(value=""), gr.update(value="*Ask a question to get started.*")
 
 

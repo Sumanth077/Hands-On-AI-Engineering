@@ -60,6 +60,7 @@ def _llm_context(state: MessagesState) -> list[HumanMessage]:
 
 
 def _validate_read_only(query: str) -> str:
+    """Raise ValueError if the query contains any non-SELECT or mutating SQL statement."""
     cleaned = query.strip().rstrip(";")
     if FORBIDDEN_SQL.search(cleaned):
         raise ValueError("Only read-only SELECT queries are allowed.")
@@ -77,6 +78,7 @@ class ReadOnlyQuerySQLDatabaseTool(QuerySQLDatabaseTool):
 
 
 def _build_model() -> ChatOpenAI:
+    """Build and return the ChatOpenAI client pointed at the Orq.ai router."""
     api_key = os.getenv("ORQ_API_KEY")
     if not api_key:
         raise ValueError("ORQ_API_KEY is not set. Copy .env.example to .env and add your key.")
@@ -92,6 +94,7 @@ def _build_model() -> ChatOpenAI:
 
 
 def _build_tools(db: SQLDatabase, model: ChatOpenAI) -> list:
+    """Build the LangChain SQL toolkit and replace the default query tool with the read-only version."""
     toolkit = SQLDatabaseToolkit(db=db, llm=model)
     tools = toolkit.get_tools()
     for i, tool in enumerate(tools):
@@ -101,6 +104,7 @@ def _build_tools(db: SQLDatabase, model: ChatOpenAI) -> list:
 
 
 def _create_agent():
+    """Build and compile the full LangGraph SQL agent workflow against the Chinook database."""
     if not DB_PATH.exists():
         raise FileNotFoundError(f"Database not found at {DB_PATH}")
 
@@ -239,6 +243,7 @@ _agent = None
 
 
 def get_agent(*, reload: bool = False):
+    """Return the cached agent instance, building it on first call or when reload is True."""
     global _agent
     if _agent is None or reload:
         _agent = _create_agent()
@@ -246,6 +251,7 @@ def get_agent(*, reload: bool = False):
 
 
 def _to_langchain_messages(history: list[dict]) -> list[BaseMessage]:
+    """Convert a list of role/content dicts from session history into LangChain message objects."""
     messages: list[BaseMessage] = []
     for item in history:
         role = item.get("role", "user")
@@ -258,6 +264,7 @@ def _to_langchain_messages(history: list[dict]) -> list[BaseMessage]:
 
 
 def _extract_sql_metadata(messages: list[BaseMessage]) -> tuple[str | None, str | None]:
+    """Extract the last SQL query and its raw result string from the agent message history."""
     last_sql: str | None = None
     last_results: str | None = None
     for message in messages:
@@ -271,6 +278,7 @@ def _extract_sql_metadata(messages: list[BaseMessage]) -> tuple[str | None, str 
 
 
 def extract_answer(messages: list[BaseMessage]) -> str:
+    """Return the last plain-text AI response from the message list, skipping tool calls and table listings."""
     for message in reversed(messages):
         if isinstance(message, AIMessage) and message.content and not message.tool_calls:
             text = message.content

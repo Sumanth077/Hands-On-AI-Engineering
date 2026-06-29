@@ -8,6 +8,10 @@ from langchain_community.document_loaders import PyPDFLoader, TextLoader
 
 class DocumentProcessor:
     def __init__(self, chunk_size: int = 800, chunk_overlap: int = 150):
+<<<<<<< HEAD
+=======
+        """Configure the text splitter used to chunk loaded documents."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
         self.splitter = RecursiveCharacterTextSplitter(
             chunk_size=chunk_size,
             chunk_overlap=chunk_overlap,
@@ -15,6 +19,10 @@ class DocumentProcessor:
         )
 
     def process(self, file_content: bytes, filename: str) -> list:
+<<<<<<< HEAD
+=======
+        """Load a PDF or TXT file from bytes and split it into text chunks."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
         suffix = Path(filename).suffix.lower()
         if suffix not in {".pdf", ".txt"}:
             raise ValueError(f"Unsupported file type: {suffix}. Use PDF or TXT.")

@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+"""Image Question Answering: upload a PDF, select a page, and ask visual questions answered by Gemma 4 via the Gemini API."""
+
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 import io
 import os
 
@@ -23,6 +28,10 @@ _page_images: list[Image.Image] = []
 
 
 def pdf_to_images(path: str, dpi: int = 150) -> list[Image.Image]:
+<<<<<<< HEAD
+=======
+    """Render every page of the PDF at the given DPI and return them as a list of PIL images."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     doc = fitz.open(path)
     zoom = dpi / 72.0
     mat = fitz.Matrix(zoom, zoom)
@@ -38,6 +47,10 @@ def pdf_to_images(path: str, dpi: int = 150) -> list[Image.Image]:
 
 
 def on_pdf_upload(pdf_file):
+<<<<<<< HEAD
+=======
+    """Handle a PDF upload by rendering all pages and initialising the page slider."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     global _page_images
 
     if pdf_file is None:
@@ -62,6 +75,10 @@ def on_pdf_upload(pdf_file):
 
 
 def on_page_change(page_num: int):
+<<<<<<< HEAD
+=======
+    """Return the PIL image for the selected 1-based page number."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     idx = int(page_num) - 1
     if _page_images and 0 <= idx < len(_page_images):
         return _page_images[idx]
@@ -69,6 +86,10 @@ def on_page_change(page_num: int):
 
 
 def on_submit(page_num: int, question: str):
+<<<<<<< HEAD
+=======
+    """Send the selected page image and question to Gemma 4 and return the answer text."""
+>>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     if not _page_images:
         return "Please upload a PDF first."
     if not question.strip():
