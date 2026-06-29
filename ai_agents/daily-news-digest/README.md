@@ -2,8 +2,6 @@
 
 Automated daily digest from 92 Karpathy-curated tech blogs, delivered to Telegram at 8 AM every morning. MiniMax M2.7 scores every article fetched in the last 24 hours and picks the 3 most significant stories.
 
-<<<<<<< HEAD
-=======
 ## Architecture
 
 ![Architecture diagram](docs/architecture.svg)
@@ -12,7 +10,6 @@ Automated daily digest from 92 Karpathy-curated tech blogs, delivered to Telegra
 
 ![Daily AI Digest demo](assets/demo.png)
 
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 ## How it works
 
 ```text
@@ -21,11 +18,7 @@ Automated daily digest from 92 Karpathy-curated tech blogs, delivered to Telegra
 
 1. `scripts/fetch_rss.py` fetches all feeds in parallel and keeps only articles published in the last 24 hours
 2. `skill.py` sends the article list to MiniMax M2.7, which scores each one and returns the top 3 as structured JSON
-<<<<<<< HEAD
-3. Articles are grouped into categories — **Breaking**, **Important**, or **Notable** — and formatted as a Telegram message
-=======
 3. Articles are grouped into categories (**Breaking**, **Important**, or **Notable**) and formatted as a Telegram message
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 4. Empty categories are omitted automatically
 
 
@@ -38,15 +31,6 @@ Automated daily digest from 92 Karpathy-curated tech blogs, delivered to Telegra
 
 ## Tech Stack
 **Models & Frameworks:**
-<<<<<<< HEAD
-- MiniMax M2.7 — article scoring and ranking
-- OpenClaw — skill orchestration and cron scheduling
-
-**Libraries:**
-- `feedparser` — RSS feed parsing
-- `python-dotenv` — environment variable management
-- `requests` — HTTP requests for RSS feed fetching
-=======
 - MiniMax M2.7: article scoring and ranking
 - OpenClaw: skill orchestration and cron scheduling
 
@@ -54,7 +38,6 @@ Automated daily digest from 92 Karpathy-curated tech blogs, delivered to Telegra
 - `feedparser`: RSS feed parsing
 - `python-dotenv`: environment variable management
 - `requests`: HTTP requests for RSS feed fetching
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
 
 ## Prerequisites
@@ -126,11 +109,7 @@ cp -r . ~/.openclaw/skills/daily-ai-news-digest
 openclaw cron add "0 8 * * *" skill.py
 ```
 
-<<<<<<< HEAD
-This schedules the digest to run every day at **08:00 UTC**. Adjust the cron expression to change the time — for example `"0 7 * * 1-5"` for weekdays at 07:00 UTC.
-=======
 This schedules the digest to run every day at **08:00 UTC**. Adjust the cron expression to change the time. For example, `"0 7 * * 1-5"` schedules it for weekdays at 07:00 UTC.
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
 ## Running manually
 
@@ -141,20 +120,6 @@ python skill.py
 ## Output format
 
 ```text
-<<<<<<< HEAD
-🗞️ Daily AI Digest — April 1, 2026
-
-🔴 BREAKING
-🔴 Article Title — Summary sentence one. Sentence two.
-Source: Blog Name | [Read more](https://...)
-
-🟡 IMPORTANT
-🟡 Article Title — Summary sentence one. Sentence two.
-Source: Blog Name | [Read more](https://...)
-
-🔵 NOTABLE
-🔵 Article Title — Summary sentence one. Sentence two.
-=======
 🗞️ Daily AI Digest: April 1, 2026
 
 🔴 BREAKING
@@ -167,7 +132,6 @@ Source: Blog Name | [Read more](https://...)
 
 🔵 NOTABLE
 🔵 Article Title: Summary sentence one. Sentence two.
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 Source: Blog Name | [Read more](https://...)
 ```
 
@@ -175,11 +139,7 @@ Source: Blog Name | [Read more](https://...)
 
 ```text
 daily-ai-news-digest/
-<<<<<<< HEAD
-├── skill.py              # Main pipeline — fetch, score, format, send
-=======
 ├── skill.py              # Main pipeline: fetch, score, format, send
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 ├── scripts/
 │   └── fetch_rss.py      # Parallel RSS fetcher with 24h date filter
 ├── sources.json          # 92 Karpathy-curated RSS feed sources
@@ -191,15 +151,6 @@ daily-ai-news-digest/
 
 ## Customisation
 
-<<<<<<< HEAD
-**Change the number of top articles** — edit the system prompt in `skill.py` and update the instruction from "top 3" to your preferred number.
-
-**Change the lookback window** — the `--hours` argument in `fetch_articles()` defaults to 24. Pass a different value to cast a wider or narrower net.
-
-**Add or remove sources** — edit `sources.json`. Each entry needs a `name`, `xmlUrl` (the feed URL), and `htmlUrl` (the site URL).
-
-**Change the schedule** — update the cron expression in the `trigger` field of `SKILL.md` and re-register with `openclaw cron add`.
-=======
 **Change the number of top articles**: edit the system prompt in `skill.py` and update the instruction from "top 3" to your preferred number.
 
 **Change the lookback window**: the `--hours` argument in `fetch_articles()` defaults to 24. Pass a different value to cast a wider or narrower net.
@@ -207,4 +158,3 @@ daily-ai-news-digest/
 **Add or remove sources**: edit `sources.json`. Each entry needs a `name`, `xmlUrl` (the feed URL), and `htmlUrl` (the site URL).
 
 **Change the schedule**: update the cron expression in the `trigger` field of `SKILL.md` and re-register with `openclaw cron add`.
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a

@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-=======
 <a id="top"></a>
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 # RAG Agent with Database Routing
 
 > A RAG system that intelligently routes queries across three specialized databases covering product information, customer support, and financial data. When no relevant documents are found, a fallback agent performs live web research to still return a useful answer.
@@ -47,11 +44,7 @@ cd Hands-On-AI-Engineering/rag_apps/rag_agent_with_database_routing
 cp .env.example .env
 ```
 
-<<<<<<< HEAD
-Add your Google API key to `.env`.
-=======
 Add your ORQ_API_KEY to `.env`.
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
 ## Usage
 
@@ -112,8 +105,5 @@ Qdrant retrieves top-k documents from the selected collection
     ▼
 Streamlit displays the answer with routing badge, source docs, and reasoning
 ```
-<<<<<<< HEAD
-=======
 
 [Back to top](#top)
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a

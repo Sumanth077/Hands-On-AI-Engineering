@@ -1,10 +1,7 @@
 # 🏥 Clinical RAG with ADE
-<<<<<<< HEAD
-=======
 
 > Query dense clinical PDFs and get answers grounded in the document's exact visual layout.
 
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 ![Clinical RAG Architecture](assets/clinical_rag.png)
 
 ## Overview

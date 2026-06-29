@@ -36,10 +36,7 @@ For media files (images, audio, video), Gemini first extracts a text description
 ## Prerequisites
 
 - Python 3.10 or later
-<<<<<<< HEAD
-=======
 - [uv](https://docs.astral.sh/uv/) for dependency management
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 - A Google API key. Get one free at [aistudio.google.com](https://aistudio.google.com)
 
 ## Installation
@@ -52,15 +49,12 @@ cp .env.example .env
 
 Add your Google API key to `.env`.
 
-<<<<<<< HEAD
-=======
 Install dependencies:
 
 ```bash
 uv sync
 ```
 
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 ## Usage
 
 ```bash
@@ -129,10 +123,7 @@ Content parts assembled for Gemini 3 Flash:
     ▼
 Gemini 3 Flash generates a grounded answer with source citations
 ```
-<<<<<<< HEAD
-=======
 
 ---
 
 [Back to Top](#multimodal-rag)
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a

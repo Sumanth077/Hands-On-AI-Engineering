@@ -1,9 +1,5 @@
 # Competitive Intelligence Agent
 
-<<<<<<< HEAD
-A multi-agent AI system that generates strategic sales battlecards by analyzing competitors through the unique lens of your own business context.
-
-=======
 > Generate strategic sales battlecards by analyzing competitors through the unique lens of your own business context.
 
 A multi-agent AI system that generates strategic sales battlecards by analyzing competitors through the unique lens of your own business context.
@@ -12,16 +8,11 @@ A multi-agent AI system that generates strategic sales battlecards by analyzing 
 
 ![Demo](assets/demo.png)
 
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 ## Overview
 
 The **Competitive Intelligence Agent** solves the "generic research" problem by moving away from broad, impersonal reports. Instead of searching the web for everything about a competitor, this system uses specialized AI agents to analyze a competitor specifically in relation to *your* company's value proposition, your customers' specific pain points, and your strategic sales goals.
 
-<<<<<<< HEAD
-It uses **CrewAI** to orchestrate specialized agents—a Market Scout, a Product Strategist, and a Battlecard Author—to research, compare, and synthesize actionable sales intelligence.
-=======
 It uses **CrewAI** to orchestrate three specialized agents that research, compare, and synthesize actionable sales intelligence: a Market Scout, a Product Strategist, and a Battlecard Author.
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
 This tool is designed for:
 - **Sales Teams:** Who need immediate, punchy arguments to win against specific competitors.
@@ -55,13 +46,8 @@ Before you begin, ensure you have:
 - Python 3.12 or higher
 - [uv](https://github.com/astral-sh/uv) (Recommended for dependency management)
 - API keys for:
-<<<<<<< HEAD
-  - [ ] Google AI Studio (for Gemini/Gemma)
-  - [ ] Tavily Search API
-=======
   - [Google AI Studio](https://aistudio.google.com) for Gemini/Gemma (free tier available)
   - [Tavily Search API](https://tavily.com) (free tier available)
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
 ## Installation
 
@@ -115,11 +101,8 @@ competitive_intelligence_agent/
 ├── .env.example           # Template for API keys
 ├── pyproject.toml         # uv project configuration
 ├── uv.lock                # Locked dependencies for consistency
-<<<<<<< HEAD
-=======
 ├── assets/
 │   └── demo.png           # Demo screenshot
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 └── .venv/                 # Virtual environment (auto-generated)
 ```
 

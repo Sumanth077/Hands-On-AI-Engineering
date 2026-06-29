@@ -1,10 +1,6 @@
 # Cal Scheduling Agent
 
-<<<<<<< HEAD
-> A conversational scheduling assistant that manages Cal.com appointments through natural language — check availability, book, reschedule, and cancel, with automatic timezone handling. Powered by Gemini 3 Flash and Streamlit.
-=======
 > A conversational scheduling assistant that manages Cal.com appointments through natural language. Check availability, book, reschedule, and cancel with automatic timezone handling. Powered by Gemini 3 Flash and Streamlit.
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
 ## Demo
 
@@ -12,11 +8,7 @@
 
 ## Overview
 
-<<<<<<< HEAD
-Instead of logging into Cal.com and manually navigating availability calendars, this agent lets you ask in plain English — "what slots are free next week?", "book a meeting with Sarah for Tuesday at 3pm GMT", "cancel my appointment on Friday" — and handles everything through a conversational interface.
-=======
 Instead of logging into Cal.com and manually navigating availability calendars, this agent lets you ask in plain English: "what slots are free next week?", "book a meeting with Sarah for Tuesday at 3pm GMT", "cancel my appointment on Friday". It handles everything through a conversational interface.
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
 The agent connects to the [Cal.com REST API](https://cal.com/docs/api-reference) to read availability, create bookings, and manage existing appointments in real time.
 
@@ -41,12 +33,8 @@ The agent connects to the [Cal.com REST API](https://cal.com/docs/api-reference)
 ## Prerequisites
 
 - Python 3.10 or later
-<<<<<<< HEAD
-- A Google API key — get one free at [aistudio.google.com](https://aistudio.google.com)
-=======
 - [uv](https://docs.astral.sh/uv/getting-started/installation/) (Python package manager)
 - A Google API key. Get one free at [aistudio.google.com](https://aistudio.google.com)
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 - A Cal.com account with API access
 - A Cal.com Event Type ID
 
@@ -67,15 +55,12 @@ cp .env.example .env
 
 Open `.env` and add your credentials.
 
-<<<<<<< HEAD
-=======
 **Install dependencies**
 
 ```bash
 uv sync
 ```
 
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 ## Usage
 
 ```bash
@@ -103,11 +88,7 @@ What's open next Monday morning?
 |---|---|
 | Google API Key | [aistudio.google.com](https://aistudio.google.com) |
 | Cal.com API Key | [cal.com/settings/developer/api-keys](https://app.cal.com/settings/developer/api-keys) |
-<<<<<<< HEAD
-| Event Type ID | Your Cal.com dashboard — visible in the URL when editing an event type |
-=======
 | Event Type ID | Your Cal.com dashboard (visible in the URL when editing an event type) |
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
 ## Environment Variables
 

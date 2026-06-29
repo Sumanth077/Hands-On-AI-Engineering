@@ -4,11 +4,7 @@
 
 ## Overview
 
-<<<<<<< HEAD
-GraphRAG Knowledge System implements Microsoft's GraphRAG methodology as a fully local Streamlit application. Documents are chunked and processed through an entity-extraction pipeline powered by Mistral Small 4. Extracted entities and relationships are stored in a NetworkX graph persisted to disk, while text embeddings are stored in ChromaDB using Ollama's `nomic-embed-text` model. At query time the app supports two retrieval modes — **Local Search** for pinpointing specific entities and **Global Search** for synthesising broad themes across the entire graph — before generating a grounded answer with supporting knowledge graph context.
-=======
 GraphRAG Knowledge System implements Microsoft's GraphRAG methodology as a fully local Streamlit application. Documents are chunked and processed through an entity-extraction pipeline powered by Mistral Small 4. Extracted entities and relationships are stored in a NetworkX graph persisted to disk, while text embeddings are stored in ChromaDB using Ollama's `nomic-embed-text` model. At query time the app supports two retrieval modes: **Local Search** for pinpointing specific entities and **Global Search** for synthesising broad themes across the entire graph, before generating a grounded answer with supporting knowledge graph context.
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
 ## Demo
 
@@ -16,16 +12,6 @@ GraphRAG Knowledge System implements Microsoft's GraphRAG methodology as a fully
 
 ## Features
 
-<<<<<<< HEAD
-- **Document ingestion** — upload PDF or TXT files; documents are chunked, entity-extracted, and indexed automatically
-- **GraphRAG entity extraction** — extracts typed entities (Person, Organization, Location, Technology, Concept, Event) and weighted relationships from every chunk using Mistral
-- **Local Knowledge Graph** — NetworkX `DiGraph` persisted as JSON; no external database required
-- **Local embeddings** — `nomic-embed-text` via Ollama runs entirely on your machine; no embedding API key needed
-- **Local vector store** — ChromaDB stores chunk embeddings with persistent local storage
-- **Dual search modes** — Local Search for entity-centric retrieval, Global Search for community-level thematic synthesis
-- **Document caching** — SHA-256 file hashing prevents re-indexing the same file on every run
-- **Community detection** — automatic Louvain community detection groups related entities and generates community summaries for Global Search
-=======
 - **Document ingestion**: upload PDF or TXT files; documents are chunked, entity-extracted, and indexed automatically
 - **GraphRAG entity extraction**: extracts typed entities (Person, Organization, Location, Technology, Concept, Event) and weighted relationships from every chunk using Mistral
 - **Local Knowledge Graph**: NetworkX `DiGraph` persisted as JSON; no external database required
@@ -34,7 +20,6 @@ GraphRAG Knowledge System implements Microsoft's GraphRAG methodology as a fully
 - **Dual search modes**: Local Search for entity-centric retrieval, Global Search for community-level thematic synthesis
 - **Document caching**: SHA-256 file hashing prevents re-indexing the same file on every run
 - **Community detection**: automatic Louvain community detection groups related entities and generates community summaries for Global Search
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
 ## Tech Stack
 
@@ -44,11 +29,7 @@ GraphRAG Knowledge System implements Microsoft's GraphRAG methodology as a fully
 | Document Ingestion | LangChain |
 | LLM | Mistral Small 4 (`mistral-small-latest`) via Mistral AI API |
 | Embeddings | `nomic-embed-text` via Ollama (local) |
-<<<<<<< HEAD
-| Graph Store | NetworkX DiGraph — persisted to `graph_store.json` |
-=======
 | Graph Store | NetworkX DiGraph, persisted to `graph_store.json` |
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 | Vector Database | ChromaDB (local persistent storage in `chroma_db/`) |
 | UI | Streamlit |
 
@@ -120,19 +101,11 @@ Open [http://localhost:8501](http://localhost:8501) in your browser.
 **Workflow**
 
 1. Upload one or more PDF or TXT files using the sidebar file uploader
-<<<<<<< HEAD
-2. Click **⚙️ Process Documents** — the app chunks each file, extracts entities and relationships, builds the knowledge graph, and indexes embeddings
-3. Type a question in the main panel and choose a search mode:
-   - **🔍 Local Search** — best for specific questions about named entities, events, or facts
-   - **🌐 Global Search** — best for broad thematic questions that span the whole document set
-4. Click **🚀 Ask** — the answer appears as a paragraph with supporting entities and relationships listed below
-=======
 2. Click **⚙️ Process Documents**: the app chunks each file, extracts entities and relationships, builds the knowledge graph, and indexes embeddings
 3. Type a question in the main panel and choose a search mode:
    - **🔍 Local Search**: best for specific questions about named entities, events, or facts
    - **🌐 Global Search**: best for broad thematic questions that span the whole document set
 4. Click **🚀 Ask**: the answer appears as a paragraph with supporting entities and relationships listed below
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
 **Example**
 
@@ -166,11 +139,7 @@ Copy `.env.example` to `.env` and fill in the value below.
 
 | Variable | Required | Description |
 |---|---|---|
-<<<<<<< HEAD
-| `MISTRAL_API_KEY` | Yes | Your Mistral AI API key — get one at [platform.mistral.ai](https://platform.mistral.ai) |
-=======
 | `MISTRAL_API_KEY` | Yes | Your Mistral AI API key, get one at [platform.mistral.ai](https://platform.mistral.ai) |
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
 ```env
 MISTRAL_API_KEY=your_mistral_api_key_here
@@ -181,11 +150,7 @@ MISTRAL_API_KEY=your_mistral_api_key_here
 ## Project Structure
 
 ```text
-<<<<<<< HEAD
-graphrag-knowledge-system/
-=======
 graphrag_knowledge_system/
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 ├── app.py                      # Streamlit UI, ingestion pipeline, community detection
 ├── src/
 │   ├── cache_manager.py        # SHA-256 file-hash cache (cache.json)
@@ -195,21 +160,12 @@ graphrag_knowledge_system/
 │   ├── llm_client.py           # Mistral AI chat client with retry logic
 │   ├── search_engine.py        # Local search and Global search implementations
 │   └── vector_store.py         # ChromaDB collection with Ollama embedding function
-<<<<<<< HEAD
-├── chroma_db/                  # Auto-created — ChromaDB persistent storage
-├── graph_store.json            # Auto-created — serialised NetworkX graph
-├── cache.json                  # Auto-created — processed file hashes
-=======
 ├── chroma_db/                  # Auto-created, ChromaDB persistent storage
 ├── graph_store.json            # Auto-created, serialised NetworkX graph
 ├── cache.json                  # Auto-created, processed file hashes
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 ├── requirements.txt
 ├── .env.example
 └── README.md
 ```
-<<<<<<< HEAD
-=======
 
 [Back to top](#graphrag-knowledge-system)
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
