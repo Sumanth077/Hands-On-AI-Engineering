@@ -1,0 +1,11 @@
+[project]
+name = "saas-customer-support-voice-agent"
+version = "1.0.0"
+description = "SaaS Customer Support Voice Agent -- Dynamic Variables webhook for Telnyx AI Assistant Builder"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.32.0",
+    "python-dotenv>=1.0.0",
+    "telnyx>=4.0.0",
+]
