@@ -6,11 +6,11 @@ A voice AI agent that answers phone calls and handles customer support conversat
 
 ## Overview
 
-This project uses the **Telnyx AI Assistant Builder** to configure the agent, model, voice, system prompt and phone number entirely in the Telnyx portal. Our FastAPI server contributes a **Dynamic Variables webhook**: Telnyx calls it at the start of every call, and we return live data (system status, queue wait time, business hours) that gets injected into the agent's system prompt as `{{variable}}` placeholders.
+This project uses the **Telnyx AI Assistant Builder** to configure the agent, model, voice, system prompt and phone number entirely in the Telnyx portal. A FastAPI server contributes a **Dynamic Variables webhook**: Telnyx calls it at the start of every call, and it return live data that gets injected into the agent's system prompt.
 
 **What Telnyx portal handles:** STT, LLM inference, TTS, phone number routing, conversation history, embeddable browser widget.
 
-**What our code handles:** real-time context injection via Dynamic Variables webhook.
+**What this code handles:** real-time context injection via Dynamic Variables webhook.
 
 ## How It Works
 
