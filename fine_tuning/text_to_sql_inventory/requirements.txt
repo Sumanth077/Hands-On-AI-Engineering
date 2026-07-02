@@ -1,0 +1,8 @@
+gradio>=4.0.0
+transformers>=4.40.0
+torch>=2.0.0
+accelerate>=0.27.0
+datasets>=2.14.0
+python-dotenv>=1.0.0
+pandas>=2.0.0
+huggingface-hub>=0.20.0
