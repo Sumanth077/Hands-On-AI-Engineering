@@ -1,5 +1,5 @@
 """
-Citation-Aware Deep Research Agent -- Streamlit app.
+Grounded Document Agent -- Streamlit app.
 
 Upload a long PDF, get a quick overview, then ask questions and receive answers
 that cite the exact pages they came from. Parsing is done by LlamaParse; the
@@ -22,13 +22,13 @@ from pathlib import Path
 
 import streamlit as st
 
-from citation_agent.config import SETTINGS, configure_settings
-from citation_agent.indexer import build_or_load_index
-from citation_agent.overview import generate_overview
-from citation_agent.parser import parse_pdf
-from citation_agent.query import Citation, ask, make_query_engine
+from grounded_agent.config import SETTINGS, configure_settings
+from grounded_agent.indexer import build_or_load_index
+from grounded_agent.overview import generate_overview
+from grounded_agent.parser import parse_pdf
+from grounded_agent.query import Citation, ask, make_query_engine
 
-st.set_page_config(page_title="Citation-Aware Research Agent", page_icon="📄", layout="wide")
+st.set_page_config(page_title="Grounded Document Agent", page_icon="📄", layout="wide")
 
 configure_settings()
 
@@ -165,7 +165,7 @@ with st.sidebar:
 # Main
 # ---------------------------------------------------------------------------
 
-st.title("Citation-Aware Deep Research Agent")
+st.title("Grounded Document Agent")
 st.caption("Upload a long PDF, ask questions, and get answers that cite their source pages.")
 
 # The main architectural point, made visible: one cloud call to parse, everything

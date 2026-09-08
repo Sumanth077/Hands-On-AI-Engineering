@@ -1,4 +1,4 @@
-# Citation-Aware Deep Research Agent
+# Grounded Document Agent
 
 ![Demo](assets/demo.gif)
 
@@ -75,9 +75,9 @@ Streamlit opens `http://localhost:8501`. Upload a PDF, wait for the overview, an
 ## Project Structure
 
 ```
-citation_deep_research_agent/
+grounded_document_agent/
 ├── app.py                     # Streamlit UI (upload -> overview -> chat with citations)
-├── citation_agent/
+├── grounded_agent/
 │   ├── config.py              # env settings + wiring LlamaIndex to local Ollama
 │   ├── parser.py              # LlamaParse: PDF -> page-level Documents (cached by file hash)
 │   ├── indexer.py             # build/load the on-disk vector index (Ollama embeddings)
