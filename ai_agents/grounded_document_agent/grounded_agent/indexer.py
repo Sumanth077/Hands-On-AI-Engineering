@@ -18,7 +18,7 @@ from llama_index.core import (
 )
 from llama_index.core.schema import Document
 
-from citation_agent.config import SETTINGS
+from grounded_agent.config import SETTINGS
 
 
 def build_or_load_index(documents: list[Document], doc_key: str) -> VectorStoreIndex:

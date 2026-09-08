@@ -15,7 +15,7 @@ from dataclasses import dataclass
 from llama_index.core import VectorStoreIndex
 from llama_index.core.query_engine import CitationQueryEngine
 
-from citation_agent.config import SETTINGS
+from grounded_agent.config import SETTINGS
 
 _PAGE_KEYS = ("page", "page_label", "page_number")
 

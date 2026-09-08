@@ -19,7 +19,7 @@ from pathlib import Path
 
 from llama_index.core.schema import Document
 
-from citation_agent.config import SETTINGS, require_api_key
+from grounded_agent.config import SETTINGS, require_api_key
 
 # Metadata keys LlamaParse may use for the page number, in order of preference.
 _PAGE_KEYS = ("page_label", "page", "page_number", "page_index")
