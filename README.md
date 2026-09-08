@@ -75,6 +75,12 @@ Intelligent ai agents for various automation tasks.
 - [**Customer Query Routing and Resolution Agent**](./ai_agents/customer_query_routing_agent) - Routes incoming support queries to the right department and generates grounded responses using [Actian VectorAI DB](https://www.actian.com/databases/vectorai-db/) as a local persistent memory and retrieval layer. 
 - [**Email Auto Responder**](./ai_agents/email_auto_responder). Reads unread Gmail messages over IMAP, classifies intent with CrewAI agents on GLM-5.1, and drafts professional replies in a Streamlit dashboard.
 - [**LLM Agri Bot**](./ai_agents/llm_agri_bot). Farming assistant that answers questions on crop health, weather, pests, and planting seasons using a LangChain tool-calling agent powered by Mistral.
+- [**Citation-Aware Deep Research Agent**](./ai_agents/citation_deep_research_agent). Ask a long PDF questions and get answers that cite the exact source pages. LlamaParse handles parsing; retrieval and answers run locally on Ollama.
+- [**Self-Evolving Code Review Agent**](./ai_agents/self_evolving_code_review_agent). Code reviewer that learns team conventions from engineer feedback without retraining the model, using LangGraph and Actian VectorAI DB for persistent memory.
+- [**TrueForge Web Research Briefer**](./ai_agents/trueforge_web_research_briefer). Web research agent built on the open-source TrueForge harness. Plans the turn, searches the web via MCP, fans out to parallel subagents, and builds a cited one-page brief.
+- [**Deep Research Assistant**](./ai_agents/deep_research_assistant). Research agent that answers any question with a fully cited response, built on LangChain Deep Agents with the Liner Web Search API for grounding.
+- [**Devable Research Agent**](./ai_agents/devable_research_agent). Scheduled three-step pipeline that collects AI engineering signals, ranks the best items, and delivers a structured Slack digest.
+- [**Instagram Post Crew**](./ai_agents/instagram_post_crew). CrewAI pipeline that turns a topic into an Instagram content package: trend analysis, caption variants, an image prompt, and a recommended posting time.
 
 ### 📸 OCR
 
