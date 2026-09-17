@@ -169,7 +169,7 @@ In your assistant settings, look for the **Dynamic Variables** section:
 
 ```bash
 git clone https://github.com/Sumanth077/Hands-On-AI-Engineering.git
-cd Hands-On-AI-Engineering/voice_apps/saas_customer_support_voice_agent
+cd Hands-On-AI-Engineering/audio/customer_support_voice_agent
 ```
 
 ### 2. Create virtual environment
@@ -281,4 +281,4 @@ This is the right approach for demos and small-to-medium support playbooks (unde
 - [Available models](https://developers.telnyx.com/docs/inference/models) -- `moonshotai/Kimi-K2.5` is the recommended balance of intelligence and cost
 - [Telnyx Portal](https://portal.telnyx.com)
 
-[Back to Top](#saas-customer-support-voice-agent-telnyx-ai-assistant-builder)
+[Back to Top](#customer-support-voice-agent-telnyx-ai-assistant-builder)
