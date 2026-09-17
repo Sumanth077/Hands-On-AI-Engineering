@@ -1,0 +1,4 @@
+flask>=3.0
+requests>=2.31
+openai>=1.40
+python-dotenv>=1.0
