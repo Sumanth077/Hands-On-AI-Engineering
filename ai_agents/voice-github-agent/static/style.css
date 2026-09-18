@@ -1,0 +1,334 @@
+:root {
+  --bg: #f6f3ec;
+  --bg-elevated: #fffdf8;
+  --text: #23201a;
+  --text-muted: #7a7263;
+  --border: #e2dcca;
+  --accent: #b5502f;
+  --accent-ink: #ffffff;
+  --caret: #b5502f;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #17150f;
+    --bg-elevated: #201d16;
+    --text: #ece6d8;
+    --text-muted: #948c78;
+    --border: #332e22;
+    --accent: #e0774a;
+    --accent-ink: #17150f;
+    --caret: #e0774a;
+    color-scheme: dark;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+  min-height: 100vh;
+}
+
+.app {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 56px 24px 96px;
+}
+
+.app-header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.wordmark {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wordmark-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: inline-block;
+}
+
+.tagline {
+  margin: 10px 0 0;
+  font-family: Georgia, "Iowan Old Style", ui-serif, serif;
+  font-style: italic;
+  color: var(--text-muted);
+  font-size: 15px;
+}
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 48px;
+}
+
+.record-btn {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  display: grid;
+  place-items: center;
+}
+
+.record-btn-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  transition: border-color 160ms ease;
+}
+
+.record-btn-core {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--accent);
+  transition: transform 160ms ease, border-radius 160ms ease;
+}
+
+.record-btn:hover .record-btn-ring {
+  border-color: var(--accent);
+}
+
+.record-btn:active .record-btn-core {
+  transform: scale(0.92);
+}
+
+.record-btn.is-recording .record-btn-core {
+  border-radius: 10px;
+  width: 32px;
+  height: 32px;
+}
+
+.record-btn.is-recording .record-btn-ring {
+  border-color: var(--accent);
+  animation: pulse-ring 1.6s ease-out infinite;
+}
+
+.record-btn:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgba(181, 80, 47, 0.35); }
+  70% { box-shadow: 0 0 0 14px rgba(181, 80, 47, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(181, 80, 47, 0); }
+}
+
+.status-line {
+  margin: 0;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.error-banner {
+  max-width: 480px;
+  margin: -8px auto 32px;
+  padding: 12px 16px;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  color: var(--accent);
+  font-size: 14px;
+  text-align: center;
+}
+
+.result {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.panel {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px 26px;
+}
+
+.panel-label {
+  margin: 0 0 14px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.panel-transcript {
+  border-left: 3px solid var(--accent);
+}
+
+.transcript-text {
+  margin: 0;
+  font-family: Georgia, "Iowan Old Style", ui-serif, serif;
+  font-size: 19px;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.transcript-text .caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  margin-left: 2px;
+  vertical-align: -2px;
+  background: var(--caret);
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+.activity-feed {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.activity-item {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 14.5px;
+  color: var(--text);
+  opacity: 0;
+  transform: translateY(4px);
+  animation: rise-in 320ms ease forwards;
+}
+
+.activity-item::before {
+  content: "\2713";
+  color: var(--accent);
+  font-size: 12px;
+  flex: none;
+}
+
+.activity-item-empty {
+  color: var(--text-muted);
+}
+
+.activity-item-empty::before {
+  content: "\2013";
+}
+
+.activity-item code {
+  font-family: ui-monospace, "SFMono-Regular", Consolas, Menlo, monospace;
+  font-size: 0.9em;
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+
+.activity-item strong {
+  font-weight: 700;
+}
+
+@keyframes rise-in {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.panel-summary {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: var(--accent);
+}
+
+.panel-summary .panel-label {
+  color: var(--accent-ink);
+  opacity: 0.75;
+}
+
+.summary-text {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.summary-text p {
+  margin: 0 0 12px;
+}
+
+.summary-text p:last-child {
+  margin-bottom: 0;
+}
+
+.summary-text strong {
+  font-weight: 700;
+}
+
+.summary-text code {
+  font-family: ui-monospace, "SFMono-Regular", Consolas, Menlo, monospace;
+  font-size: 0.9em;
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.summary-text ol,
+.summary-text ul {
+  margin: 0 0 12px;
+  padding-left: 1.3em;
+}
+
+.summary-text ol:last-child,
+.summary-text ul:last-child {
+  margin-bottom: 0;
+}
+
+.summary-text li {
+  margin: 4px 0;
+  line-height: 1.6;
+}
+
+.summary-text li::marker {
+  color: var(--accent-ink);
+  opacity: 0.7;
+}
+
+.summary-text a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .app {
+    padding: 40px 18px 72px;
+  }
+}

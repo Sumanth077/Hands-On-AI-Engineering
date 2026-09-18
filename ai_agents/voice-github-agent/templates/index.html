@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dictate — voice GitHub agent</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <div class="wordmark"><span class="wordmark-dot"></span>Dictate</div>
+      <p class="tagline">Speak an instruction. It lands on the page, then on GitHub.</p>
+    </header>
+
+    <main class="stage">
+      <button id="record-btn" class="record-btn" type="button" aria-pressed="false" aria-label="Start recording">
+        <span class="record-btn-ring"></span>
+        <span class="record-btn-core"></span>
+      </button>
+      <p id="status-line" class="status-line">Click to speak</p>
+    </main>
+
+    <p id="error-banner" class="error-banner" hidden></p>
+
+    <section id="result" class="result" hidden>
+      <article class="panel panel-transcript">
+        <h2 class="panel-label">Transcript</h2>
+        <p id="transcript-text" class="transcript-text"></p>
+      </article>
+
+      <article class="panel panel-activity">
+        <h2 class="panel-label">Activity</h2>
+        <ul id="activity-feed" class="activity-feed"></ul>
+      </article>
+
+      <article class="panel panel-summary">
+        <h2 class="panel-label">Summary</h2>
+        <div id="summary-text" class="summary-text"></div>
+      </article>
+    </section>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js"></script>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
