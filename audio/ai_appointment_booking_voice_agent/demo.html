@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Appointment Booking Voice Agent</title>
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root { --accent:#4f46e5; --ink:#1e293b; --muted:#64748b; --line:#e5e7eb; --bg:#f5f7fb; }
+    body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+           background:var(--bg); min-height:100vh; color:var(--ink); padding:40px 24px; }
+    .hero { text-align:center; max-width:640px; margin:0 auto 32px; }
+    .badge { display:inline-block; background:#eef2ff; color:#4338ca; font-size:12px; font-weight:600;
+             padding:4px 12px; border-radius:999px; margin-bottom:14px; letter-spacing:.3px;
+             border:1px solid #c7d2fe; }
+    h1 { font-size:28px; font-weight:700; color:#0f172a; line-height:1.3; }
+    .hero p { margin-top:8px; color:var(--muted); font-size:14px; }
+    .widget-wrap { display:flex; justify-content:center; margin-top:22px; }
+    .widget-hint { text-align:center; font-size:12px; color:var(--muted); margin-top:10px; }
+    main { max-width:1020px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    @media (max-width:820px){ main { grid-template-columns:1fr; } }
+    .card { background:#fff; border:1px solid var(--line); border-radius:14px; padding:20px;
+            box-shadow:0 1px 2px rgba(15,23,42,.04); }
+    .card h2 { font-size:13px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin-bottom:14px; }
+    table { width:100%; border-collapse:collapse; }
+    th,td { text-align:left; padding:9px 10px; font-size:13px; border-bottom:1px solid var(--line); }
+    th { font-size:11px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); }
+    tr:last-child td { border-bottom:none; }
+    code { color:var(--accent); font-weight:600; }
+    .pill { background:#dcfce7; color:#166534; padding:2px 9px; border-radius:999px; font-size:11px; font-weight:600; }
+    .sum { border:1px solid var(--line); border-radius:10px; padding:12px 14px; margin-bottom:10px; }
+    .sum .meta { font-size:12px; color:var(--muted); margin-bottom:6px; }
+    .sum .follow { background:#eef2ff; color:#3730a3; padding:9px 11px; border-radius:8px;
+           font-size:13px; margin-top:8px; line-height:1.5; }
+    .empty { color:#94a3b8; font-size:13px; padding:14px 0; }
+    #err { display:none; color:#b91c1c; font-size:12px; text-align:center; margin:10px 0; }
+    .footer { margin-top:32px; font-size:12px; color:#94a3b8; text-align:center; }
+  </style>
+</head>
+<body>
+
+  <div class="hero">
+    <div class="badge">Live Demo</div>
+    <h1>AI Appointment Booking Voice Agent</h1>
+    <p>Call the agent and book an appointment. It appears below the moment it is booked.</p>
+
+    <div class="widget-wrap">
+      <!-- Replace agent-id with your assistant's ID (portal -> AI Suite -> Assistants
+           -> your assistant). It looks like assistant-XXXXXXXX-.... Until you set a
+           real ID here, the call button will just spin. -->
+      <telnyx-ai-agent
+        agent-id="assistant-2f6780ae-e317-4090-9c29-82ca66d09946"
+        environment="production">
+      </telnyx-ai-agent>
+      <script async src="https://unpkg.com/@telnyx/ai-agent-widget@next"></script>
+    </div>
+    <div class="widget-hint">Click the call button above, or dial your Telnyx number.</div>
+  </div>
+
+  <div id="err">Waiting for the local server (run <code>python main.py</code>)…</div>
+
+  <main>
+    <div class="card">
+      <h2>Appointments booked</h2>
+      <table>
+        <thead><tr><th>Ref</th><th>Name</th><th>Service</th><th>When</th><th>Status</th></tr></thead>
+        <tbody id="appts"><tr><td colspan="5" class="empty">No bookings yet. Make a call.</td></tr></tbody>
+      </table>
+    </div>
+    <div class="card">
+      <h2>Personalised follow-up</h2>
+      <div id="summaries"><div class="empty">Appears after a call ends.</div></div>
+    </div>
+  </main>
+
+  <p class="footer">
+    Built with Telnyx AI Assistant Builder &middot; FastAPI webhook tools &middot; Kimi K2.6
+  </p>
+
+  <script>
+    // ---------- CONFIG ----------
+    const API_BASE = "http://localhost:8000";  // where python main.py is running
+    const REFRESH_MS = 4000;
+    // ----------------------------
+
+    const esc = (s) => (s ?? "").toString().replace(/[&<>"]/g, c =>
+      ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]));
+
+    function fmt(iso) {
+      const d = new Date((iso || "").slice(0, 19));
+      return isNaN(d) ? (iso || "") : d.toLocaleString(undefined,
+        { weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"2-digit" });
+    }
+
+    async function refresh() {
+      try {
+        const [appts, sums] = await Promise.all([
+          fetch(`${API_BASE}/api/appointments`).then(r => r.json()),
+          fetch(`${API_BASE}/api/summaries`).then(r => r.json()),
+        ]);
+        document.getElementById("err").style.display = "none";
+
+        document.getElementById("appts").innerHTML = appts.length ? appts.map(a => `
+          <tr><td><code>${esc(a.booking_ref)}</code></td><td>${esc(a.caller_name)}</td>
+          <td>${esc(a.service)}</td><td>${fmt(a.start_iso)}</td>
+          <td><span class="pill">${esc(a.status)}</span></td></tr>`).join("")
+          : `<tr><td colspan="5" class="empty">No bookings yet. Make a call.</td></tr>`;
+
+        document.getElementById("summaries").innerHTML = sums.length ? sums.map(s => `
+          <div class="sum">
+            <div class="meta">${fmt(s.created_at)}</div>
+            <div>${esc(s.summary || "Call summary")}</div>
+            ${s.follow_up ? `<div class="follow">${esc(s.follow_up)}</div>` : ""}
+          </div>`).join("")
+          : `<div class="empty">Appears after a call ends.</div>`;
+      } catch (e) {
+        document.getElementById("err").style.display = "block";
+      }
+    }
+
+    refresh();
+    setInterval(refresh, REFRESH_MS);
+  </script>
+</body>
+</html>
