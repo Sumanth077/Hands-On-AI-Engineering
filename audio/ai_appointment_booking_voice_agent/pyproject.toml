@@ -1,0 +1,16 @@
+[project]
+name = "ai-appointment-booking-voice-agent"
+version = "1.0.0"
+description = "A Telnyx Voice AI agent that answers real phone calls, books appointments through webhook tools, stores them in a CRM, and writes a personalised follow-up with Telnyx Inference."
+readme = "README.md"
+requires-python = ">=3.10,<3.14"
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.30.0",
+    "python-dotenv>=1.0.0",
+    "openai>=1.40.0",
+    "httpx>=0.27.0",
+]
+
+[tool.setuptools.packages.find]
+include = ["appointment_agent*"]

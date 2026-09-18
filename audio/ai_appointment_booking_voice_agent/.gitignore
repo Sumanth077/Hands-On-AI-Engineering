@@ -1,0 +1,18 @@
+# Environment
+.env
+
+# Local data (SQLite CRM store and generated calendar invites)
+.data/
+*.ics
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+.eggs/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
