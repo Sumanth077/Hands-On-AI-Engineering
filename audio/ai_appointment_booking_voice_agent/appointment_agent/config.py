@@ -27,7 +27,7 @@ class Settings:
     # Telnyx (cloud). The API key is used for Inference and optional SMS.
     telnyx_api_key: str = os.getenv("TELNYX_API_KEY", "")
     inference_base_url: str = os.getenv("INFERENCE_BASE_URL", "https://api.telnyx.com/v2/ai/openai")
-    inference_model: str = os.getenv("INFERENCE_MODEL", "moonshotai/Kimi-K2.6")
+    inference_model: str = os.getenv("INFERENCE_MODEL", "zai-org/GLM-5.3-Flash")
 
     # Business profile, injected into the agent prompt at call start.
     business_name: str = os.getenv("BUSINESS_NAME", "Brightsmile Dental")
