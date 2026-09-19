@@ -55,8 +55,8 @@ the CRM dashboard, and the Inference-generated follow-up.
 |---|---|
 | Voice and telephony | Telnyx Voice AI + a Telnyx phone number ($0.05/min bundled) |
 | Agent | A single Telnyx AI Assistant with webhook tools |
-| LLM | `moonshotai/Kimi-K2.6` via Telnyx (the recommended voice model) |
-| Inference (follow-up) | Telnyx Inference, OpenAI-compatible endpoint, `moonshotai/Kimi-K2.6` |
+| LLM | `zai-org/GLM-5.3-Flash` on Telnyx Inference (via the assistant's custom OpenAI-compatible endpoint) |
+| Inference (follow-up) | Telnyx Inference, OpenAI-compatible endpoint, `zai-org/GLM-5.3-Flash` |
 | Tools and webhooks | FastAPI + Uvicorn |
 | Calendar | Hand-rolled iCalendar (`.ics`), no dependency |
 | CRM store and dashboard | SQLite + a single server-rendered HTML page |
@@ -87,8 +87,16 @@ paste it where the steps say `https://YOUR-NGROK.ngrok.io`.
 - Left sidebar -> **AI Suite** -> **Assistants** -> **Create**. Start from a blank
   canvas (templates like Lead Qualification also exist).
 - **Name:** `Appointment Agent`.
-- **Model:** select `moonshotai/Kimi-K2.6` (the Recommended voice model in the
-  dropdown). Only third-party models (OpenAI, etc.) need an API key here.
+- **Model:** this project runs on `zai-org/GLM-5.3-Flash`, hosted on Telnyx
+  Inference. It is not in the native model dropdown yet (that lists GLM-5.2), so
+  select it through Telnyx's own inference endpoint using **Use Custom LLM** on
+  the Agent tab:
+  - **Base URL:** `https://api.telnyx.com/v2/ai/openai`
+  - **API Key:** your Telnyx API key, saved as an **Integration Secret**
+  - **Model Name:** `zai-org/GLM-5.3-Flash`
+
+  Because the Base URL is Telnyx's own endpoint and the model runs on Telnyx GPUs,
+  this is Telnyx-hosted GLM inference, not an external provider.
 - **Instructions:**
 
 ```
@@ -277,10 +285,11 @@ ai_appointment_booking_voice_agent/
 
 ## Customising
 
-- **Swap the model.** Set the assistant model in the portal from the models your
-  account offers. `moonshotai/Kimi-K2.6` is the recommended voice model; other
-  self-hosted options like `Qwen/Qwen3-235B-A22B` or `zai-org/GLM-5.2` also work.
-  The follow-up model is `INFERENCE_MODEL` in `.env`.
+- **Swap the model.** The agent uses `zai-org/GLM-5.3-Flash` on Telnyx Inference
+  via the custom OpenAI-compatible endpoint (see Step 2). To change it, edit the
+  Custom LLM Model Name in the portal, and set `INFERENCE_MODEL` in `.env` for the
+  follow-up. Any Telnyx-hosted model works (for example `zai-org/GLM-5.2` is in the
+  native dropdown if you prefer not to use the custom endpoint).
 - **Change the business.** `BUSINESS_NAME`, `BUSINESS_HOURS`, `BUSINESS_SERVICES`,
   and the open/close hours all live in `.env`. No code change.
 - **Use a real calendar.** `scheduling.py` is deliberately isolated. Point
@@ -294,8 +303,9 @@ ai_appointment_booking_voice_agent/
 Telnyx bundles Voice AI (SIP + STT + LLM + TTS) at $0.05 per minute, with
 telephony itemised on top (inbound from $0.0032 per minute). A real five-minute
 call that books an appointment lands around $0.30, so $25 in signup credits is
-roughly 80 booking calls. Telnyx Inference is up to 75% less than closed-model
-APIs.
+roughly 80 booking calls. The LLM runs on `zai-org/GLM-5.3-Flash` on Telnyx
+Inference, up to 75% less than closed-model APIs, so the model is a small slice of
+that per-call cost. Check the real figure on the Telnyx Usage page after a call.
 
 ## Resources
 
