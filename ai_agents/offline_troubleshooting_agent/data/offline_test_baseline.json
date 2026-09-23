@@ -1,0 +1,5 @@
+{
+  "incident_id": "bc455f13-34e4-4704-8854-0d9a86f40dc9",
+  "confirmed_cause": "Worn bearing in the main shaft assembly",
+  "notes": "Vibration reading of 7.91 mm/s is significantly above the normal 1.5\u20133.0 mm/s range\nTemperature is rising steadily to 91.7\u00b0C\nError code BRG-02 matches symptoms of bearing vibration warning\nPast incident with identical symptoms (high vibration and rising temperature) confirmed a worn bearing as the cause\nManual section on bearing troubleshooting recommends the same inspection and repair steps\n\nOFFLINE TEST REFERENCE INCIDENT"
+}

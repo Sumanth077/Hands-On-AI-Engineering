@@ -1,0 +1,13 @@
+services:
+  offline-troubleshooting-vectorai:
+    image: actian/vectorai:latest
+    container_name: offline-troubleshooting-vectorai
+    ports:
+      - "6673:6573"
+      - "6674:6574"
+      - "6675:6575"
+    volumes:
+      - ./local_data:/var/lib/actian-vectorai
+    environment:
+      - ACTIAN_VECTORAI_ACCEPT_EULA=YES
+    restart: unless-stopped

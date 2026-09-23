@@ -1,0 +1,62 @@
+[
+  {
+    "incident_id": "eaca15e8-b09a-51d3-852d-efc893955a49",
+    "created_at": "2026-09-10T09:15:00",
+    "machine_id": "Machine A",
+    "symptoms": ["high temperature", "high vibration"],
+    "temperature_c": 92.0,
+    "vibration_mm_s": 8.1,
+    "pressure_bar": 5.0,
+    "error_code": "BRG-02",
+    "diagnosis": "Likely worn bearing causing elevated vibration and rising temperature.",
+    "confirmed_cause": "worn bearing",
+    "fix_applied": "bearing replacement",
+    "outcome": "resolved",
+    "notes": "Vibration and temperature returned to normal baseline after replacement."
+  },
+  {
+    "incident_id": "c43aa763-6248-5175-96e3-5ddae4391342",
+    "created_at": "2026-09-05T14:30:00",
+    "machine_id": "Machine A",
+    "symptoms": ["high temperature", "near-normal vibration"],
+    "temperature_c": 96.0,
+    "vibration_mm_s": 2.3,
+    "pressure_bar": 5.1,
+    "error_code": "TMP-04",
+    "diagnosis": "Likely cooling airflow problem given rising temperature with normal vibration and pressure.",
+    "confirmed_cause": "blocked cooling fan",
+    "fix_applied": "cleared fan obstruction",
+    "outcome": "resolved",
+    "notes": "Debris was found lodged in the cooling fan intake."
+  },
+  {
+    "incident_id": "86f0c8b4-3b36-5425-88db-eee0ee898b25",
+    "created_at": "2026-08-28T11:00:00",
+    "machine_id": "Machine A",
+    "symptoms": ["low pressure", "mildly elevated temperature"],
+    "temperature_c": 77.0,
+    "vibration_mm_s": 2.4,
+    "pressure_bar": 2.8,
+    "error_code": "PRS-03",
+    "diagnosis": "Likely pressure system leak given dropping pressure with normal vibration.",
+    "confirmed_cause": "seal leak",
+    "fix_applied": "replaced seal",
+    "outcome": "resolved",
+    "notes": "Leak traced to a worn seal on the pressure line fitting."
+  },
+  {
+    "incident_id": "4151d788-02fe-56ca-92f1-6744cd690d65",
+    "created_at": "2026-09-15T16:45:00",
+    "machine_id": "Machine A",
+    "symptoms": ["elevated vibration", "otherwise normal readings"],
+    "temperature_c": 72.0,
+    "vibration_mm_s": 4.5,
+    "pressure_bar": 5.0,
+    "error_code": null,
+    "diagnosis": "Elevated vibration with normal temperature and pressure; no error code raised.",
+    "confirmed_cause": "loose access panel",
+    "fix_applied": "panel refastened",
+    "outcome": "resolved, not a bearing issue",
+    "notes": "Vibration was traced to a loose external access panel rattling against the housing, not the bearing."
+  }
+]
