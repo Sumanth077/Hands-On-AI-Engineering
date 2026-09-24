@@ -1,0 +1,16 @@
+.env
+.venv/
+.uv-cache/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+.DS_Store
+.pytest_cache/
+data/*.sqlite
+data/connections.json
+node_modules/
+.eve/
+.output/
