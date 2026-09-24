@@ -1,0 +1,7 @@
+pydantic>=2.10
+pandas
+pytest
+gradio
+python-dotenv
+ollama
+actian-vectorai-client
