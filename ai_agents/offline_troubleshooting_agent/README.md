@@ -4,10 +4,12 @@
 ## Overview
 The Offline Troubleshooting Agent is a fully local AI maintenance assistant for a simulated industrial machine. It investigates simulated sensor faults using a local LLM, a local equipment manual, and a local vector memory of previously resolved incidents, then requires a human technician to confirm or correct its diagnosis before anything is saved. Everything, the model, the embeddings, and the memory store, runs on a single machine, so the agent keeps working and keeps remembering even with the network fully disconnected.
 
-## Demo
+## How It Works
 ![Architecture](assets/architecture.png)
-The agent investigates using local tools (current readings, the equipment manual, and past incidents) before a human ever reviews anything, and nothing is written to persistent memory until that human confirms it.
+The agent investigates a fault using only local tools, current sensor readings, the equipment manual, and past resolved incidents, before any human ever reviews the case. Once it concludes, it proposes a diagnosis but never writes it to persistent memory itself; a human technician has to confirm or correct that diagnosis first, and only that confirmation step commits anything to the durable incident store.
 
+## Demo
+![Demo](assets/demo.gif)
 See `docs/OFFLINE_TEST_LOG_20260923T092644.md` for a real completed offline run, actual proof of the offline claim, not just the diagram's word for it.
 
 ## Features
