@@ -1,0 +1,15 @@
+{
+  "name": "nl-data-analyst-eve",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node node_modules/eve/bin/eve.js build",
+    "dev": "node --env-file=.env scripts/start_local.mjs"
+  },
+  "dependencies": {
+    "ai": "^7.0.105",
+    "eve": "0.63.0",
+    "zod": "^4.0.0"
+  },
+  "engines": {"node": ">=24"}
+}
