@@ -16,6 +16,15 @@ export function openDatabase(databaseId: string): DatabaseSync {
   return db;
 }
 
+export function inspectDatabaseSchema(db: DatabaseSync) {
+  const tables = db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' ORDER BY name").all() as { name: string }[];
+  return tables.map(({ name }) => {
+    const quoted = `"${name.replaceAll('"', '""')}"`;
+    const columns = db.prepare(`PRAGMA table_info(${quoted})`).all() as { name: string; type: string }[];
+    return { table: name, columns: columns.map(({ name, type }) => ({ name, type })) };
+  });
+}
+
 export function validateSql(sql: string): string {
   const cleaned = sql.trim().replace(/;\s*$/, "");
   if (!/^select\b/i.test(cleaned) || cleaned.includes(";")) {

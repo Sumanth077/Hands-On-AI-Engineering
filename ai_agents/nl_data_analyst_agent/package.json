@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "build": "node node_modules/eve/bin/eve.js build",
-    "dev": "node --env-file=.env scripts/start_local.mjs"
+    "dev": "node --env-file=.env scripts/start_local.mjs",
+    "test": "node --test tests/jev.test.ts"
   },
   "dependencies": {
     "ai": "^7.0.105",

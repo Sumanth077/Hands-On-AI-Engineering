@@ -14,13 +14,16 @@ import httpx
 import pandas as pd
 from dotenv import load_dotenv
 
+load_dotenv()
+
+from jev_review import Review, review_answer, review_question
 from seed_data import seed_database
 
-load_dotenv()
 ROOT = Path(__file__).resolve().parent
 DEMO_DATABASE = ROOT / "data" / "demo.sqlite"
 REGISTRY = ROOT / "data" / "connections.json"
 EVE_URL = os.getenv("EVE_URL", "http://127.0.0.1:3000").rstrip("/")
+DEMO_METRICS = ["completed-order revenue = quantity * unit_price for orders where status = 'completed'"]
 
 
 def schema_text(path: Path) -> str:
@@ -76,8 +79,95 @@ def eve_post(path: str, payload: dict[str, Any]) -> dict[str, Any]:
     return response.json()
 
 
-def consume_events(session: dict[str, Any]) -> tuple[str, str, pd.DataFrame, dict[str, Any] | None]:
-    answer, sql, rows, pending = "", "", pd.DataFrame(), None
+def present_grounding_review(answer: str, grounding: Review) -> tuple[str, str | None]:
+    if grounding.actionable:
+        return (
+            f"⚠️ **Unverified draft — awaiting user review.** {grounding.message()}\n\n"
+            "The explanation below is not treated as final. Compare it with the displayed rows, or submit: "
+            "“Revise the previous answer using only the displayed SQL rows and explicitly correct unsupported claims.”\n\n"
+            f"**Eve draft (unverified):**\n\n{answer}",
+            None,
+        )
+    if grounding.status != "ok":
+        return answer, grounding.message() + " The answer is shown because uncertain or failed reviews do not block it."
+    return answer, None
+
+
+def project_eve_events(
+    events: list[dict[str, Any]], question: str, focus_call_id: str | None = None,
+) -> tuple[str, str, pd.DataFrame, dict[str, Any] | None]:
+    answer, pending = "", None
+    proposed_sql: dict[str, str] = {}
+    completed: dict[str, dict[str, Any]] = {}
+    completed_order: list[str] = []
+    sql_reviews: list[Review] = []
+    for event in events:
+        kind, data = event.get("type"), event.get("data") or {}
+        if kind == "actions.requested":
+            for action in data.get("actions", []):
+                if action.get("toolName", "").endswith("run_sql"):
+                    call_id = action.get("callId")
+                    sql = action.get("input", {}).get("sql")
+                    if call_id and isinstance(sql, str):
+                        proposed_sql[call_id] = sql
+        elif kind == "action.result":
+            result = data.get("result") or {}
+            output = result.get("output") or {}
+            call_id = result.get("callId")
+            if isinstance(output, dict):
+                sql = output.get("sql") or proposed_sql.get(call_id, "")
+                if call_id and "rows" in output:
+                    completed[call_id] = {
+                        "callId": call_id,
+                        "sql": sql,
+                        "rows": output["rows"],
+                    }
+                    if call_id not in completed_order:
+                        completed_order.append(call_id)
+                review = output.get("review")
+                if isinstance(review, dict) and (review.get("actionable") or review.get("status") != "ok"):
+                    sql_reviews.append(Review(**review))
+        elif kind == "input.requested":
+            for request in data.get("requests") or []:
+                action = request.get("action") or {}
+                if request.get("kind") == "tool-approval" and action.get("toolName", "").endswith("run_sql"):
+                    call_id = action.get("callId")
+                    sql = action.get("input", {}).get("sql") or proposed_sql.get(call_id, "")
+                    pending = {"requestId": request["requestId"], "callId": call_id, "sql": sql}
+                    break
+        elif kind == "message.completed" and data.get("finishReason") != "tool-calls":
+            answer = data.get("message") or answer
+        elif kind in {"turn.failed", "session.failed"}:
+            answer = f"Eve could not complete this question: {data.get('message', 'Unknown error')}"
+
+    selected: dict[str, Any] | None = None
+    if pending:
+        prior_ids = [call_id for call_id in completed_order if call_id != pending.get("callId")]
+        if prior_ids:
+            pending["priorCompleted"] = completed[prior_ids[-1]]
+        sql = pending.get("sql", "")
+        rows = pd.DataFrame()
+    else:
+        selected_id = focus_call_id if focus_call_id in completed else (completed_order[-1] if completed_order else None)
+        selected = completed.get(selected_id) if selected_id else None
+        sql = selected.get("sql", "") if selected else ""
+        rows = pd.DataFrame(selected.get("rows", [])) if selected else pd.DataFrame()
+
+    notes = [review.message() for review in sql_reviews]
+    if answer and sql and not pending:
+        grounding = review_answer(question, sql, rows.to_dict(orient="records"), answer)
+        answer, grounding_note = present_grounding_review(answer, grounding)
+        if grounding_note:
+            notes.append(grounding_note)
+    if notes:
+        answer = answer + ("\n\n" if answer else "") + "\n\n".join(f"> {note}" for note in notes)
+    return answer, sql, rows, pending
+
+
+def consume_events(
+    session: dict[str, Any], question: str, focus_call_id: str | None = None,
+) -> tuple[str, str, pd.DataFrame, dict[str, Any] | None]:
+    events: list[dict[str, Any]] = []
     with httpx.Client(timeout=httpx.Timeout(15, read=180)) as client:
         with client.stream("GET", EVE_URL + f"/eve/v1/session/{session['id']}/stream",
                            params={"startIndex": session["cursor"]}) as response:
@@ -87,27 +177,10 @@ def consume_events(session: dict[str, Any]) -> tuple[str, str, pd.DataFrame, dic
                     continue
                 event = json.loads(line)
                 session["cursor"] += 1
-                kind, data = event.get("type"), event.get("data") or {}
-                if kind == "actions.requested":
-                    for action in data.get("actions", []):
-                        if action.get("toolName", "").endswith("run_sql"):
-                            sql = action.get("input", {}).get("sql", sql)
-                elif kind == "action.result":
-                    output = (data.get("result") or {}).get("output") or {}
-                    if isinstance(output, dict) and "rows" in output:
-                        rows = pd.DataFrame(output["rows"])
-                        sql = output.get("sql", sql)
-                elif kind == "input.requested":
-                    requests = data.get("requests") or []
-                    if requests:
-                        pending = {"requestId": requests[0]["requestId"]}
-                elif kind == "message.completed" and data.get("finishReason") != "tool-calls":
-                    answer = data.get("message") or answer
-                elif kind in {"turn.failed", "session.failed"}:
-                    answer = f"Eve could not complete this question: {data.get('message', 'Unknown error')}"
-                elif kind == "session.waiting":
+                events.append(event)
+                if event.get("type") == "session.waiting":
                     break
-    return answer, sql, rows, pending
+    return project_eve_events(events, question, focus_call_id)
 
 
 def ask(question: str, chat: list[dict[str, str]], pending: dict[str, Any] | None,
@@ -119,17 +192,33 @@ def ask(question: str, chat: list[dict[str, str]], pending: dict[str, Any] | Non
     if not question.strip():
         return chat, "", "", pd.DataFrame(), None, session, gr.update(visible=False), gr.update(visible=False)
     chat = chat + [{"role": "user", "content": question.strip()}]
+    schema = schema_text(Path(json.loads(REGISTRY.read_text())[database_id]))
+    clarity = review_question(question.strip(), schema, DEMO_METRICS if database_id == "demo" else [])
+    if clarity.actionable:
+        chat.append({"role": "assistant", "content": clarity.message() + " Please clarify that point, then submit the question again."})
+        return chat, question, "", pd.DataFrame(), None, session, gr.update(visible=False), gr.update(visible=False)
     try:
         message = f"Database ID: {database_id}\nQuestion: {question.strip()}"
         if session is None:
             created = eve_post("/eve/v1/session", {"message": message})
-            session = {"id": created["sessionId"], "cursor": 0}
+            session = {"id": created["sessionId"], "cursor": 0, "question": question.strip()}
         else:
             eve_post(f"/eve/v1/session/{session['id']}", {"message": message})
-        answer, sql, rows, pending = consume_events(session)
-        chat.append({"role": "assistant", "content": (
+            session["question"] = question.strip()
+        answer, sql, rows, pending = consume_events(session, question.strip())
+        if clarity.status != "ok":
+            answer = (answer + "\n\n" if answer else "") + f"> {clarity.message()} The question proceeded because this review was not confident."
+        content = (
             "This query needs approval before Eve runs it. Review the SQL and choose Approve or Reject."
-            if pending else answer or "Eve returned no answer. Check its terminal for details.")})
+            if pending else answer or "Eve returned no answer. Check its terminal for details.")
+        if pending and pending.get("priorCompleted"):
+            content += (
+                "\n\nA different SQL call completed in the same turn. Its rows are hidden while you review "
+                "the SQL awaiting approval and will be restored with a clear label if you reject it."
+            )
+        if pending and clarity.status != "ok":
+            content += f"\n\n> {clarity.message()} The question proceeded because this review was not confident."
+        chat.append({"role": "assistant", "content": content})
         return chat, "", sql, rows, pending, session, gr.update(visible=bool(pending)), gr.update(visible=bool(pending))
     except (httpx.HTTPError, OSError, ValueError) as error:
         chat.append({"role": "assistant", "content": f"Could not reach Eve: {error}. Check the Eve server and gateway key."})
@@ -142,8 +231,19 @@ def decide(approved: bool, chat: list[dict[str, str]], pending: dict[str, Any] |
         raise gr.Error("No query is waiting for approval.")
     try:
         eve_post(f"/eve/v1/session/{session['id']}", {"inputResponses": [{"requestId": pending["requestId"],
-                  "optionId": "approve" if approved else "deny"}]})
-        answer, sql, rows, next_pending = consume_events(session)
+                  "optionId": "approve" if approved else "cancel"}]})
+        answer, sql, rows, next_pending = consume_events(
+            session, session.get("question", ""), focus_call_id=pending.get("callId"),
+        )
+        if not approved and not next_pending and pending.get("priorCompleted"):
+            prior = pending["priorCompleted"]
+            sql = prior.get("sql", "")
+            rows = pd.DataFrame(prior.get("rows", []))
+            label = (
+                "The displayed SQL and rows belong to an earlier completed query "
+                f"(`{prior.get('callId', 'unknown call')}`), not the rejected query."
+            )
+            answer = answer + ("\n\n" if answer else "") + label
         chat = chat + [{"role": "assistant", "content": answer or ("Query rejected." if not approved else "Eve returned no answer.")}]
         return chat, sql, rows, next_pending, session, gr.update(visible=bool(next_pending)), gr.update(visible=bool(next_pending))
     except (httpx.HTTPError, OSError, ValueError) as error:
