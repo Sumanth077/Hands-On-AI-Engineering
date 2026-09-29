@@ -302,8 +302,7 @@ ai_appointment_booking_voice_agent/
 
 Telnyx bundles Voice AI (SIP + STT + LLM + TTS) at $0.05 per minute, with
 telephony itemised on top (inbound from $0.0032 per minute). A real five-minute
-call that books an appointment lands around $0.30, so $25 in signup credits is
-roughly 80 booking calls. The LLM runs on `zai-org/GLM-5.3-Flash` on Telnyx
+call that books an appointment lands around $0.30. The LLM runs on `zai-org/GLM-5.3-Flash` on Telnyx
 Inference, up to 75% less than closed-model APIs, so the model is a small slice of
 that per-call cost. Check the real figure on the Telnyx Usage page after a call.
 
