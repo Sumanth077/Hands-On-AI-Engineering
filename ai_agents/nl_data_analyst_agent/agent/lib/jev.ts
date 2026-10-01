@@ -53,10 +53,19 @@ export async function reviewSqlRelevance(
         },
       },
     });
-    const verdict = result.answers.verdict.choice as "relevant" | "mismatch";
-    const confidence = result.answers.verdict.confidence;
+    const verdictAnswer = result.answers.verdict as {
+      choice: string;
+      confidence?: number;
+      probabilities?: Record<string, number>;
+    };
+    const verdict = verdictAnswer.choice as "relevant" | "mismatch";
+    // eve/ai evaluate exposes the choice; confidence may be a scalar, live in the
+    // probability distribution, or be absent. Fall back safely to null.
+    const confidence =
+      verdictAnswer.confidence ?? verdictAnswer.probabilities?.[verdictAnswer.choice] ?? null;
     const issueKey = result.answers.issue.choice;
     const threshold = Number(process.env.JEV_MIN_CONFIDENCE ?? JEV_MIN_CONFIDENCE);
+    const confident = confidence !== null && confidence >= threshold;
     const inconsistent = (verdict === "mismatch") === (issueKey === "none");
     const issue = inconsistent
       ? verdict === "mismatch"
@@ -68,8 +77,8 @@ export async function reviewSqlRelevance(
       verdict,
       confidence,
       issue,
-      actionable: verdict === "mismatch" && confidence >= threshold && !inconsistent,
-      status: inconsistent ? "inconsistent" : confidence >= threshold ? "ok" : "low_confidence",
+      actionable: verdict === "mismatch" && confident && !inconsistent,
+      status: inconsistent ? "inconsistent" : confident ? "ok" : "low_confidence",
     };
   } catch (error) {
     return {
