@@ -126,7 +126,14 @@ def project_eve_events(
                         completed_order.append(call_id)
                 review = output.get("review")
                 if isinstance(review, dict) and (review.get("actionable") or review.get("status") != "ok"):
-                    sql_reviews.append(Review(**review))
+                    sql_reviews.append(Review(
+                        check=review.get("check", "SQL relevance"),
+                        verdict=review.get("verdict", "unavailable"),
+                        confidence=review.get("confidence"),
+                        issue=review.get("issue", ""),
+                        actionable=bool(review.get("actionable", False)),
+                        status=review.get("status", "ok"),
+                    ))
         elif kind == "input.requested":
             for request in data.get("requests") or []:
                 action = request.get("action") or {}
