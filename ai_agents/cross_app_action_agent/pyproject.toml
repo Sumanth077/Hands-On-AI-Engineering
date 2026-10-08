@@ -1,0 +1,20 @@
+[project]
+name = "cross-app-action-agent"
+version = "1.0.0"
+description = "A LangGraph agent that discovers and runs approved Liner Actions across connected apps."
+requires-python = ">=3.10"
+dependencies = [
+  "fastmcp>=2.14,<4",
+  "langchain-openai>=0.3,<2",
+  "langgraph>=0.6,<2",
+  "matplotlib>=3.8,<4",
+  "python-dotenv>=1.0,<2",
+  "streamlit>=1.40,<2",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
