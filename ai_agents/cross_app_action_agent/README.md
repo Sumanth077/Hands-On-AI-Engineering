@@ -4,6 +4,8 @@
 
 An approval-first LangGraph agent that uses Liner Actions MCP to discover and run work across connected apps from one plain-English request.
 
+> **Want to build your own?** Get started with Liner Actions: **[hey.liner.com](https://hey.liner.com/a2imuww)**
+
 ## Overview
 
 **Cross-app action** means doing work that spans more than one app from a single request, for example reading a Slack channel and opening a GitHub issue about a bug mentioned there, without wiring up each app yourself first.

@@ -81,6 +81,11 @@ Intelligent ai agents for various automation tasks.
 - [**Deep Research Assistant**](./ai_agents/deep_research_assistant). Research agent that answers any question with a fully cited response, built on LangChain Deep Agents with the Liner Web Search API for grounding.
 - [**Devable Research Agent**](./ai_agents/devable_research_agent). Scheduled three-step pipeline that collects AI engineering signals, ranks the best items, and delivers a structured Slack digest.
 - [**Instagram Post Crew**](./ai_agents/instagram_post_crew). CrewAI pipeline that turns a topic into an Instagram content package: trend analysis, caption variants, an image prompt, and a recommended posting time.
+- [**Cross-App Action Agent**](./ai_agents/cross_app_action_agent). Approval-first LangGraph agent that uses Liner Actions MCP to discover and run work across roughly 1,100 apps from one plain-English request, pausing for your approval before each action.
+- [**Natural Language Data Analyst Agent**](./ai_agents/nl_data_analyst_agent). Ask a SQLite database questions in plain English. Built on Vercel Eve with Qwen, it writes read-only SQL and explains the result, with Jev reviewing question clarity, SQL relevance, and answer grounding.
+- [**Self-Driving Data Analyst**](./ai_agents/self_driving_data_analyst). Give it a dataset and a broad goal like "why did revenue decline?" and it decides what to check, runs the analysis, and follows the evidence until it can explain what happened. Built on the Liner Model API.
+- [**Offline Troubleshooting Agent**](./ai_agents/offline_troubleshooting_agent). Fully local maintenance assistant for a simulated industrial machine. Diagnoses sensor faults using a local LLM, equipment manual, and a vector memory of past incidents, with human confirmation before saving. Works with the network disconnected.
+- [**Voice GitHub Agent**](./ai_agents/voice-github-agent). Turns a spoken instruction into real GitHub actions. It transcribes your request, then a tool-calling agent reads commits and diffs, opens issues, and posts comments, and reports back, all hands-free.
 
 ### 📸 OCR
 
@@ -99,6 +104,7 @@ Projects for audio understanding and analysis.
 - [**Music Explorer**](./audio/music_explorer) — Chat with any audio file or YouTube video using Gemini 3 Flash. Ask for transcriptions, emotion analysis, instrument identification, and timestamp-aware breakdowns.
 - [**Multilingual Audio Translator**](./audio/multilingual_audio_translator) — Upload or record audio in any language, get it transcribed with faster-whisper, translated via Gemini, and played back as synthesized speech using Kokoro TTS.
 - [**Customer Support Voice Agent**](./audio/customer_support_voice_agent) — Voice AI agent that answers phone calls for customer support, built with the Telnyx AI Assistant Builder and a FastAPI webhook that injects live context into every call.
+- [**AI Appointment Booking Voice Agent**](./audio/ai_appointment_booking_voice_agent) — Voice AI agent with a real phone number that books appointments over live calls. Built on Telnyx Voice AI, it checks open slots, books, generates a calendar invite, and writes a follow-up with Telnyx Inference.
 
 ### 🎬 Multimodal
 
