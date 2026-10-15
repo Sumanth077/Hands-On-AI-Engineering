@@ -1,0 +1,22 @@
+[project]
+name = "deep-research-agent-with-review"
+version = "1.0.0"
+description = "A cited web research agent with a bounded JEV evidence review loop."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "deepagents>=0.2.0",
+    "httpx>=0.28.0",
+    "langchain-core>=0.3.0",
+    "langchain-nebius>=0.1.0",
+    "langsmith>=0.3.0",
+    "python-dotenv>=1.0.0",
+    "streamlit>=1.40.0",
+]
+
+[dependency-groups]
+dev = ["pytest>=8.0.0"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
