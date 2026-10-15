@@ -10,6 +10,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
+[한국어 README](README_kor.md) · [한국어 학습 가이드](guide/README.md)
+
 </div>
 
 A curated collection of practical, production-ready AI projects across multiple modalities, including language models, multimodal models, OCR systems, RAG pipelines, and AI agents. Each project is designed to help you learn, experiment, and build real-world AI applications.
