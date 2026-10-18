@@ -91,7 +91,7 @@ streamlit run app.py
 ### Example Extraction
 
 **Input:**
-![Sample Input Receipt](assets/payment-receipt.png)
+![Sample Input Receipt](assets/demo.png)
 
 **Output (Structured JSON):**
 ```json
