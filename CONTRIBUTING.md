@@ -73,8 +73,10 @@ This helps us:
 
 - [`rag_apps/`](rag_apps/)
 - [`ai_agents/`](ai_agents/)
+- [`audio/`](audio/)
+- [`multimodal/`](multimodal/)
+- [`OCR/`](OCR/)
 - [`fine_tuning/`](fine_tuning/)
-- [`openclaw/`](openclaw/)
 
 **Adding a New Category:**
 
@@ -82,8 +84,6 @@ Categories are added **progressively** as projects are contributed.
 
 **Potential Future Categories:**
 - `mcp_agents/` - Model Context Protocol integrations
-- `fine_tuning/` - Model fine-tuning examples
-- `voice_agents/` - Voice-enabled AI applications
 - `llm_apps/` - General LLM-powered applications
 - `workflow_automation/` - AI workflow tools
 - `computer_vision/` - CV and image processing
