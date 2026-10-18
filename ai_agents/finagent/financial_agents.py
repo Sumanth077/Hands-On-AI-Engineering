@@ -143,7 +143,8 @@ Include market trends, price action, risk assessment and investment recommendati
 
         symbol = data.get("symbol")
         if not symbol:
-            symbol_match = re.search(r"\b([A-Z]{1,5})\b", query.upper())
+            # Search the original casing: upper-casing first turns every short word into a "ticker"
+            symbol_match = re.search(r"\b([A-Z]{1,5})\b", query)
             if not symbol_match:
                 raise ValueError("No stock ticker symbol found in query.")
             symbol = symbol_match.group(1)
