@@ -145,6 +145,9 @@ def run_community_detection(
         nx.algorithms.community.greedy_modularity_communities(G_connected)
     )
 
+    # Community ids are reused on every run, so drop the previous run's nodes first
+    graph_store.clear_communities()
+
     community_count = 0
     for i, comm in enumerate(communities_raw):
         comm_list = list(comm)

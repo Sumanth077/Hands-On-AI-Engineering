@@ -133,6 +133,16 @@ class GraphStore:
 
     # ── Community ─────────────────────────────────────────────────────────────
 
+    def clear_communities(self):
+        """Remove all community nodes (and their edges) and untag every entity."""
+        self.G.remove_nodes_from(
+            [n for n, d in list(self.G.nodes(data=True)) if d.get("node_type") == "community"]
+        )
+        for _, d in self.G.nodes(data=True):
+            if "community_id" in d:
+                d["community_id"] = None
+        self._save()
+
     def set_entity_community(self, entity_name: str, community_id: str):
 <<<<<<< HEAD
         # No _save() here — called in a tight loop; caller saves via create_community()
