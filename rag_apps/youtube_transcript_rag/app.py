@@ -162,12 +162,19 @@ def ingest_video(url: str, video_id: str, status_widget) -> object:
     chunks = chunk_segments(segments)
 
     status_widget.write(f"🗄️ Generating embeddings and storing in ChromaDB…")
+    if not chunks:
+        raise ValueError("No speech was transcribed from this video.")
     col = chroma.get_or_create_collection(cname, embedding_function=emb_fn)
-    col.add(
-        documents=[c["text"] for c in chunks],
-        metadatas=[{"start": c["start"], "video_id": video_id} for c in chunks],
-        ids=[f"{cname}_{c['index']}" for c in chunks],
-    )
+    try:
+        col.add(
+            documents=[c["text"] for c in chunks],
+            metadatas=[{"start": c["start"], "video_id": video_id} for c in chunks],
+            ids=[f"{cname}_{c['index']}" for c in chunks],
+        )
+    except Exception:
+        # Otherwise the empty collection is treated as a cache hit on retry
+        chroma.delete_collection(cname)
+        raise
     return col
 
 
