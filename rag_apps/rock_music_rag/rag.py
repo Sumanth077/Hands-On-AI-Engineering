@@ -61,6 +61,11 @@ class RAGResult:
 
 # ── Helpers ────────────────────────────────────────────────────────────────────
 
+def _tokenize(text: str) -> list[str]:
+    """Lowercase word tokens with punctuation stripped, so "Nirvana?" matches "nirvana"."""
+    return re.findall(r"\w+", text.lower())
+
+
 def _split_into_chunks(text: str, sentences_per_chunk: int = 2) -> list[str]:
     """Split text into overlapping sentence chunks."""
     # Split on sentence boundaries
@@ -149,7 +154,7 @@ class RockRAG:
             self.bm25 = None
             return
 
-        self._tokenized = [c.content.lower().split() for c in self.chunks]
+        self._tokenized = [_tokenize(c.content) for c in self.chunks]
         self.bm25 = BM25Okapi(self._tokenized)
 
     def index_size(self) -> int:
@@ -163,7 +168,7 @@ class RockRAG:
         if not self.bm25 or not self.chunks:
             return []
 
-        tokenized_query = query.lower().split()
+        tokenized_query = _tokenize(query)
         scores = self.bm25.get_scores(tokenized_query)
         top_indices = sorted(range(len(scores)), key=lambda i: scores[i], reverse=True)[:top_k]
         return [self.chunks[i] for i in top_indices]
