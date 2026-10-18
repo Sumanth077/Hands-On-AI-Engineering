@@ -12,7 +12,6 @@ from self_evolving_agent.embedder import Embedder
 from self_evolving_agent.graph import build_graph, resume_review, start_review
 from self_evolving_agent.llm import LocalLLM
 from self_evolving_agent.memory import ReviewMemory, connect_client
-from self_evolving_agent.llm import LocalLLM
 
 
 SAMPLE_DIFF = """diff --git a/orders.py b/orders.py
