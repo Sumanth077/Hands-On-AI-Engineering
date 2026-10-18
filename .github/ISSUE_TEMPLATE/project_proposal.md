@@ -46,8 +46,8 @@ assignees: ''
 
 ## ✅ Pre-Submission Checklist
 
-- [ ] Read the [CONTRIBUTING.md](../CONTRIBUTING.md)
-- [ ] Reviewed the [README template](../.github/README_TEMPLATE.md)
+- [ ] Read the [CONTRIBUTING.md](../../CONTRIBUTING.md)
+- [ ] Reviewed the [README template](../README_TEMPLATE.md)
 - [ ] Checked that no similar project exists
 - [ ] Have access to required APIs/services
 
