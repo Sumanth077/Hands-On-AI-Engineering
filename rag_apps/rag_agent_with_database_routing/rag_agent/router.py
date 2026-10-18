@@ -100,7 +100,7 @@ def route_query(client: OpenAI, query: str) -> RoutingDecision:
         data = json.loads(text)
         if data.get("database") in _DB_OPTIONS:
             return RoutingDecision(**data)
-    except (json.JSONDecodeError, KeyError, TypeError):
+    except (ValueError, KeyError, TypeError, AttributeError):
         pass
 
     # Try to find a JSON object embedded in prose
@@ -110,7 +110,7 @@ def route_query(client: OpenAI, query: str) -> RoutingDecision:
             data = json.loads(match.group())
             if data.get("database") in _DB_OPTIONS:
                 return RoutingDecision(**data)
-        except (json.JSONDecodeError, KeyError, TypeError):
+        except (ValueError, KeyError, TypeError, AttributeError):
             pass
 
     return _keyword_fallback(query)
