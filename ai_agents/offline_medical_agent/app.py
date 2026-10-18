@@ -25,7 +25,7 @@ agent = OfflineMedicalAgent(db_path=DB_PATH, protocols_dir=PROTOCOLS_DIR)
 
 def query_agent(situation: str):
     if not situation.strip():
-        return "", "", "", ""
+        return "", ""
 
     result = agent.run(situation)
 
@@ -41,8 +41,8 @@ def query_agent(situation: str):
 
 
 def reload_protocols():
-    retriever = ProtocolRetriever(db_path=DB_PATH)
-    n = retriever.ingest(PROTOCOLS_DIR)
+    # A second QdrantClient on the same local path fails: the folder is locked
+    n = agent.retriever.ingest(PROTOCOLS_DIR)
     return f"Loaded {n} protocol(s) from `{PROTOCOLS_DIR}`."
 
 
