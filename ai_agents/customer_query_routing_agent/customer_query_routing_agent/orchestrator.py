@@ -369,8 +369,11 @@ def triage(query: str, routing_confidence: float, llm: Llama) -> OrchestratorDec
     try:
         sentiment_score = float(data.get("sentiment_score", pre["sentiment_score"]))
         urgency_score = float(data.get("urgency_score", pre["urgency_score"]))
-        legal_flag = bool(data.get("legal_flag", pre["legal_flag"]))
-        repeat_contact = bool(data.get("repeat_contact", pre["repeat_contact"]))
+        legal_flag = data.get("legal_flag", pre["legal_flag"])
+        repeat_contact = data.get("repeat_contact", pre["repeat_contact"])
+        # bool("false") is True, so only accept real JSON booleans
+        if not isinstance(legal_flag, bool) or not isinstance(repeat_contact, bool):
+            return _regex_fallback(pre, routing_confidence)
         reasoning = str(data.get("reasoning", ""))
         escalation_reasons = [str(r) for r in data.get("escalation_reasons", [])]
     except (TypeError, ValueError):
