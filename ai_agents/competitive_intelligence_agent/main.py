@@ -1,16 +1,10 @@
-<<<<<<< HEAD
-=======
 """Gradio UI for the Competitive Intelligence Agent, which generates AI-powered sales battlecards using a CrewAI multi-agent pipeline."""
 import re
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 import gradio as gr
 import io
 from contextlib import redirect_stdout
 from agents_logic import get_research_crew
 
-<<<<<<< HEAD
-def run_analysis(my_company, competitor, pain_point, goal):
-=======
 
 def strip_ansi(text: str) -> str:
     """Remove ANSI color and formatting escape sequences from a string."""
@@ -29,34 +23,22 @@ def clean_log(raw: str) -> str:
 
 def run_analysis(my_company, competitor, pain_point, goal):
     """Run the three-agent CrewAI pipeline and return the reasoning log and final battlecard."""
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     # Progress logging
     f = io.StringIO()
     with redirect_stdout(f):
         try:
             crew = get_research_crew(my_company, competitor, pain_point, goal)
             result = crew.kickoff(inputs={
-<<<<<<< HEAD
-                "my_company": my_company, 
-                "competitor": competitor, 
-                "pain_point": pain_point, 
-=======
                 "my_company": my_company,
                 "competitor": competitor,
                 "pain_point": pain_point,
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
                 "goal": goal
             })
             final_output = result.raw
         except Exception as e:
             final_output = f"Error: {str(e)}"
-<<<<<<< HEAD
-            
-    return f.getvalue(), final_output
-=======
 
     return clean_log(strip_ansi(f.getvalue())), final_output
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
 with gr.Blocks(title="Strategic Intel System") as demo:
     gr.Markdown("# ⚔️ Competitive Intelligence Engine")
@@ -71,12 +53,8 @@ with gr.Blocks(title="Strategic Intel System") as demo:
             submit_btn = gr.Button("Generate Battlecard", variant="primary")
             
         with gr.Column():
-<<<<<<< HEAD
-            logs = gr.Textbox(label="Agent Reasoning Process", lines=10)
-=======
             with gr.Accordion("Agent Reasoning Process", open=False):
                 logs = gr.Textbox(label="Agent Reasoning Process", lines=10)
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
             output = gr.Markdown(label="Final Battlecard")
 
     submit_btn.click(
