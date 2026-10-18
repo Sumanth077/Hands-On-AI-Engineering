@@ -184,7 +184,7 @@ def get_packing_recommendations(
         weather_summary: Weather text from get_weather (temperatures and conditions).
     """
     summary_lower = weather_summary.lower()
-    hot = any(k in summary_lower for k in ("hot", "warm", "clear", "sunny")) or _temp_hint(
+    hot = any(k in summary_lower for k in ("hot", "warm", "sunny")) or _temp_hint(
         summary_lower, above=24
     )
     cold = any(k in summary_lower for k in ("cold", "snow", "freez", "ice")) or _temp_hint(
@@ -201,19 +201,19 @@ def get_packing_recommendations(
     ]
 
     clothing: list[str] = ["Comfortable walking shoes", "Underwear and socks"]
-    if hot:
-        clothing += [
-            "Light breathable shirts and shorts/skirts",
-            "Sun hat and sunglasses",
-            "Sunscreen (SPF 30+)",
-            "Swimwear (if applicable)",
-        ]
-    elif cold:
+    if cold:
         clothing += [
             "Thermal base layers",
             "Warm jacket or coat",
             "Gloves, scarf, and beanie",
             "Closed waterproof boots",
+        ]
+    elif hot:
+        clothing += [
+            "Light breathable shirts and shorts/skirts",
+            "Sun hat and sunglasses",
+            "Sunscreen (SPF 30+)",
+            "Swimwear (if applicable)",
         ]
     else:
         clothing += [
