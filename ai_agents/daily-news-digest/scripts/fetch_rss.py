@@ -9,6 +9,7 @@ Or run directly:
 """
 
 import argparse
+import calendar
 import json
 import sys
 import time
@@ -60,7 +61,7 @@ def _parse_entry_date(entry) -> datetime | None:
         if struct is not None:
             try:
                 # feedparser returns time.struct_time in UTC
-                ts = time.mktime(struct)
+                ts = calendar.timegm(struct)
                 return datetime.fromtimestamp(ts, tz=timezone.utc)
             except (OverflowError, OSError, ValueError):
                 continue
