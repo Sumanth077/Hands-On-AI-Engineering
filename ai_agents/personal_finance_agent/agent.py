@@ -75,8 +75,6 @@ def _normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
         "narrative": "description",
         "details": "description",
         "merchant": "description",
-        "debit": "amount",
-        "credit": "amount",
         "transaction_amount": "amount",
         "value": "amount",
     }
