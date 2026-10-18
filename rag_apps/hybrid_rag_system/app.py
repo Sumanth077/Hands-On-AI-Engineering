@@ -174,6 +174,10 @@ with st.sidebar:
         file_bytes = uploaded_file.read()
         try:
             text = load_document(file_bytes, uploaded_file.name)
+            if not text.strip():
+                raise ValueError(
+                    "No extractable text found. Scanned or image-only PDFs aren't supported."
+                )
             doc_hash = compute_hash(text)
             cached = is_cached(doc_hash)
 
