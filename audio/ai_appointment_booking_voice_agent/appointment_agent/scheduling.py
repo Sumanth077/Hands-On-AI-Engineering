@@ -67,6 +67,11 @@ def book(name: str, phone: str, service: str, start: str) -> dict:
 
     if crm.is_slot_taken(start_iso):
         raise ValueError("That time was just taken. Offer the caller another slot.")
+    # Same rules as available_slots(): business hours, slot alignment, not in the past
+    if start_iso not in {s["start"] for s in available_slots(start_iso[:10])}:
+        raise ValueError(
+            "That time is not an open slot. Check availability and offer one of the returned times."
+        )
 
     booking_ref = f"APT-{uuid.uuid4().hex[:8].upper()}"
     crm.add_appointment(booking_ref, name, phone, service, start_iso, end_iso)
