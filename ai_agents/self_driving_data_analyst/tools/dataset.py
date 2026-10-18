@@ -17,10 +17,11 @@ def inspect_dataset(con: duckdb.DuckDBPyConnection) -> dict:
 
     schema_info: dict[str, dict] = {}
     for table_name in tables:
-        columns_df = con.execute(f"DESCRIBE {table_name}").fetchdf()
-        row_count = con.execute(f"SELECT COUNT(*) FROM {table_name}").fetchone()[0]
+        q = '"' + table_name.replace('"', '""') + '"'
+        columns_df = con.execute(f"DESCRIBE {q}").fetchdf()
+        row_count = con.execute(f"SELECT COUNT(*) FROM {q}").fetchone()[0]
         sample_rows = (
-            con.execute(f"SELECT * FROM {table_name} LIMIT 3").fetchdf().to_dict(orient="records")
+            con.execute(f"SELECT * FROM {q} LIMIT 3").fetchdf().to_dict(orient="records")
         )
         schema_info[table_name] = {
             "columns": [
