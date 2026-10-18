@@ -12,6 +12,9 @@ def _merge_patient(current: PatientInfo, incoming: PatientInfo) -> PatientInfo:
     )
 
 
+_SEVERITY = {"normal": 0, "abnormal": 1, "critical": 2}
+
+
 def _dedupe_lab_findings(findings: list[LabFinding]) -> list[LabFinding]:
     """Deduplicate lab findings by test name, keeping the most severe status."""
     seen: dict[str, LabFinding] = {}
@@ -20,7 +23,7 @@ def _dedupe_lab_findings(findings: list[LabFinding]) -> list[LabFinding]:
         if not key:
             continue
         existing = seen.get(key)
-        if existing is None or (existing.status == "normal" and finding.status != "normal"):
+        if existing is None or _SEVERITY[finding.status] > _SEVERITY[existing.status]:
             seen[key] = finding
     return list(seen.values())
 
