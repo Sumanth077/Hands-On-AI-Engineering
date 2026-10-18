@@ -140,6 +140,8 @@ def chunk_segments(segments: list[dict]) -> list[dict]:
             "start": batch[0]["start"],
             "index": len(chunks),
         })
+        if i + CHUNK_SIZE >= len(word_entries):
+            break
         i += CHUNK_SIZE - CHUNK_OVERLAP
 
     return chunks
