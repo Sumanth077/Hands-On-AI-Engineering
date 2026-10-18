@@ -1,9 +1,5 @@
 """
-<<<<<<< HEAD
-Startup Analyst — Gradio UI
-=======
 Startup Analyst - Gradio UI
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 Elite startup due-diligence powered by MiniMax M2.5 via OpenRouter.
 
 Usage:
@@ -14,13 +10,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-<<<<<<< HEAD
-=======
 import os
 import re
 import tempfile
 
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 import gradio as gr
 from agent import analyst
 
@@ -43,17 +36,6 @@ EXAMPLES = [
 PLACEHOLDER = "_Your due-diligence report will appear here once you submit a company._"
 
 
-<<<<<<< HEAD
-# ── Analysis Function ──────────────────────────────────────────────────────────
-
-def run_analysis(prompt: str):
-    prompt = prompt.strip()
-    if not prompt:
-        yield PLACEHOLDER, ""
-        return
-
-    yield "_Analysing company — scraping website, crawling pages, gathering data..._", "Running..."
-=======
 # ── Helpers ────────────────────────────────────────────────────────────────────
 
 def _report_filename(prompt: str) -> str:
@@ -84,7 +66,6 @@ def run_analysis(prompt: str):
         return
 
     yield "_Analysing company: scraping website, crawling pages, gathering data..._", "Running...", gr.update(visible=False)
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
     full_output = ""
     try:
@@ -94,32 +75,15 @@ def run_analysis(prompt: str):
                 # Only display once the structured report begins (first # heading)
                 heading_idx = full_output.find("#")
                 if heading_idx != -1:
-<<<<<<< HEAD
-                    yield full_output[heading_idx:], "Running..."
-    except Exception as exc:
-        heading_idx = full_output.find("#")
-        report = full_output[heading_idx:] if heading_idx != -1 else full_output
-        yield (report or PLACEHOLDER) + f"\n\n---\n\n**Error:** {exc}", f"Error: {exc}"
-=======
                     yield full_output[heading_idx:], "Running...", gr.update(visible=False)
     except Exception as exc:
         heading_idx = full_output.find("#")
         report = full_output[heading_idx:] if heading_idx != -1 else full_output
         yield (report or PLACEHOLDER) + f"\n\n---\n\n**Error:** {exc}", f"Error: {exc}", gr.update(visible=False)
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
         return
 
     if full_output:
         heading_idx = full_output.find("#")
-<<<<<<< HEAD
-        yield full_output[heading_idx:] if heading_idx != -1 else full_output, "Done."
-    else:
-        yield PLACEHOLDER, "No response received."
-
-
-def clear_all():
-    return "", PLACEHOLDER, ""
-=======
         report = full_output[heading_idx:] if heading_idx != -1 else full_output
         yield report, "Done.", gr.update(value=_write_report_file(prompt, report), visible=True)
     else:
@@ -129,7 +93,6 @@ def clear_all():
 def clear_all():
     """Reset the prompt input, report output, status box, and download button to their default empty state."""
     return "", PLACEHOLDER, "", gr.update(value=None, visible=False)
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
 
 # ── Gradio UI ──────────────────────────────────────────────────────────────────
@@ -139,11 +102,7 @@ with gr.Blocks(title="Startup Analyst") as demo:
     gr.Markdown("# 📊 Startup Analyst", elem_id="title")
     gr.Markdown(
         "Elite startup due-diligence powered by **MiniMax M2.5** via OpenRouter. "
-<<<<<<< HEAD
-        "Enter a company name and URL to get a comprehensive investment-grade analysis — "
-=======
         "Enter a company name and URL to get a comprehensive investment-grade analysis "
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
         "covering market position, financials, team, risks, and strategic recommendations.",
         elem_id="subtitle",
     )
@@ -166,15 +125,6 @@ with gr.Blocks(title="Startup Analyst") as demo:
     )
 
     with gr.Row():
-<<<<<<< HEAD
-        status_box = gr.Textbox(label="Status", interactive=False, max_lines=1, scale=1)
-
-    report_output = gr.Markdown(value=PLACEHOLDER, elem_id="report")
-
-    submit_btn.click(fn=run_analysis, inputs=prompt_input, outputs=[report_output, status_box])
-    prompt_input.submit(fn=run_analysis, inputs=prompt_input, outputs=[report_output, status_box])
-    clear_btn.click(fn=clear_all, outputs=[prompt_input, report_output, status_box])
-=======
         status_box = gr.Textbox(label="Status", interactive=False, max_lines=1, scale=3)
         download_btn = gr.DownloadButton(label="⬇ Download Report (.md)", visible=False, scale=1)
 
@@ -183,7 +133,6 @@ with gr.Blocks(title="Startup Analyst") as demo:
     submit_btn.click(fn=run_analysis, inputs=prompt_input, outputs=[report_output, status_box, download_btn])
     prompt_input.submit(fn=run_analysis, inputs=prompt_input, outputs=[report_output, status_box, download_btn])
     clear_btn.click(fn=clear_all, outputs=[prompt_input, report_output, status_box, download_btn])
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
 
 # ── Entry point ────────────────────────────────────────────────────────────────
