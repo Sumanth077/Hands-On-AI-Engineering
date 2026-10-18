@@ -246,9 +246,11 @@ def _parse_verdict(raw: str, transcript: List[Argument]) -> dict:
     if any(totals.values()):
         parsed["totals"] = totals
         if totals[DEBATER_A] > totals[DEBATER_B]:
-            parsed.setdefault("winner", DEBATER_A)
+            parsed["winner"] = DEBATER_A
         elif totals[DEBATER_B] > totals[DEBATER_A]:
-            parsed.setdefault("winner", DEBATER_B)
+            parsed["winner"] = DEBATER_B
+        else:
+            parsed["winner"] = "Tie"
 
     parsed.setdefault("totals", totals)
     parsed.setdefault("winner", "Tie")
