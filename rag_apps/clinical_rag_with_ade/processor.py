@@ -72,8 +72,11 @@ class ClinicalRAGProcessor:
             documents.append(Document(page_content=chunk.markdown, metadata=metadata))
 
         # Initialize/Update the vector store with the new clinical chunks
+        # Deterministic ids so reprocessing the same file upserts instead of duplicating
+        source = os.path.basename(file_path)
         self.vector_store = Chroma.from_documents(
             documents=documents,
+            ids=[f"{source}-{i}" for i in range(len(documents))],
             embedding=self.embeddings,
             persist_directory=self.db_path,
             collection_name="clinical_docs"
