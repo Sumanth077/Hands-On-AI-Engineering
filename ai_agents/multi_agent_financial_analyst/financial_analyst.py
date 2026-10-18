@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-=======
 """Streamlit app that runs a multi-agent CrewAI pipeline to analyze a stock and generate a markdown investment report."""
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 import streamlit as st
 import os
 import pandas as pd
@@ -27,14 +24,6 @@ class StockAnalysis(BaseModel):
     technical_indicators: dict
     fundamental_metrics: dict
 
-<<<<<<< HEAD
-# Initialize SambaNova LLM
-@st.cache_resource
-def load_llm():
-    return LLM(
-        model="sambanova/Llama-4-Maverick-17B-128E-Instruct",
-        api_key=os.getenv("SAMBANOVA_API_KEY"),
-=======
 # Initialize Orq.ai LLM
 @st.cache_resource
 def load_llm():
@@ -43,16 +32,12 @@ def load_llm():
         model="openai/alibaba/qwen3.6-flash",
         base_url="https://api.orq.ai/v3/router",
         api_key=os.getenv("ORQ_API_KEY"),
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
         temperature=0.3
     )
 
 # Create agents and tasks
 def create_agents_and_tasks(symbol: str):
-<<<<<<< HEAD
-=======
     """Build the stock analysis and report writing agents, their tasks, and the crew that runs them for the given symbol."""
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     llm = load_llm()
     
     # Initialize tools
@@ -189,19 +174,6 @@ st.title("🎯 Multi-Agent AI Financial Analyst")
 # Sidebar
 with st.sidebar:
     st.header("Configuration")
-<<<<<<< HEAD
-    
-    # API Key input
-    api_key = st.text_input(
-        "SambaNova API Key",
-        type="password",
-        value=os.getenv("SAMBANOVA_API_KEY", ""),
-        help="Enter your SambaNova API key"
-    )
-    if api_key:
-        os.environ["SAMBANOVA_API_KEY"] = api_key
-=======
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
 
     # Stock Symbol input
     symbol = st.text_input(
