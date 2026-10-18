@@ -59,6 +59,9 @@ def save_session():
         json.dump(data, f)
 
 def load_session(sid: str):
+    sid = _sanitize_sid(sid)
+    if not sid:
+        return
     path = os.path.join(SESSION_DIR, f"{sid}.json")
     if not os.path.exists(path):
         return
@@ -102,6 +105,9 @@ def get_session_history():
     return sorted(history, key=lambda x: x["mtime"], reverse=True)
 
 def delete_session(sid: str):
+    sid = _sanitize_sid(sid)
+    if not sid:
+        return
     path = os.path.join(SESSION_DIR, f"{sid}.json")
     if os.path.exists(path):
         os.remove(path)
