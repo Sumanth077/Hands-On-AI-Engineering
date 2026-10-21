@@ -46,7 +46,7 @@ winget install ffmpeg
 brew install ffmpeg
 ```
 
-A [Mistral AI API key](https://platform.mistral.ai) is required for answer generation. Transcription and embeddings run entirely locally.
+A [Mistral AI API key](https://console.mistral.ai/) is required for answer generation. Transcription and embeddings run entirely locally.
 
 ## Installation
 
@@ -113,7 +113,7 @@ Pasting the same URL again loads the transcript from ChromaDB instantly - no re-
 
 | Variable | Description |
 |---|---|
-| `MISTRAL_API_KEY` | API key from [platform.mistral.ai](https://platform.mistral.ai) |
+| `MISTRAL_API_KEY` | API key from [console.mistral.ai](https://console.mistral.ai/) |
 
 ## Project Structure
 
