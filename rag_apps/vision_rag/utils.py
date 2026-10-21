@@ -40,28 +40,6 @@ def get_cohere_embedding(api_key, input_data, input_type='text'):
     else:
         raise ValueError("input_type must be 'text' or 'image'")
 
-<<<<<<< HEAD
-# --- OpenAI GPT-4o-mini VQA ---
-def openai_vqa(api_key, image_bytes, question):
-    """
-    Send image and question to GPT-4o-mini for Visual Question Answering.
-    
-    Args:
-        api_key (str): OpenAI API key
-        image_bytes (bytes): Image data
-        question (str): Question about the image
-    
-    Returns:
-        str: Generated answer
-    """
-    from openai import OpenAI
-    client = OpenAI(api_key=api_key, timeout=30.0)
-    
-    image_b64 = base64.b64encode(image_bytes).decode('utf-8')
-    
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-=======
 # --- Mistral Small VQA ---
 def mistral_vqa(api_key, image_bytes, question):
     """
@@ -82,7 +60,6 @@ def mistral_vqa(api_key, image_bytes, question):
 
     response = client.chat.complete(
         model="mistral-small-latest",
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
         messages=[
             {
                 "role": "user",
@@ -90,11 +67,7 @@ def mistral_vqa(api_key, image_bytes, question):
                     {"type": "text", "text": question},
                     {
                         "type": "image_url",
-<<<<<<< HEAD
-                        "image_url": {"url": f"data:image/png;base64,{image_b64}"},
-=======
                         "image_url": f"data:image/png;base64,{image_b64}",
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
                     },
                 ],
             }
