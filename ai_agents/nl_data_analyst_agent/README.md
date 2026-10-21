@@ -153,4 +153,4 @@ nl_data_analyst_agent/
 
 ## Resources
 
-[Jev through AI SDK and Eve](https://vercel.com/i/jev-integrations) · [Jev on AI Gateway](https://vercel.com/ai-gateway/models/jev) · [Eve evaluation](https://github.com/vercel/eve/blob/main/docs/guides/evaluate.md) · [Eve sessions and stream events](https://github.com/vercel/eve/blob/main/docs/concepts/sessions-runs-and-streaming.md) · [Eve human approval](https://github.com/vercel/eve/blob/main/docs/tutorial/guard-the-spend.mdx) · [Gradio documentation](https://www.gradio.app/docs)
+[Jev through AI SDK and Eve](https://vercel.com/i/jev-integrations) · [Jev on AI Gateway](https://vercel.com/ai-gateway/models/jev) · [Eve evaluation](https://github.com/vercel/eve/blob/main/docs/evals/overview.mdx) · [Eve sessions and stream events](https://github.com/vercel/eve/blob/main/docs/concepts/sessions-runs-and-streaming.md) · [Eve human approval](https://github.com/vercel/eve/blob/main/docs/tutorial/guard-the-spend.mdx) · [Gradio documentation](https://www.gradio.app/docs)
