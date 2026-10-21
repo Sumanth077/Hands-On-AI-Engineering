@@ -21,10 +21,7 @@ class OllamaEmbeddingFunction(EmbeddingFunction):
 
 
 def check_ollama() -> tuple[bool, str]:
-<<<<<<< HEAD
-=======
     """Checks whether Ollama is reachable and whether the embedding model is installed, returning a status tuple."""
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     try:
         resp = requests.get(f"{OLLAMA_URL}/api/tags", timeout=5)
         if resp.status_code == 200:
@@ -39,10 +36,7 @@ def check_ollama() -> tuple[bool, str]:
 
 
 def get_chroma_collection() -> chromadb.Collection:
-<<<<<<< HEAD
-=======
     """Creates or retrieves the persistent ChromaDB collection using the Ollama embedding function."""
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     client = chromadb.PersistentClient(path=str(CHROMA_DIR))
     return client.get_or_create_collection(
         name=CHROMA_COLLECTION,
@@ -57,10 +51,7 @@ def index_chunks(
     doc_hash: str,
     progress_cb: Optional[Callable[[int, int], None]] = None,
 ) -> None:
-<<<<<<< HEAD
-=======
     """Embeds and stores text chunks in ChromaDB, calling progress_cb after each batch."""
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     batch_size = 5
     total = len(chunks)
     for i in range(0, total, batch_size):
@@ -73,10 +64,7 @@ def index_chunks(
 
 
 def collection_has_doc(collection: chromadb.Collection, doc_hash: str) -> bool:
-<<<<<<< HEAD
-=======
     """Returns True if the ChromaDB collection already contains chunks for the given document hash."""
->>>>>>> 1d1e9f137cfd1123edbae5d8e955ce0b9c7fcf4a
     try:
         results = collection.get(where={"doc_hash": doc_hash}, limit=1)
         return len(results["ids"]) > 0
