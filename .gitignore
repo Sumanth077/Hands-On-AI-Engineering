@@ -25,3 +25,4 @@ temp_*
 *.py[cod]
 *$py.class
 .pytest_cache/
+.adk/
