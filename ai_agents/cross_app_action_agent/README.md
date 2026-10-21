@@ -135,6 +135,6 @@ Replace `your Slack channel` with a channel that exists in your workspace. The a
 
 - [Liner Actions MCP documentation](https://liner.com/developers/docs/actions-mcp)
 - [Liner Actions directory](https://actions.liner.com/)
-- [LangGraph human-in-the-loop documentation](https://langchain-ai.github.io/langgraph/how-tos/human_in_the_loop/review-tool-calls/)
+- [LangGraph human-in-the-loop documentation](https://docs.langchain.com/oss/python/langgraph/interrupts)
 - [FastMCP OAuth client documentation](https://gofastmcp.com/clients/auth/oauth)
 - [AI Gateway model directory](https://vercel.com/ai-gateway/models)
