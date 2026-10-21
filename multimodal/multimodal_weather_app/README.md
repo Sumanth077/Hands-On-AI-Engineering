@@ -30,7 +30,7 @@ This app combines two AI capabilities in a single pipeline: **vision** and **too
 ## Prerequisites
 
 - Python 3.10 or higher
-- A Mistral AI API key; get one at [platform.mistral.ai](https://platform.mistral.ai)
+- A Mistral AI API key; get one at [console.mistral.ai](https://console.mistral.ai/)
 
 ## Installation
 
@@ -93,7 +93,7 @@ MISTRAL_API_KEY=your_mistral_api_key_here
 
 | Variable | Required | Description |
 |---|---|---|
-| `MISTRAL_API_KEY` | Yes | Your Mistral AI API key; get one at [platform.mistral.ai](https://platform.mistral.ai) |
+| `MISTRAL_API_KEY` | Yes | Your Mistral AI API key; get one at [console.mistral.ai](https://console.mistral.ai/) |
 
 ## Project Structure
 
