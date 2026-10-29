@@ -1,0 +1,5 @@
+order_id,customer_name,customer_email,status,items,ordered_at,delivered_at,amount,currency,eligible_resolutions,notes
+CM-1042,Amina Bello,amina@example.com,delivered,"Northstar travel mug",2026-09-12,2026-09-16,28.00,USD,"replacement;return_review","Customer reports the mug arrived with a cracked lid."
+CM-1043,David Chen,david@example.com,in_transit,"Northstar desk lamp",2026-09-15,,64.00,USD,"delivery_investigation","Carrier scan shows an in-transit delay."
+CM-1044,Sofia Martins,sofia@example.com,delivered,"Northstar canvas tote",2026-09-10,2026-09-14,22.00,USD,"return_review","Customer received a black tote."
+CM-1045,Jordan Okafor,jordan@example.com,processing,"Northstar wireless charger",2026-09-18,,39.00,USD,"human_escalation","Order is still within the processing window."

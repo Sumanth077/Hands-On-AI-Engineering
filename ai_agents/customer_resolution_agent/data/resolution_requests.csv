@@ -1,0 +1,2 @@
+order_id,customer_email,resolution_type,customer_confirmation,status,agent_note
+CM-1009,previous_customer@example.com,delivery_investigation,confirmed,closed,"Sample historic request included only to establish the table structure."
