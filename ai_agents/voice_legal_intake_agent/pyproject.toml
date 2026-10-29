@@ -1,0 +1,30 @@
+[project]
+name = "voice-legal-intake-agent"
+version = "1.0.0"
+description = "A voice-first agent that creates structured legal intake summaries for human review."
+requires-python = ">=3.10"
+dependencies = [
+    "httpx>=0.28.1",
+    "langgraph>=1.0.0",
+    "openai>=2.0.0",
+    "pydantic>=2.10.0",
+    "python-dotenv>=1.0.1",
+    "streamlit>=1.57.0",
+    "websockets>=14.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "matplotlib>=3.9.0",
+    "pytest>=8.3.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[build-system]
+requires = ["setuptools>=75.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["legal_intake"]

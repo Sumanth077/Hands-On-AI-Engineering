@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Voice Legal Intake Agent</title>
+    <style>
+      * { box-sizing: border-box; }
+      body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: linear-gradient(135deg, #0F172A 0%, #1E1B4B 100%); color: #F8FAFC; font-family: Inter, Arial, sans-serif; }
+      main { width: min(920px, 92vw); }
+      .badge { display: inline-block; color: #C7D2FE; border: 1px solid #6366F1; border-radius: 999px; padding: 8px 14px; font-size: 14px; }
+      h1 { font-size: clamp(42px, 7vw, 78px); line-height: .98; margin: 22px 0 36px; max-width: 760px; }
+      .panel { background: rgba(15, 23, 42, .72); border: 1px solid #334155; border-radius: 22px; padding: 26px; box-shadow: 0 24px 90px rgba(0,0,0,.25); }
+      .question { color: #A5B4FC; font-size: 15px; margin-bottom: 12px; }
+      .answer { font-size: 23px; line-height: 1.45; }
+      footer { margin-top: 22px; color: #94A3B8; font-size: 14px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="hero"><div class="badge">Live Demo</div><h1>Voice Legal Intake Agent</h1></div>
+      <section class="panel">
+        <div class="question">What happened?</div>
+        <div class="answer">I understand. To make the timeline clear for a human reviewer, when did this happen?</div>
+      </section>
+      <footer>Built with Krisp STT · LangGraph · GLM 5.3</footer>
+    </main>
+  </body>
+</html>
