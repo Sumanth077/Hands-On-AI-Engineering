@@ -86,6 +86,10 @@ Intelligent ai agents for various automation tasks.
 - [**Self-Driving Data Analyst**](./ai_agents/self_driving_data_analyst). Give it a dataset and a broad goal like "why did revenue decline?" and it decides what to check, runs the analysis, and follows the evidence until it can explain what happened. Built on the Liner Model API.
 - [**Offline Troubleshooting Agent**](./ai_agents/offline_troubleshooting_agent). Fully local maintenance assistant for a simulated industrial machine. Diagnoses sensor faults using a local LLM, equipment manual, and a vector memory of past incidents, with human confirmation before saving. Works with the network disconnected.
 - [**Voice GitHub Agent**](./ai_agents/voice-github-agent). Turns a spoken instruction into real GitHub actions. It transcribes your request, then a tool-calling agent reads commits and diffs, opens issues, and posts comments, and reports back, all hands-free.
+- [**Customer Resolution Agent**](./ai_agents/customer_resolution_agent). No-code n8n support agent that checks order records and help-centre policies, then pauses for human approval before recording a resolution request.
+- [**Deep Research Agent with Review Layer**](./ai_agents/deep_research_agent_with_review). Deep research agent that searches the live web with Tavily, writes cited reports with NVIDIA Nemotron, and uses JEV to review evidence coverage and claim grounding.
+- [**Technical Documentation Freshness Checker**](./ai_agents/technical_documentation_freshness_checker). Checks technical PDFs for stale APIs, package versions, models, and setup instructions using LandingAI ADE and Parallel Decisions, then surfaces only outdated or uncertain claims with citations.
+- [**Voice Codebase Onboarding Agent**](./ai_agents/voice_codebase_onboarding_agent). Lets developers explore a public or local repository by text or voice, returning cited code explanations and Fish Audio Drama 3 narration.
 
 ### 📸 OCR
 
