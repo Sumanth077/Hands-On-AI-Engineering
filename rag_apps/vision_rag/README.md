@@ -17,7 +17,7 @@ A visual-first search engine that allows you to "talk" to your images and PDF do
 
 - Python 3.9 or later
 - A Cohere API key, get one free at [cohere.com](https://cohere.com)
-- A Mistral API key, get one free at [platform.mistral.ai](https://platform.mistral.ai)
+- A Mistral API key, get one free at [console.mistral.ai](https://console.mistral.ai/)
 
 ## Demo
 

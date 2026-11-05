@@ -32,7 +32,7 @@ Smolagents Code Agent wires together HuggingFace's **smolagents** `CodeAgent` an
 ## Prerequisites
 
 - Python 3.10 or later
-- A Mistral API key. Get one at [platform.mistral.ai](https://platform.mistral.ai)
+- A Mistral API key. Get one at [console.mistral.ai](https://console.mistral.ai/)
 
 ## Installation
 
@@ -89,7 +89,7 @@ Find the latest news about AI agents and summarize the top 3 stories.
 
 | Variable | Description | Where to get it |
 |---|---|---|
-| `MISTRAL_API_KEY` | Authenticates requests to Mistral's API | [platform.mistral.ai](https://platform.mistral.ai) |
+| `MISTRAL_API_KEY` | Authenticates requests to Mistral's API | [console.mistral.ai](https://console.mistral.ai/) |
 
 `.env.example`:
 
