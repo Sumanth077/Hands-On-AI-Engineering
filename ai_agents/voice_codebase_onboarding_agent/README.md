@@ -2,6 +2,8 @@
 
 ![Voice Codebase Onboarding Agent demo](assets/demo.gif)
 
+[Watch the full demo with audio →](assets/demo.mp4)
+
 An agent that helps developers understand a real codebase through text or voice. Load a public GitHub repository or a local Git repository, then ask a focused question such as, “Where does authentication happen?” or “Where should I start to change the UI?” The agent reads a small, relevant set of files, answers with file-and-line citations, and narrates the explanation with Fish Audio Drama 3.
 
 This is not a generic repository summary. The agent plans a read-only investigation for each question, selects relevant files from the actual repository tree, reads those files, and grounds its answer in the evidence it collected.
