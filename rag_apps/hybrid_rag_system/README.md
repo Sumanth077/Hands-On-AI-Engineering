@@ -38,7 +38,7 @@ Hybrid RAG System dual-indexes every uploaded document: a knowledge graph captur
 
 - Python 3.10 or higher
 - [Ollama](https://ollama.com/download) installed and running
-- A [Mistral AI](https://platform.mistral.ai) API key
+- A [Mistral AI](https://console.mistral.ai/) API key
 
 ## Installation
 
@@ -104,7 +104,7 @@ Copy `.env.example` to `.env` and fill in the value below.
 
 | Variable | Required | Description |
 |---|---|---|
-| `MISTRAL_API_KEY` | Yes | API key from [platform.mistral.ai](https://platform.mistral.ai) |
+| `MISTRAL_API_KEY` | Yes | API key from [console.mistral.ai](https://console.mistral.ai/) |
 
 ```env
 MISTRAL_API_KEY=your_mistral_api_key_here

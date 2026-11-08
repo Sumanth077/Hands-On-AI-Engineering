@@ -37,7 +37,7 @@ GraphRAG Knowledge System implements Microsoft's GraphRAG methodology as a fully
 
 - Python 3.10 or later
 - [Ollama](https://ollama.com/download) installed and running
-- A [Mistral AI API key](https://platform.mistral.ai)
+- A [Mistral AI API key](https://console.mistral.ai/)
 
 ## Installation
 
@@ -139,7 +139,7 @@ Copy `.env.example` to `.env` and fill in the value below.
 
 | Variable | Required | Description |
 |---|---|---|
-| `MISTRAL_API_KEY` | Yes | Your Mistral AI API key, get one at [platform.mistral.ai](https://platform.mistral.ai) |
+| `MISTRAL_API_KEY` | Yes | Your Mistral AI API key, get one at [console.mistral.ai](https://console.mistral.ai/) |
 
 ```env
 MISTRAL_API_KEY=your_mistral_api_key_here

@@ -32,7 +32,7 @@ Upload a prescription image (handwritten or printed) and the app uses Mistral La
 ## Prerequisites
 
 - Python 3.10 or higher
-- A Mistral API key. Get one at [platform.mistral.ai](https://platform.mistral.ai)
+- A Mistral API key. Get one at [console.mistral.ai](https://console.mistral.ai/)
 
 ## Installation
 
@@ -103,7 +103,7 @@ Illegible fields
 
 | Variable | Description |
 |---|---|
-| `MISTRAL_API_KEY` | Your Mistral API key from [platform.mistral.ai](https://platform.mistral.ai) |
+| `MISTRAL_API_KEY` | Your Mistral API key from [console.mistral.ai](https://console.mistral.ai/) |
 
 ## Project Structure
 
