@@ -86,6 +86,8 @@ hotel_finder_agent/
 │   ├── __init__.py       # Maps ORQ_API_KEY → OPENAI_API_KEY for LiteLlm
 │   └── agent.py          # ADK Agent with LiteLlm + McpToolset
 ├── app.py                # Streamlit UI (OpenAI SDK + mcp directly)
+├── tests/
+│   └── test_adk_instruction.py
 ├── pyproject.toml
 ├── .env.example
 └── assets/
