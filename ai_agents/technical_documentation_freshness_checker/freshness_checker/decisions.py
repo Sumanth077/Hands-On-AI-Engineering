@@ -89,11 +89,15 @@ def check_claim(claim: TechnicalClaim) -> FreshnessResult:
 
     answer = payload.get("answers", {}).get("freshness", {})
     status, confidence = _status_from_answer(answer)
+    citations = _citation_models(payload.get("citations", []))
+    if not citations:
+        # An uncited answer is not auditable, even when the classifier selected CURRENT.
+        status = FreshnessStatus.NEEDS_REVIEW
     return FreshnessResult(
         claim=claim,
         status=status,
         confidence=confidence,
-        citations=_citation_models(payload.get("citations", [])),
+        citations=citations,
         raw_answer=answer,
     )
 
