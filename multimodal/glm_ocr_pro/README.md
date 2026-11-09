@@ -28,7 +28,7 @@ Before you begin, ensure you have:
 ### 1. Clone the Repository
 ```bash
 git clone https://github.com/Sumanth077/Hands-On-AI-Engineering.git
-cd Hands-On-AI-Engineering/multimodal_apps/glm-ocr-pro
+cd Hands-On-AI-Engineering/multimodal/glm_ocr_pro
 ```
 
 ### 2. Install Ollama
