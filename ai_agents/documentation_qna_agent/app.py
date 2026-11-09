@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 
-from agent_service import answer_question, fetch_documentation
+from agent_service import MODEL_ID, answer_question, fetch_documentation
 
 load_dotenv()
 
@@ -98,7 +98,7 @@ def main() -> None:
                     if "404 page not found" in message and "status code 404" not in message:
                         st.error(
                             "The NVIDIA NIM model endpoint returned 404. "
-                            f"Check NVIDIA_MODEL in .env (current default: moonshotai/kimi-k2.5). "
+                            f"Check NVIDIA_MODEL in .env (currently configured: {MODEL_ID}). "
                             f"Details: {exc}"
                         )
                     else:
