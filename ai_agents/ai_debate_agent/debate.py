@@ -21,6 +21,7 @@ from typing import Iterator, List, Optional, TypedDict
 
 from dotenv import load_dotenv
 from langgraph.graph import END, START, StateGraph
+from verdict import reconcile_scores
 
 load_dotenv()
 
@@ -233,24 +234,8 @@ def _parse_verdict(raw: str, transcript: List[Argument]) -> dict:
             "raw": raw.strip(),
         }
 
-    # Recompute totals from per-argument scores when possible (more reliable than the LLM's math).
-    totals = {DEBATER_A: 0, DEBATER_B: 0}
-    for arg in parsed.get("arguments", []):
-        speaker = arg.get("speaker")
-        if speaker in totals:
-            totals[speaker] += (
-                int(arg.get("logic", 0))
-                + int(arg.get("evidence", 0))
-                + int(arg.get("persuasiveness", 0))
-            )
-    if any(totals.values()):
-        parsed["totals"] = totals
-        if totals[DEBATER_A] > totals[DEBATER_B]:
-            parsed.setdefault("winner", DEBATER_A)
-        elif totals[DEBATER_B] > totals[DEBATER_A]:
-            parsed.setdefault("winner", DEBATER_B)
+    parsed = reconcile_scores(parsed, DEBATER_A, DEBATER_B)
 
-    parsed.setdefault("totals", totals)
     parsed.setdefault("winner", "Tie")
     parsed.setdefault("verdict", "")
     parsed.setdefault("arguments", [])
