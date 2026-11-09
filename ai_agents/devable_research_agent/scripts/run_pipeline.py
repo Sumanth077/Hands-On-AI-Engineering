@@ -232,6 +232,20 @@ def _validate_digest_input() -> bool:
 
     age = now_lagos - generated_lagos
 
+    if generated_lagos > now_lagos:
+
+        _log(
+
+            f"ERROR digest_input_today.json has a future generated_at "
+
+            f"(generated_at={generated_lagos.isoformat()}) — pipeline aborted."
+
+        )
+
+        return False
+
+
+
     if generated_lagos.date() != today_lagos and age > timedelta(hours=24):
 
         _log(
