@@ -3,10 +3,6 @@
 
 > Multi-agent travel planner that turns a single natural language request into a complete trip plan with flights, hotels, and a day-by-day itinerary.
 
-## Demo
-
-![Demo](assets/demo.png)
-
 ## Overview
 
 The AI Travel Planning Agent uses a root Google ADK agent to coordinate three specialist sub-agents: a Flight Agent, a Hotel Agent, and an Itinerary Agent. Each sub-agent independently searches the web in real time, and the root agent combines their results into one cohesive travel plan. Users interact through a Streamlit chat interface and can ask follow-up questions within the same conversational session.
