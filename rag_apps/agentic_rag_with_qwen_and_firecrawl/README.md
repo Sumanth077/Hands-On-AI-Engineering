@@ -22,9 +22,9 @@ A Streamlit application demonstrating a Retrieval-Augmented Generation (RAG) wor
 
 1.  **Clone Repository & Navigate:**
     ```bash
-    git clone https://github.com/Sumanth077/awesome-ai-apps-and-agents.git
+    git clone https://github.com/Sumanth077/Hands-On-AI-Engineering.git
 
-    cd awesome-ai-apps-and-agents/agentic_rag_with_qwen_and_firecrawl
+    cd Hands-On-AI-Engineering/rag_apps/agentic_rag_with_qwen_and_firecrawl
     ```
 
 2.  **Environment & Dependencies:**
