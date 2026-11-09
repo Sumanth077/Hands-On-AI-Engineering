@@ -1,6 +1,5 @@
 """Streamlit app for the Job Posting Agent. Enter a company and role to generate a tailored, professional job posting using a multi-agent LangChain pipeline backed by DeepSeek V4 Flash on NVIDIA NIM."""
 
-import json
 import logging
 import traceback
 
@@ -10,6 +9,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 from agents.pipeline import run_pipeline
+from script_json import serialize_inline_script_data
 
 st.set_page_config(
     page_title="Job Posting Agent",
@@ -58,7 +58,7 @@ if generate:
                 label_visibility="collapsed",
             )
 
-            posting_json = json.dumps(result.job_posting)
+            posting_json = serialize_inline_script_data(result.job_posting)
             components.html(
                 f"""
                 <button id="copy-btn" style="
