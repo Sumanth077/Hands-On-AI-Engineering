@@ -17,6 +17,7 @@ from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from extractor import extract_form_data
 from llm import chat_and_update_fields_stream
+from session_storage import session_file_path
 from pdf_filler import (
     fill_pdf_with_mapping, fill_pdf_with_exact_mapping,
     get_pdf_base64, get_pdf_field_names, render_pdf_as_image, create_field_mapping
@@ -28,13 +29,10 @@ from pdf_filler import (
 SESSION_DIR = "sessions"
 os.makedirs(SESSION_DIR, exist_ok=True)
 
-def _sanitize_sid(sid: str) -> str:
-    """Strip any path separators or dots to prevent directory traversal."""
-    return re.sub(r'[^a-zA-Z0-9_-]', '', sid)
-
 def save_session():
-    sid = _sanitize_sid(st.session_state.get("session_id", ""))
-    if not sid:
+    sid = st.session_state.get("session_id", "")
+    path = session_file_path(SESSION_DIR, sid)
+    if path is None:
         return
     pdf_b64 = None
     if st.session_state.get("pdf_render"):
@@ -55,13 +53,13 @@ def save_session():
         "ready_to_fill": st.session_state.get("ready_to_fill", False),
         "pdf_render_b64": pdf_b64,
     }
-    with open(os.path.join(SESSION_DIR, f"{sid}.json"), "w", encoding="utf-8") as f:
+    with open(path, "w", encoding="utf-8") as f:
         json.dump(data, f)
 
 def load_session(sid: str):
-    path = os.path.join(SESSION_DIR, f"{sid}.json")
-    if not os.path.exists(path):
-        return
+    path = session_file_path(SESSION_DIR, sid)
+    if path is None or not path.exists():
+        return False
     with open(path, "r", encoding="utf-8") as f:
         data = json.load(f)
     st.session_state.session_id      = sid
@@ -77,20 +75,24 @@ def load_session(sid: str):
     st.session_state.ready_to_fill   = data.get("ready_to_fill", False)
     b64 = data.get("pdf_render_b64")
     st.session_state.pdf_render      = base64.b64decode(b64) if b64 else None
+    return True
 
 def get_session_history():
     history = []
     for fname in os.listdir(SESSION_DIR):
         if not fname.endswith(".json"):
             continue
-        fpath = os.path.join(SESSION_DIR, fname)
+        sid = fname[:-5]
+        fpath = session_file_path(SESSION_DIR, sid)
+        if fpath is None:
+            continue
         try:
             with open(fpath, "r", encoding="utf-8") as f:
                 d = json.load(f)
             if not d.get("form_name") and not d.get("registry"):
                 continue
             history.append({
-                "id":        d.get("session_id", fname.replace(".json", "")),
+                "id":        sid,
                 "form_name": d.get("form_name") or d.get("target_filename") or "Untitled",
                 "step":      d.get("step", 1),
                 "timestamp": d.get("timestamp", ""),
@@ -102,18 +104,17 @@ def get_session_history():
     return sorted(history, key=lambda x: x["mtime"], reverse=True)
 
 def delete_session(sid: str):
-    path = os.path.join(SESSION_DIR, f"{sid}.json")
-    if os.path.exists(path):
-        os.remove(path)
+    path = session_file_path(SESSION_DIR, sid)
+    if path is not None and path.exists():
+        path.unlink()
 
 # ─────────────────────────────────────────────
 # SESSION STATE INITIALIZATION
 # ─────────────────────────────────────────────
 if "session_id" not in st.session_state:
     qp = st.query_params
-    if "session" in qp:
-        load_session(qp["session"])
-    else:
+    loaded = "session" in qp and load_session(qp["session"])
+    if not loaded:
         new_id = str(uuid.uuid4())[:8]
         st.session_state.session_id = new_id
         st.query_params["session"] = new_id
