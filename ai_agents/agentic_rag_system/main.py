@@ -7,6 +7,7 @@ from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import Chroma
 from rag_graph import app, embeddings, CHROMA_DB_PATH
+from index_storage import replace_directory
 
 
 # ── PDF Processing ─────────────────────────────────────────────────────────────
@@ -16,12 +17,9 @@ def process_pdf(file):
     if file is None:
         return (
             gr.update(value="⚠️ No file selected. Please upload a PDF first."),
-            gr.update(interactive=False),
+            gr.update(interactive=os.path.exists(CHROMA_DB_PATH)),
         )
     try:
-        if os.path.exists(CHROMA_DB_PATH):
-            shutil.rmtree(CHROMA_DB_PATH)
-
         # Gradio 4+ returns a string path; older versions return a file-like object
         file_path = file if isinstance(file, str) else file.name
         loader = PyPDFLoader(file_path)
@@ -29,17 +27,36 @@ def process_pdf(file):
 
         splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
         chunks = splitter.split_documents(docs)
+        if not chunks:
+            raise ValueError("No text could be extracted from the selected PDF.")
 
-        Chroma.from_documents(chunks, embeddings, persist_directory=CHROMA_DB_PATH)
+        previous_index = replace_directory(
+            CHROMA_DB_PATH,
+            lambda staging_path: Chroma.from_documents(
+                chunks,
+                embeddings,
+                persist_directory=staging_path,
+            ),
+        )
+        status = f"✅ Ready — {len(chunks)} chunks indexed from {len(docs)} pages."
+        if previous_index:
+            status += (
+                " The new index is ready, but the previous index could not be removed; "
+                f"the backup folder {os.path.basename(previous_index)} remains beside the active index."
+            )
 
         return (
-            gr.update(value=f"✅ Ready — {len(chunks)} chunks indexed from {len(docs)} pages."),
+            gr.update(value=status),
             gr.update(interactive=True),
         )
     except Exception as e:
+        index_available = os.path.exists(CHROMA_DB_PATH)
+        status = f"❌ Processing failed: {str(e)}"
+        if index_available:
+            status += " The previously processed document is still available."
         return (
-            gr.update(value=f"❌ Processing failed: {str(e)}"),
-            gr.update(interactive=False),
+            gr.update(value=status),
+            gr.update(interactive=index_available),
         )
 
 
