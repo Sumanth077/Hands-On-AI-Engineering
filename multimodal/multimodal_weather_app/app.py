@@ -143,6 +143,9 @@ def call_weather_tool(city: str) -> str:
 def parse_weather(text: str) -> tuple:
     """Extract temperature, conditions, humidity, and wind speed from a formatted weather string."""
     temp = conditions = humidity = wind = ""
+    if text.startswith("Weather unavailable for "):
+        return temp, text, humidity, wind
+
     for line in text.splitlines():
         if "Temperature:" in line:
             temp = line.split("Temperature:", 1)[1].strip()
