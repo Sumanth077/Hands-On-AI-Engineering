@@ -1,12 +1,13 @@
 """Streamlit app that runs a multi-agent CrewAI pipeline to analyze a stock and generate a markdown investment report."""
 import streamlit as st
 import os
+import json
 import pandas as pd
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 from crewai import Agent, Crew, Process, Task, LLM
 from pydantic import BaseModel
-from tools.financial_tools import YFinanceStockTool
+from tools.financial_tools import MarketDataUnavailable, YFinanceStockTool
 
 # Load environment variables
 load_dotenv()
@@ -38,23 +39,21 @@ def load_llm():
 # Create agents and tasks
 def create_agents_and_tasks(symbol: str):
     """Build the stock analysis and report writing agents, their tasks, and the crew that runs them for the given symbol."""
+    market_data = YFinanceStockTool().fetch_data(symbol)
+    market_data_json = json.dumps(market_data, indent=2)
     llm = load_llm()
-    
-    # Initialize tools
-    stock_tool = YFinanceStockTool()
     
     # Stock Analysis Agent
     stock_analysis_agent = Agent(
         role="Wall Street Financial Analyst",
-        goal=f"Conduct a comprehensive, data-driven analysis of {symbol} stock using real-time market data",
+        goal=f"Conduct a comprehensive, data-driven analysis of {symbol} stock using the latest available Yahoo Finance data",
         backstory="""You are a seasoned Wall Street analyst with 15+ years of experience in equity research.
                      You're known for your meticulous analysis and data-driven insights.
-                     You ALWAYS base your analysis on real-time market data, never relying solely on pre-existing knowledge.
+                     You base price and financial claims only on the source data supplied with the task, never on pre-existing knowledge.
                      You're an expert at interpreting financial metrics, market trends, and providing actionable insights.""",
         llm=llm,
         verbose=True,
-        memory=True,
-        tools=[stock_tool]
+        memory=False
     )
 
     # Report Writing Agent
@@ -71,7 +70,12 @@ def create_agents_and_tasks(symbol: str):
 
     # Analysis Task
     analysis_task = Task(
-        description=f"""Analyze {symbol} stock using the stock_data_tool to fetch real-time data. Your analysis must include:
+        description=f"""Analyze {symbol} using ONLY the successful source-data payload fetched by the application before the LLM is called. Do not use prior model knowledge to fill missing values. If a value is N/A or absent, label it unavailable.
+
+        Source data:
+        {market_data_json}
+
+        Your analysis must include:
 
         1. Latest Trading Information (HIGHEST PRIORITY)
            - Latest stock price with specific date
@@ -103,14 +107,13 @@ def create_agents_and_tasks(symbol: str):
            - Key risk factors
 
         IMPORTANT: 
-        - ALWAYS use the stock_data_tool to fetch real-time data
         - Begin your analysis with the latest price and 52-week data
         - Include specific dates for all price points
         - Clearly indicate when each price point was recorded
         - Calculate and show percentage changes
-        - Verify all numbers with live data
+        - Use only the supplied source data for price and financial figures
         - Compare current metrics with historical trends""",
-        expected_output="A comprehensive analysis report with real-time data, including all specified metrics and clear section breakdowns",
+        expected_output="A comprehensive analysis report using the supplied source data and its trading date, with clear section breakdowns",
         agent=stock_analysis_agent
     )
 
@@ -151,7 +154,9 @@ def create_agents_and_tasks(symbol: str):
         - Maintain professional tone
         - Clearly state all data sources
         - Include risk disclaimers
-        - Format in clean, readable markdown""",
+        - Format in clean, readable markdown
+        - Do not invent or supplement prices, dates, metrics, or recommendations from model memory
+        - If the source-backed analysis marks a value unavailable, keep it unavailable""",
         expected_output="A professionally formatted investment report in markdown, with clear sections, data tables, and visual indicators",
         agent=report_writer_agent
     )
@@ -206,6 +211,8 @@ if analyze_button:
                 st.session_state.report = str(result)
             st.session_state.analysis_complete = True
 
+    except MarketDataUnavailable as e:
+        st.error(str(e))
     except Exception as e:
         st.error(f"An error occurred: {str(e)}")
 

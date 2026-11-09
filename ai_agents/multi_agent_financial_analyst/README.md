@@ -24,7 +24,8 @@ A powerful multi-agent system that performs comprehensive stock analysis and gen
 
 - Stock Analysis Agent: Performs thorough analysis of stocks using fundamental and technical indicators
 - Report Writing Agent: Transforms analysis into comprehensive, reader-friendly reports
-- Real-time market data integration
+- Latest available Yahoo Finance market data, with the source trading date shown
+- Stops report generation when Yahoo Finance data is unavailable instead of filling gaps from model memory
 - Professional report generation in markdown format
 - Interactive Streamlit interface
 
@@ -32,8 +33,8 @@ A powerful multi-agent system that performs comprehensive stock analysis and gen
 
 1.  **Clone Repository & Navigate:**
     ```bash
-    git clone https://github.com/Sumanth077/awesome-ai-apps-and-agents.git
-    cd awesome-ai-apps-and-agents/multi_agent_financial_analyst
+    git clone https://github.com/Sumanth077/Hands-On-AI-Engineering.git
+    cd Hands-On-AI-Engineering/ai_agents/multi_agent_financial_analyst
     ```
 
 2. Install dependencies:
