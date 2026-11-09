@@ -14,6 +14,7 @@ import yt_dlp
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
+from conversation import build_contents, reset_audio_context
 
 load_dotenv()
 
@@ -104,58 +105,6 @@ def _upload_to_gemini(audio_path: str):
     return client.files.upload(file=audio_path)
 
 
-def _extract_text(content) -> str:
-    """Gradio may store message content as a plain string or a list of content blocks."""
-    if isinstance(content, str):
-        return content
-    if isinstance(content, list):
-        return " ".join(
-            block.get("text", "") if isinstance(block, dict) else str(block)
-            for block in content
-        )
-    return str(content)
-
-
-def _build_contents(gemini_file, history: list[dict], new_prompt: str) -> list:
-    """
-    Build the contents list for a multi-turn conversation.
-    history is a list of {"role": "user"|"assistant", "content": "..."} dicts.
-    The audio file is attached to the first user turn only.
-    """
-    contents = []
-    has_prior_turns = any(m["role"] == "user" for m in history)
-
-    for msg in history:
-        role = msg["role"]
-        text = _extract_text(msg["content"])
-        if role == "user":
-            contents.append(
-                types.Content(role="user", parts=[types.Part.from_text(text=text)])
-            )
-        else:
-            contents.append(
-                types.Content(role="model", parts=[types.Part.from_text(text=text)])
-            )
-
-    # New user turn — attach audio on the very first message in the conversation
-    if not has_prior_turns:
-        audio_part = types.Part.from_uri(
-            file_uri=gemini_file.uri,
-            mime_type=gemini_file.mime_type,
-        )
-        contents.append(
-            types.Content(
-                role="user",
-                parts=[types.Part.from_text(text=new_prompt), audio_part],
-            )
-        )
-    else:
-        contents.append(
-            types.Content(role="user", parts=[types.Part.from_text(text=new_prompt)])
-        )
-    return contents
-
-
 # ── Core inference ─────────────────────────────────────────────────────────────
 
 def analyze(
@@ -226,7 +175,7 @@ def analyze(
         return
 
     # Build conversation contents
-    contents = _build_contents(gemini_file, history, prompt)
+    contents = build_contents(types, gemini_file, history, prompt)
 
     # Stream response
     history = history + [
@@ -392,8 +341,10 @@ with gr.Blocks(title="Music Explorer") as demo:
     ).then(fn=lambda: "", outputs=prompt_input)
 
     # Changing audio source resets the Gemini file reference
-    audio_input.change(fn=lambda: "", outputs=gemini_file_state)
-    yt_url.change(fn=lambda: "", outputs=gemini_file_state)
+    audio_input.change(
+        fn=reset_audio_context, outputs=[chatbot, gemini_file_state]
+    )
+    yt_url.change(fn=reset_audio_context, outputs=[chatbot, gemini_file_state])
 
     # Clear conversation
     clear_btn.click(fn=lambda: ([], ""), outputs=[chatbot, gemini_file_state])
