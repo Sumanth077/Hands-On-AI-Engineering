@@ -23,7 +23,8 @@ and produce a structured Markdown report, powered by Mistral Small 4
 
 ## Installation
 ```bash
-cd multi_agent_research_assistant_ag2
+git clone https://github.com/Sumanth077/Hands-On-AI-Engineering.git
+cd Hands-On-AI-Engineering/ai_agents/multi_agent_research_assistant_ag2
 pip install -r requirements.txt
 cp .env.example .env  # add your Mistral API key
 ```
