@@ -183,6 +183,7 @@ the Inference follow-up and stores the record for the dashboard.
 ## Installation
 
 ```bash
+git clone https://github.com/Sumanth077/Hands-On-AI-Engineering.git
 cd Hands-On-AI-Engineering/audio/ai_appointment_booking_voice_agent
 uv venv
 source .venv/bin/activate        # Windows: .venv\Scripts\activate
