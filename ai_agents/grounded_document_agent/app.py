@@ -17,8 +17,6 @@ from __future__ import annotations
 import hashlib
 import html
 import re
-import tempfile
-from pathlib import Path
 
 import streamlit as st
 
@@ -27,6 +25,7 @@ from grounded_agent.indexer import build_or_load_index
 from grounded_agent.overview import generate_overview
 from grounded_agent.parser import parse_pdf
 from grounded_agent.query import Citation, ask, make_query_engine
+from grounded_agent.upload import parse_uploaded_pdf
 
 st.set_page_config(page_title="Grounded Document Agent", page_icon="📄", layout="wide")
 
@@ -128,13 +127,8 @@ def _render_turn(turn: dict, rich: bool) -> None:
 def _prepare_document(file_bytes: bytes, file_name: str):
     """Parse + index a PDF (both cached), returning a citation-aware query engine."""
     doc_key = hashlib.md5(file_bytes).hexdigest()
-
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
-        tmp.write(file_bytes)
-        tmp_path = Path(tmp.name)
-
     with st.status("Parsing with LlamaParse and indexing locally...", expanded=False):
-        documents = parse_pdf(tmp_path, file_name=file_name)
+        documents = parse_uploaded_pdf(file_bytes, file_name, parse_pdf)
         index = build_or_load_index(documents, doc_key)
         engine = make_query_engine(index)
 
