@@ -2,7 +2,7 @@
 
 A CrewAI multi-agent pipeline that takes a topic or product idea and produces a strategically reasoned Instagram content package. Four specialized agents work sequentially: a Trend Intelligence agent analyzes why specific formats and hooks are performing for the niche, a Copywriter agent generates three caption variants and reasons about which fits best, a Visual Strategist agent produces a trend-grounded image generation prompt, and a Posting Strategist agent recommends a publish time tied to niche audience behavior. Agent reasoning is fully visible in the UI.
 
-![Instagram Post Crew Demo](assets/demo.gif)
+Demo media is not currently included in this repository.
 
 ## Features
 
