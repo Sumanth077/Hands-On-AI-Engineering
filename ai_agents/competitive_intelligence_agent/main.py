@@ -4,6 +4,7 @@ import gradio as gr
 import io
 from contextlib import redirect_stdout
 from agents_logic import get_research_crew
+from input_validation import missing_required_inputs
 
 
 def strip_ansi(text: str) -> str:
@@ -23,6 +24,11 @@ def clean_log(raw: str) -> str:
 
 def run_analysis(my_company, competitor, pain_point, goal):
     """Run the three-agent CrewAI pipeline and return the reasoning log and final battlecard."""
+    missing = missing_required_inputs(my_company, competitor, pain_point, goal)
+    if missing:
+        fields = ", ".join(missing)
+        return "", f"Complete these required fields before generating a battlecard: {fields}."
+
     # Progress logging
     f = io.StringIO()
     with redirect_stdout(f):
