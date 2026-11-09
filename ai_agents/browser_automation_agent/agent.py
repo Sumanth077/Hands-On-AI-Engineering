@@ -129,11 +129,11 @@ def _extract_history(history) -> AgentResult:
     except Exception:  # noqa: BLE001
         actions = []
 
-    # Only surface errors when the task did NOT produce an answer. browser-use
-    # retries transient step failures (e.g. a model returning an empty/malformed
-    # response), so a recovered error alongside a valid summary is just noise.
+    # Only surface errors when the task did NOT complete. browser-use retries
+    # transient step failures (e.g. a model returning an empty/malformed
+    # response), so a recovered error alongside a completed result is noise.
     error_msg: Optional[str] = None
-    task_failed = not summary and not success
+    task_failed = not success
     if step_errors and task_failed:
         # De-duplicate identical errors (browser-use retries a lot).
         unique_errors = list(dict.fromkeys(step_errors))
