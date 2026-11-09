@@ -10,7 +10,7 @@ from pathlib import Path
 import streamlit as st
 
 from database import DB_PATH, init_db
-from agent import run_agent, set_db_path
+from agent import run_agent
 
 # ── Page config ────────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -110,16 +110,13 @@ with st.sidebar:
 
             active_path = Path(st.session_state["uploaded_db_path"])
             st.session_state["active_db_path"] = active_path
-            set_db_path(active_path)
             st.success(f"Using: {uploaded_file.name}")
         else:
             # No file uploaded yet — fall back to bundled
             st.session_state["active_db_path"] = DB_PATH
-            set_db_path(DB_PATH)
             st.caption("No file uploaded yet. Showing bundled dataset schema.")
     else:
         st.session_state["active_db_path"] = DB_PATH
-        set_db_path(DB_PATH)
         st.caption("20 customers · 25 products · 40 orders · 5 categories")
 
     st.divider()
@@ -196,9 +193,6 @@ if "pending_q" in st.session_state:
     question = st.session_state.pop("pending_q")
 
 if question:
-    # Ensure agent is pointed at the active DB before running
-    set_db_path(get_active_db_path())
-
     st.session_state["messages"].append({"role": "user", "content": question})
     with st.chat_message("user"):
         st.markdown(question)
@@ -206,7 +200,7 @@ if question:
     with st.chat_message("assistant"):
         with st.spinner("Querying the database…"):
             try:
-                result = run_agent(question)
+                result = run_agent(question, get_active_db_path())
                 answer = result.get("answer", "No answer generated.")
                 steps = result.get("steps", [])
             except Exception as e:
