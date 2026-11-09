@@ -12,6 +12,8 @@ This project uses the new n8n Agent feature rather than a fixed support workflow
 
 The demo uses the Agent Builder's built-in Preview chat. This keeps the project self-contained: no bot account, webhook, or external channel is required to show the agent's reasoning loop, tool calls, session history, and approval pause. The example store data in `data/` is deliberately small and transparent. In a production system, the same read and write tools would connect to the store, CRM, or order-management system instead.
 
+Human review in this demo is represented only by a row in the `resolution_requests` Data Table. The insert does not create a ticket, notify a support team, or contact the customer. Cases the configured tools cannot record are not handed off; connect and verify a real support or notification tool before presenting this as live customer support.
+
 ## Features
 
 - A customer can report an order problem in the n8n Agent Builder Preview chat.
@@ -29,6 +31,8 @@ The demo uses the Agent Builder's built-in Preview chat. This keeps the project 
 4. It explains the supported next step and asks the customer to confirm the requested resolution.
 5. The agent requests approval before it invokes the write tool.
 6. After approval, the write tool records the request in `resolution_requests` and the agent confirms the outcome in the same chat.
+
+The Data Table insert is the end of the demo's automated write path. A `pending_review` row does not alert a human or guarantee follow-up.
 
 The agent decides when to use its tools. The Data Table operations are narrowly configured tools, so the lookup and write operations remain predictable and scoped.
 
