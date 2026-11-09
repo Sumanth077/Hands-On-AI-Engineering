@@ -2,9 +2,9 @@
 
 import streamlit as st
 import os
-import re
 import tempfile
 from dotenv import load_dotenv
+from youtube_urls import extract_video_id, youtube_watch_url
 
 load_dotenv()
 
@@ -19,22 +19,6 @@ MISTRAL_MODEL = "mistral-small-latest"
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
-
-def extract_video_id(url: str) -> str | None:
-    """Extract the 11-character YouTube video ID from any supported URL format."""
-    patterns = [
-        r"[?&]v=([a-zA-Z0-9_-]{11})",
-        r"youtu\.be/([a-zA-Z0-9_-]{11})",
-        r"youtube\.com/embed/([a-zA-Z0-9_-]{11})",
-        r"youtube\.com/v/([a-zA-Z0-9_-]{11})",
-        r"youtube\.com/shorts/([a-zA-Z0-9_-]{11})",
-    ]
-    for pattern in patterns:
-        m = re.search(pattern, url)
-        if m:
-            return m.group(1)
-    return None
-
 
 def collection_name_for(video_id: str) -> str:
     """Return a ChromaDB-safe collection name derived from the video ID."""
@@ -145,7 +129,7 @@ def chunk_segments(segments: list[dict]) -> list[dict]:
     return chunks
 
 
-def ingest_video(url: str, video_id: str, status_widget) -> object:
+def ingest_video(video_id: str, status_widget) -> object:
     """Full pipeline: download → transcribe → chunk → embed → store."""
     chroma = get_chroma_client()
     emb_fn = get_embedding_fn()
@@ -153,7 +137,7 @@ def ingest_video(url: str, video_id: str, status_widget) -> object:
 
     with tempfile.TemporaryDirectory() as tmp:
         status_widget.write("⬇️ Downloading audio…")
-        audio_path = download_audio(url, tmp)
+        audio_path = download_audio(youtube_watch_url(video_id), tmp)
 
         status_widget.write("🎙️ Transcribing with Whisper (this can take a few minutes for long videos)…")
         segments = transcribe_audio(audio_path)
@@ -318,7 +302,7 @@ if process_btn and url_input.strip():
         else:
             with st.status("Processing video…", expanded=True) as status:
                 try:
-                    col = ingest_video(url_input.strip(), vid, status)
+                    col = ingest_video(vid, status)
                     st.session_state.collection = col
                     st.session_state.video_id = vid
                     st.session_state.messages = []
