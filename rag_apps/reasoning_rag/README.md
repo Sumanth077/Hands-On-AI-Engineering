@@ -48,7 +48,7 @@ Additional Tools:
 
 ```bash
 git clone https://github.com/Sumanth077/Hands-On-AI-Engineering.git
-cd Hands-On-AI-Engineering/ai_agents/reasoning-rag
+cd Hands-On-AI-Engineering/rag_apps/reasoning_rag
 ```
 
 ### 2. Create Virtual Environment (Recommended)
