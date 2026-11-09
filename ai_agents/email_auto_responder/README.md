@@ -9,6 +9,7 @@ Email Auto Responder helps you process incoming Gmail messages faster. The app f
 
 ## Features
 - Fetch unread Gmail messages via IMAP
+- Keep fetched messages unread until you review their generated drafts
 - Classify emails into seven categories: inquiry, complaint, follow-up, marketing, notification, newsletter, and spam
 - Determine whether each message needs a reply via a separate needs_response flag
 - Generate professional draft replies only when a response is needed

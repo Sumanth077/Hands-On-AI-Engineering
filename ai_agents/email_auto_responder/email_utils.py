@@ -1,4 +1,5 @@
 import email
+import email.message
 import imaplib
 import os
 from email.header import decode_header
@@ -111,7 +112,8 @@ def fetch_unread_emails(
         emails: list[dict[str, Any]] = []
 
         for message_id in selected_ids:
-            _, message_data = mail.fetch(message_id, "(RFC822)")
+            # BODY.PEEK[] returns the raw message without setting the IMAP \\Seen flag.
+            _, message_data = mail.fetch(message_id, "(BODY.PEEK[])")
             if not message_data or not message_data[0]:
                 continue
 
