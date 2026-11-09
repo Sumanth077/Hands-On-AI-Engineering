@@ -38,3 +38,5 @@ Use this description in n8n:
 Set `resolution_type` to one of: `replacement`, `return_review`, `delivery_investigation`, or `human_escalation`.
 
 The tool records a request. It does not issue a refund, change an order, or contact a courier.
+
+The insert only adds a row to the demo Data Table. It does not create a support ticket, send email, trigger a notification, or contact a human. Add and verify a separate ticketing or notification tool before claiming that a real support team has been contacted.
