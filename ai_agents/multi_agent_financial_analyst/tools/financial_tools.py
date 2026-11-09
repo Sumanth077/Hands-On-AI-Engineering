@@ -1,5 +1,4 @@
 import yfinance as yf
-from datetime import datetime
 from crewai.tools import BaseTool
 from pydantic import BaseModel, Field
 import json
@@ -8,8 +7,13 @@ class StockInput(BaseModel):
     """Input schema for YFinanceStockTool."""
     symbol: str = Field(..., description="The stock symbol to analyze (e.g., 'AAPL', 'GOOGL')")
 
+
+class MarketDataUnavailable(RuntimeError):
+    """Raised when current source data cannot be fetched for a requested symbol."""
+
+
 class YFinanceStockTool(BaseTool):
-    """CrewAI tool that fetches real-time and historical stock data from Yahoo Finance."""
+    """Fetch Yahoo Finance market data and include the source trading date."""
     name: str = "stock_data_tool"
     description: str = """
     A tool for getting real-time and historical stock market data.
@@ -22,34 +26,40 @@ class YFinanceStockTool(BaseTool):
     """
     args_schema: type[BaseModel] = StockInput
 
-    def _run(self, symbol: str) -> str:
-        """Fetch latest trading data, 52-week range, and key financial metrics for the given stock symbol."""
+    def fetch_data(self, symbol: str) -> dict:
+        """Fetch source data, raising instead of returning an LLM-usable error string."""
         try:
             stock = yf.Ticker(symbol)
-            
+
             # Get basic info
-            info = stock.info
-            
+            info = stock.info or {}
+
             # Get recent market data
             hist = stock.history(period="1mo")
-            
+            if hist.empty:
+                raise ValueError("Yahoo Finance returned no recent trading data")
+
             # Get the latest trading day's data
             latest_data = hist.iloc[-1]
             latest_date = latest_data.name.strftime('%Y-%m-%d')
-            
+
             # Format 52-week data with dates
             hist_1y = stock.history(period="1y")
+            if hist_1y.empty:
+                raise ValueError("Yahoo Finance returned no 52-week price history")
             fifty_two_week_high_date = hist_1y['High'].idxmax().strftime('%Y-%m-%d')
             fifty_two_week_low_date = hist_1y['Low'].idxmin().strftime('%Y-%m-%d')
-            
+
+            open_price = float(latest_data['Open'])
+            close_price = float(latest_data['Close'])
             # Prepare the response
             response = {
                 "company_name": info.get("longName", "N/A"),
                 "latest_trading_data": {
                     "date": latest_date,
-                    "price": latest_data['Close'],
-                    "volume": latest_data['Volume'],
-                    "change": f"{((latest_data['Close'] - latest_data['Open']) / latest_data['Open'] * 100):.2f}%"
+                    "price": close_price,
+                    "volume": int(latest_data['Volume']),
+                    "change": f"{((close_price - open_price) / open_price * 100):.2f}%" if open_price else "N/A"
                 },
                 "52_week_high": {
                     "price": info.get("fiftyTwoWeekHigh", "N/A"),
@@ -65,11 +75,16 @@ class YFinanceStockTool(BaseTool):
                 "business_summary": info.get("longBusinessSummary", "N/A"),
                 "analyst_rating": info.get("recommendationKey", "N/A")
             }
-            
-            return json.dumps(response, indent=2)
-            
+
+            return response
         except Exception as e:
-            return f"Error fetching data for {symbol}: {str(e)}"
+            raise MarketDataUnavailable(
+                f"Unable to fetch current market data for {symbol}; no report was generated."
+            ) from e
+
+    def _run(self, symbol: str) -> str:
+        """Fetch source data and return it as JSON for CrewAI tool callers."""
+        return json.dumps(self.fetch_data(symbol), indent=2)
 
     def _arun(self, symbol: str) -> str:
         """Async counterpart of _run, not implemented for this tool."""
