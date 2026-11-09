@@ -216,7 +216,7 @@ with st.sidebar:
         st.divider()
         if st.button("Clear My Memories", use_container_width=True):
             try:
-                init_memory().delete_all(filters={"user_id": st.session_state.user_id})
+                init_memory().delete_all(user_id=st.session_state.user_id)
                 st.session_state.messages = []
                 st.success("Memories cleared.")
                 st.rerun()
