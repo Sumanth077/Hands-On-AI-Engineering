@@ -123,13 +123,31 @@ def search_documents(
 
 def scroll_documents(client: VectorAIClient, limit: int = 10_000) -> list:
     """
-    Read points without a vector query. Used by get_section, which filters on
-    payload metadata rather than semantic similarity.
+    Read every point without a vector query. Used by get_section and the
+    Library tab, which filter or aggregate payload metadata rather than
+    semantic similarity. ``limit`` is the page size for each scroll request.
     """
     if client.points.count(DOCUMENTS_COLLECTION) == 0:
         return []
-    points, _next_offset = client.points.scroll(DOCUMENTS_COLLECTION, limit=limit)
-    return points
+
+    points = []
+    offset = None
+    seen_offsets = set()
+    while True:
+        kwargs = {"limit": limit}
+        if offset is not None:
+            kwargs["offset"] = offset
+
+        page, next_offset = client.points.scroll(DOCUMENTS_COLLECTION, **kwargs)
+        points.extend(page)
+
+        if next_offset is None:
+            return points
+        if next_offset in seen_offsets:
+            raise RuntimeError("VectorAI DB returned a repeated scroll cursor")
+
+        seen_offsets.add(next_offset)
+        offset = next_offset
 
 
 def list_documents(client: VectorAIClient) -> list[dict]:
