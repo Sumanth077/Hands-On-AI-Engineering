@@ -425,3 +425,49 @@ def test_malformed_finish_investigation_args_recorded_and_continues(monkeypatch)
     # The investigation continues past the malformed call and reaches a real
     # finish_investigation once the model retries with valid arguments.
     assert final_state.final_result == valid_args
+
+
+def test_out_of_range_confidence_is_rejected_and_model_can_retry(monkeypatch):
+    _patch_healthy_services(monkeypatch)
+
+    valid_args = dict(
+        likely_cause="worn bearing",
+        confidence=0.8,
+        recommendation="Inspect the bearing assembly.",
+        supporting_evidence=["vibration elevated"],
+        retrieved_incident_ids=[],
+        manual_sources=[],
+    )
+    responses = [
+        _response(
+            [
+                _tool_call(
+                    "finish_investigation",
+                    {**valid_args, "confidence": -0.1},
+                )
+            ]
+        ),
+        _response(
+            [
+                _tool_call(
+                    "finish_investigation",
+                    {**valid_args, "confidence": 1.35},
+                )
+            ]
+        ),
+        _response([_tool_call("finish_investigation", valid_args)]),
+    ]
+    scripted = _patch_chat(monkeypatch, responses)
+
+    machine, history = _new_machine_and_history()
+    states = list(
+        harness_module.run_investigation(machine, history, "Investigate bearing fault")
+    )
+
+    final_state = states[-1]
+    assert scripted.call_count == 3
+    assert sum(
+        error.startswith("tool_error:finish_investigation")
+        for error in final_state.errors
+    ) == 2
+    assert final_state.final_result == valid_args
