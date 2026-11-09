@@ -8,6 +8,7 @@ import os
 import streamlit as st
 from dotenv import load_dotenv
 
+from brand_monitor_agent.sentiment import detect_sentiment
 from brand_monitor_agent.main import run_brand_monitor
 
 load_dotenv()
@@ -73,6 +74,7 @@ st.markdown("""
   .pill-neutral   { background: #fef9c3; color: #713f12; }
   .pill-negative  { background: #fee2e2; color: #991b1b; }
   .pill-error     { background: #fee2e2; color: #991b1b; }
+  .pill-unknown   { background: #e5e7eb; color: #374151; }
 
   /* Scoped markdown body */
   .report-body { font-size: 14px; line-height: 1.8; color: #1f2937; }
@@ -159,17 +161,13 @@ PLATFORM_META = {
 
 
 def _detect_sentiment_pill(content: str) -> str:
-    """Return an HTML pill based on keywords in the report."""
-    lower = content.lower()
-    if lower.startswith("error"):
+    """Render the report's explicit sentiment label without rescoring its prose."""
+    if content.lower().startswith("error"):
         return '<span class="pill pill-error">Error</span>'
-    pos = lower.count("positive") + lower.count("strong") + lower.count("well-regarded")
-    neg = lower.count("negative") + lower.count("criticism") + lower.count("complaint") + lower.count("concern")
-    if pos > neg + 1:
-        return '<span class="pill pill-positive">Positive</span>'
-    if neg > pos + 1:
-        return '<span class="pill pill-negative">Negative</span>'
-    return '<span class="pill pill-neutral">Mixed</span>'
+    label = detect_sentiment(content)
+    if label == "Unrated":
+        return '<span class="pill pill-unknown">Unrated</span>'
+    return f'<span class="pill pill-{label.lower()}">{label}</span>'
 
 
 def render_platform_report(platform: str, content: str):
