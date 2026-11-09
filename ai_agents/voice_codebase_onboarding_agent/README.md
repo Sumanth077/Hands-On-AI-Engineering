@@ -66,7 +66,8 @@ flowchart LR
 Open **PowerShell** in VS Code and run:
 
 ```powershell
-cd C:\Users\USER\Hands-On-AI-Engineering\ai_agents\voice_codebase_onboarding_agent
+git clone https://github.com/Sumanth077/Hands-On-AI-Engineering.git
+cd Hands-On-AI-Engineering\ai_agents\voice_codebase_onboarding_agent
 uv sync --extra dev
 Copy-Item .env.example .env
 ```
