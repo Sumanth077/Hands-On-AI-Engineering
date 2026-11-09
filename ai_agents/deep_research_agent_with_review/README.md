@@ -63,10 +63,11 @@ Credits and partner offers are subject to eligibility, availability, and their i
 
 ## Setup
 
-Open PowerShell in this project folder:
+Clone the repository and open PowerShell in the project folder:
 
 ```powershell
-cd C:\Users\USER\Hands-On-AI-Engineering\ai_agents\deep_research_agent_with_review
+git clone https://github.com/Sumanth077/Hands-On-AI-Engineering.git
+cd Hands-On-AI-Engineering\ai_agents\deep_research_agent_with_review
 ```
 
 Install the project and development dependencies:
