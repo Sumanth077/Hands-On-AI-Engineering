@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 def fetch_top_stories(count: int = 10) -> list[dict]:
     """Fetch the most recent tech stories from Hacker News via the Algolia Search API and return them as a list of dicts."""
-    url = "https://hn.algolia.com/api/v1/search_by_date?query=tech&tags=story&hitsPerPage=10"
+    url = f"https://hn.algolia.com/api/v1/search_by_date?query=tech&tags=story&hitsPerPage={count}"
     response = requests.get(
         url,
         headers={"Cache-Control": "no-cache"},
