@@ -105,13 +105,19 @@ def run_agent(task: str):
     # Show spinner immediately
     yield trace, final_answer, gr.update(visible=True)
 
+    wait_notices = 0
     while True:
         try:
             msg_type, step_log = step_queue.get(timeout=120)
         except queue.Empty:
-            trace += "\n[TIMEOUT] Agent did not respond within 120 s.\n"
-            yield trace, final_answer, gr.update(visible=False)
-            return
+            wait_notices += 1
+            elapsed = wait_notices * 120
+            trace += (
+                f"\n[WAITING] No step arrived in the last 120 seconds "
+                f"({elapsed} seconds elapsed); waiting for the agent to finish.\n"
+            )
+            yield trace, final_answer, gr.update(visible=True)
+            continue
 
         if msg_type == "done":
             break
