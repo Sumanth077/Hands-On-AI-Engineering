@@ -4,6 +4,7 @@ from google import genai
 from dotenv import load_dotenv
 import os
 import re
+from youtube_url import is_valid_youtube_url
 
 load_dotenv()
 
@@ -17,16 +18,6 @@ st.set_page_config(
 
 st.title("🎬 Video Understanding Agent")
 st.markdown("Paste a public YouTube URL to get a structured AI-powered summary powered by **Gemini Flash**.")
-
-YOUTUBE_PATTERN = re.compile(
-    r"(https?://)?(www\.)?"
-    r"(youtube\.com/watch\?v=|youtu\.be/|youtube\.com/shorts/)"
-    r"[\w\-]+"
-)
-
-def is_valid_youtube_url(url: str) -> bool:
-    """Returns True if the given string matches a recognized YouTube URL pattern."""
-    return bool(YOUTUBE_PATTERN.search(url))
 
 def parse_sections(text: str) -> dict:
     """Splits a Gemini response into chapters, takeaways, and action items by matching section headings."""
