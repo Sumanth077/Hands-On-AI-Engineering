@@ -9,9 +9,9 @@ Or run directly:
 """
 
 import argparse
+import calendar
 import json
 import sys
-import time
 import requests
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone, timedelta
@@ -59,8 +59,9 @@ def _parse_entry_date(entry) -> datetime | None:
         struct = getattr(entry, attr, None)
         if struct is not None:
             try:
-                # feedparser returns time.struct_time in UTC
-                ts = time.mktime(struct)
+                # feedparser returns time.struct_time in UTC; mktime() would
+                # interpret it in the machine's local timezone.
+                ts = calendar.timegm(struct)
                 return datetime.fromtimestamp(ts, tz=timezone.utc)
             except (OverflowError, OSError, ValueError):
                 continue
