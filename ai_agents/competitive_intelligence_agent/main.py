@@ -23,6 +23,22 @@ def clean_log(raw: str) -> str:
 
 def run_analysis(my_company, competitor, pain_point, goal):
     """Run the three-agent CrewAI pipeline and return the reasoning log and final battlecard."""
+    required_inputs = (
+        ("Your Company Name", my_company),
+        ("Competitor Name", competitor),
+        ("Main Pain Point", pain_point),
+        ("Strategic Goal", goal),
+    )
+    missing_fields = [
+        label for label, value in required_inputs
+        if not isinstance(value, str) or not value.strip()
+    ]
+    if missing_fields:
+        return "", (
+            "Please complete the following required fields before generating a battlecard: "
+            + ", ".join(missing_fields)
+        )
+
     # Progress logging
     f = io.StringIO()
     with redirect_stdout(f):
