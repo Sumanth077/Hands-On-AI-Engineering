@@ -106,6 +106,7 @@ class RAGResult:
 
 class MultimodalRAG:
     def __init__(self, api_key: str):
+        self.api_key = api_key
         self.client = genai.Client(api_key=api_key)
         self.embeddings = GeminiEmbeddings(self.client)
         self.splitter = RecursiveCharacterTextSplitter(
@@ -120,6 +121,16 @@ class MultimodalRAG:
         )
 
         self.sources: list[IndexedSource] = []
+
+    def update_api_key(self, api_key: str) -> None:
+        """Use a new Gemini client without discarding the session's index."""
+        if api_key == self.api_key:
+            return
+
+        client = genai.Client(api_key=api_key)
+        self.client = client
+        self.embeddings.client = client
+        self.api_key = api_key
 
     # ── Private helpers ────────────────────────────────────────────────────────
 
