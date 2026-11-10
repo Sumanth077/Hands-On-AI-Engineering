@@ -10,6 +10,7 @@ Query:  generate N hypothetical answers with Gemini 3 Flash
 
 import os
 import uuid
+import warnings
 
 import chromadb
 from google import genai
@@ -56,7 +57,8 @@ class HyDERAG:
         self.embedder = GeminiEmbedder(api_key=google_api_key)
         self.client = genai.Client(api_key=google_api_key)
         self._chroma = chromadb.Client()
-        self._collection = self._chroma.get_or_create_collection(self.COLLECTION)
+        self._collection_name = self.COLLECTION
+        self._collection = self._chroma.get_or_create_collection(self._collection_name)
         self.doc_info: dict | None = None
 
     # Ingest
@@ -73,10 +75,6 @@ class HyDERAG:
 
         Returns a metadata dict describing what was ingested.
         """
-        # Clear previous collection
-        self._chroma.delete_collection(self.COLLECTION)
-        self._collection = self._chroma.get_or_create_collection(self.COLLECTION)
-
         # Load
         ext = os.path.splitext(file_path)[1].lower()
         if ext == ".pdf":
@@ -105,13 +103,31 @@ class HyDERAG:
         ids = [str(uuid.uuid4()) for _ in chunks]
         embeddings = self.embedder.embed_batch(texts)
 
-        self._collection.add(
-            embeddings=embeddings,
-            documents=texts,
-            metadatas=metadatas,
-            ids=ids,
-        )
+        # Stage the replacement separately so a failed insert cannot erase the
+        # currently indexed document.
+        staged_name = f"{self.COLLECTION}_{uuid.uuid4().hex}"
+        staged_collection = self._chroma.create_collection(staged_name)
+        try:
+            staged_collection.add(
+                embeddings=embeddings,
+                documents=texts,
+                metadatas=metadatas,
+                ids=ids,
+            )
+        except Exception:
+            try:
+                self._chroma.delete_collection(staged_name)
+            except Exception as cleanup_error:
+                warnings.warn(
+                    f"Could not remove staged Chroma collection {staged_name!r}: {cleanup_error}",
+                    RuntimeWarning,
+                    stacklevel=2,
+                )
+            raise
 
+        previous_name = self._collection_name
+        self._collection_name = staged_name
+        self._collection = staged_collection
         self.doc_info = {
             "filename": os.path.basename(file_path),
             "total_chunks": len(chunks),
@@ -119,6 +135,19 @@ class HyDERAG:
             "chunk_overlap": chunk_overlap,
             "pages": len(docs),
         }
+
+        # The new collection is active before the old one is removed. If the
+        # old collection cleanup fails, the successfully ingested document is
+        # still available through this pipeline.
+        try:
+            self._chroma.delete_collection(previous_name)
+        except Exception as cleanup_error:
+            warnings.warn(
+                f"Could not remove previous Chroma collection {previous_name!r}: {cleanup_error}",
+                RuntimeWarning,
+                stacklevel=2,
+            )
+
         return self.doc_info
 
     # Query
@@ -184,6 +213,7 @@ class HyDERAG:
 
     def clear(self):
         """Wipe the vector store and reset document info."""
-        self._chroma.delete_collection(self.COLLECTION)
-        self._collection = self._chroma.get_or_create_collection(self.COLLECTION)
+        self._chroma.delete_collection(self._collection_name)
+        self._collection_name = self.COLLECTION
+        self._collection = self._chroma.get_or_create_collection(self._collection_name)
         self.doc_info = None
