@@ -204,12 +204,42 @@ function escapeHtml(text) {
 
 /** Full block-level markdown (paragraphs, numbered/bulleted lists, etc.) for the summary panel. */
 function renderMarkdownBlock(text) {
-  return marked.parse(escapeHtml(text));
+  return sanitizeRenderedMarkdown(marked.parse(escapeHtml(text)));
 }
 
 /** Inline-only markdown (bold, code, links) for single-line activity feed entries. */
 function renderMarkdownInline(text) {
-  return marked.parseInline(escapeHtml(text));
+  return sanitizeRenderedMarkdown(marked.parseInline(escapeHtml(text)));
+}
+
+/**
+ * Marked turns Markdown links and images into URL-bearing HTML. Escaping raw
+ * HTML before parsing does not make a `javascript:` link safe, so remove any
+ * URL whose resolved scheme is outside the app's supported set.
+ */
+function sanitizeRenderedMarkdown(html) {
+  const template = document.createElement("template");
+  template.innerHTML = html;
+
+  for (const element of template.content.querySelectorAll("[href], [src]")) {
+    for (const attribute of ["href", "src"]) {
+      const value = element.getAttribute(attribute);
+      if (value !== null && !isSafeMarkdownUrl(value)) {
+        element.removeAttribute(attribute);
+      }
+    }
+  }
+
+  return template.innerHTML;
+}
+
+function isSafeMarkdownUrl(value) {
+  try {
+    const { protocol } = new URL(value, window.location.href);
+    return ["http:", "https:", "mailto:"].includes(protocol);
+  } catch {
+    return false;
+  }
 }
 
 /** Turns a raw tool call into a plain-language activity line for the feed. */
