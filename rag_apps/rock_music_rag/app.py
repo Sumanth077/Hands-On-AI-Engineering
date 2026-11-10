@@ -8,6 +8,7 @@ import streamlit as st
 from dotenv import load_dotenv
 
 from rag import DEFAULT_BANDS, RockRAG
+from rendering import escape_html, render_chunk_card_html
 
 load_dotenv()
 
@@ -250,7 +251,7 @@ with st.sidebar:
         for band in bands:
             col_b, col_r = st.columns([4, 1])
             col_b.markdown(
-                f'<div class="band-pill">🎵 {band}</div>',
+                f'<div class="band-pill">🎵 {escape_html(band)}</div>',
                 unsafe_allow_html=True,
             )
             if col_r.button("✕", key=f"rm_{band}", help=f"Remove {band}"):
@@ -357,10 +358,7 @@ for message in st.session_state.messages:
             with st.expander(f"📄 {len(message['chunks'])} retrieved chunks"):
                 for chunk in message["chunks"]:
                     st.markdown(
-                        f'<div class="chunk-card">{chunk["content"]}'
-                        f'<div class="chunk-source">🎵 {chunk["band"]} · '
-                        f'<a href="{chunk["url"]}" target="_blank" '
-                        f'style="color:#64748b;">{chunk["url"]}</a></div></div>',
+                        render_chunk_card_html(chunk),
                         unsafe_allow_html=True,
                     )
 
@@ -406,10 +404,7 @@ if prompt:
                     with st.expander(f"📄 {len(chunk_data)} retrieved chunks"):
                         for chunk in chunk_data:
                             st.markdown(
-                                f'<div class="chunk-card">{chunk["content"]}'
-                                f'<div class="chunk-source">🎵 {chunk["band"]} · '
-                                f'<a href="{chunk["url"]}" target="_blank" '
-                                f'style="color:#64748b;">{chunk["url"]}</a></div></div>',
+                                render_chunk_card_html(chunk),
                                 unsafe_allow_html=True,
                             )
 
