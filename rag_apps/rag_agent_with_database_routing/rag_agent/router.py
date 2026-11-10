@@ -60,7 +60,8 @@ Example: {"database": "support", "reasoning": "User asks about password reset"}
 def _keyword_fallback(query: str) -> RoutingDecision:
     """Classify by keyword matching when the model returns non-JSON."""
     lower = query.lower()
-    for db in ("financial", "support"):  # products is the default
+    # Prefer concrete account/help intent over broad financial terms such as "plan".
+    for db in ("support", "financial"):  # products is the default
         if any(kw in lower for kw in _KEYWORDS[db]):
             return RoutingDecision(
                 database=db,
