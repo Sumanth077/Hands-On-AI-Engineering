@@ -1,9 +1,8 @@
 """Gradio UI for the Competitive Intelligence Agent, which generates AI-powered sales battlecards using a CrewAI multi-agent pipeline."""
 import re
-import gradio as gr
 import io
 from contextlib import redirect_stdout
-from agents_logic import get_research_crew
+from input_validation import missing_required_fields
 
 
 def strip_ansi(text: str) -> str:
@@ -23,6 +22,18 @@ def clean_log(raw: str) -> str:
 
 def run_analysis(my_company, competitor, pain_point, goal):
     """Run the three-agent CrewAI pipeline and return the reasoning log and final battlecard."""
+    missing_fields = missing_required_fields(my_company, competitor, pain_point, goal)
+    if missing_fields:
+        field_list = ", ".join(missing_fields)
+        return "", f"Please complete these required fields before generating a battlecard: {field_list}."
+
+    return _run_valid_analysis(my_company, competitor, pain_point, goal)
+
+
+def _run_valid_analysis(my_company, competitor, pain_point, goal):
+    """Start CrewAI only after the user has supplied every required field."""
+    from agents_logic import get_research_crew
+
     # Progress logging
     f = io.StringIO()
     with redirect_stdout(f):
@@ -40,28 +51,35 @@ def run_analysis(my_company, competitor, pain_point, goal):
 
     return clean_log(strip_ansi(f.getvalue())), final_output
 
-with gr.Blocks(title="Strategic Intel System") as demo:
-    gr.Markdown("# ⚔️ Competitive Intelligence Engine")
-    gr.Markdown("Fill in the details below to generate a strategic sales battlecard.")
-    
-    with gr.Row():
-        with gr.Column():
-            my_co = gr.Textbox(label="Your Company Name")
-            comp_co = gr.Textbox(label="Competitor Name")
-            pain = gr.Textbox(label="Main Pain Point (What do you lose deals over?)")
-            goal = gr.Textbox(label="Strategic Goal (e.g. Win enterprise deals)")
-            submit_btn = gr.Button("Generate Battlecard", variant="primary")
-            
-        with gr.Column():
-            with gr.Accordion("Agent Reasoning Process", open=False):
-                logs = gr.Textbox(label="Agent Reasoning Process", lines=10)
-            output = gr.Markdown(label="Final Battlecard")
 
-    submit_btn.click(
-        fn=run_analysis, 
-        inputs=[my_co, comp_co, pain, goal], 
-        outputs=[logs, output]
-    )
+def build_demo():
+    """Create the Gradio form without importing UI dependencies during validation tests."""
+    import gradio as gr
+
+    with gr.Blocks(title="Strategic Intel System") as demo:
+        gr.Markdown("# ⚔️ Competitive Intelligence Engine")
+        gr.Markdown("Fill in the details below to generate a strategic sales battlecard.")
+
+        with gr.Row():
+            with gr.Column():
+                my_co = gr.Textbox(label="Your Company Name")
+                comp_co = gr.Textbox(label="Competitor Name")
+                pain = gr.Textbox(label="Main Pain Point (What do you lose deals over?)")
+                goal = gr.Textbox(label="Strategic Goal (e.g. Win enterprise deals)")
+                submit_btn = gr.Button("Generate Battlecard", variant="primary")
+
+            with gr.Column():
+                with gr.Accordion("Agent Reasoning Process", open=False):
+                    logs = gr.Textbox(label="Agent Reasoning Process", lines=10)
+                output = gr.Markdown(label="Final Battlecard")
+
+        submit_btn.click(
+            fn=run_analysis,
+            inputs=[my_co, comp_co, pain, goal],
+            outputs=[logs, output],
+        )
+
+    return demo
 
 if __name__ == "__main__":
-    demo.launch(debug=True)
+    build_demo().launch(debug=True)
