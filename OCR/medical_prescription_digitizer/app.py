@@ -1,4 +1,5 @@
 """Streamlit app that extracts and validates structured prescription data from uploaded images using Mistral Large 3 and RxNorm."""
+import html
 import os
 import io
 
@@ -128,21 +129,21 @@ if uploaded_file:
 
                     chips = ""
                     if med.dosage:
-                        chips += f'<span class="field-chip">💊 {med.dosage}</span>'
+                        chips += f'<span class="field-chip">💊 {html.escape(med.dosage)}</span>'
                     if med.frequency:
-                        chips += f'<span class="field-chip">🕐 {med.frequency}</span>'
+                        chips += f'<span class="field-chip">🕐 {html.escape(med.frequency)}</span>'
                     if med.duration:
-                        chips += f'<span class="field-chip">📅 {med.duration}</span>'
+                        chips += f'<span class="field-chip">📅 {html.escape(med.duration)}</span>'
 
                     note_html = ""
                     if med.validation_note:
                         note_color = "#155724" if med.is_validated else "#721c24"
-                        note_html = f'<div style="font-size:0.8rem;color:{note_color};margin-top:4px">{med.validation_note}</div>'
+                        note_html = f'<div style="font-size:0.8rem;color:{note_color};margin-top:4px">{html.escape(med.validation_note)}</div>'
 
                     st.markdown(
                         f"""
                         <div class="{css_class}">
-                            <strong>{status_icon} {med.drug_name}</strong>
+                            <strong>{status_icon} {html.escape(med.drug_name)}</strong>
                             <div class="field-row">{chips}</div>
                             {note_html}
                         </div>
@@ -160,7 +161,7 @@ if uploaded_file:
                 st.markdown(
                     '<div class="illegible-box">'
                     "<strong>⚠️ Illegible / Uncertain Fields</strong><br>"
-                    + "<br>".join(f"• {f}" for f in prescription.illegible_fields)
+                    + "<br>".join(f"• {html.escape(field)}" for field in prescription.illegible_fields)
                     + "</div>",
                     unsafe_allow_html=True,
                 )
