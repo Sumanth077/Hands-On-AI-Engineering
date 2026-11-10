@@ -14,6 +14,7 @@ import shutil
 from pathlib import Path
 
 import gradio as gr
+from agno.run.team import TeamRunEvent
 from team import research_team
 
 # ── Paths ──────────────────────────────────────────────────────────────────────
@@ -73,13 +74,16 @@ def run_research(query: str):
     yield "_Researching — this may take a minute..._", "Running..."
 
     try:
-        response = research_team.run(query, stream=False)
-        report = response.content if response.content else PLACEHOLDER
+        report = ""
+        for event in research_team.run(query, stream=True):
+            if event.event == TeamRunEvent.run_content and event.content:
+                report += event.content
+                yield report, "Running..."
     except Exception as exc:
         yield PLACEHOLDER + f"\n\n---\n\n**Error:** {exc}", f"Error: {exc}"
         return
 
-    yield report, "Done."
+    yield report or PLACEHOLDER, "Done."
 
 
 def clear_all():
