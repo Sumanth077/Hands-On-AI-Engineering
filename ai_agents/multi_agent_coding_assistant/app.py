@@ -3,6 +3,7 @@ import os
 import streamlit as st
 from dotenv import load_dotenv
 from agents import create_llm, run_planner, run_coder, run_reviewer, run_final_coder
+from session_results import clear_pipeline_results
 
 load_dotenv()
 
@@ -68,8 +69,14 @@ if not api_key:
     )
 
 # ── Task input ────────────────────────────────────────────────────────────────
+def _clear_pipeline_results():
+    clear_pipeline_results(st.session_state)
+
+
 task = st.text_area(
     "Describe your coding task",
+    key="task_input",
+    on_change=_clear_pipeline_results,
     placeholder=(
         "e.g. Build a Python function that reads a CSV file and returns "
         "a dictionary of summary statistics (mean, median, std dev, min, max) "
@@ -82,6 +89,7 @@ run_button = st.button("🚀 Run Pipeline", type="primary", disabled=not (api_ke
 
 # ── Pipeline ──────────────────────────────────────────────────────────────────
 if run_button:
+    clear_pipeline_results(st.session_state)
     if not api_key:
         st.error("Please provide your Mistral API key.")
         st.stop()
