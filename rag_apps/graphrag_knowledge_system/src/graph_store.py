@@ -20,14 +20,18 @@ class GraphStore:
 
     def _load(self) -> nx.DiGraph:
         """Read the graph JSON file from disk and rebuild it as a DiGraph."""
-        if self.persist_path.exists():
-            try:
-                with open(self.persist_path, "r", encoding="utf-8") as f:
-                    data = json.load(f)
-                return nx.node_link_graph(data, directed=True, multigraph=False)
-            except Exception:
-                pass
-        return nx.DiGraph()
+        if not self.persist_path.exists():
+            return nx.DiGraph()
+
+        try:
+            with open(self.persist_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            return nx.node_link_graph(data, directed=True, multigraph=False)
+        except Exception as exc:
+            raise RuntimeError(
+                f"Could not load existing graph store {self.persist_path}; "
+                "refusing to overwrite it."
+            ) from exc
 
     def _save(self):
         """Serialise the current graph to disk as JSON."""
