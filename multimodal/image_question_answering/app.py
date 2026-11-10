@@ -21,7 +21,6 @@ client = genai.Client(api_key=GOOGLE_API_KEY or None)
 
 # ── PDF → images ──────────────────────────────────────────────────────────────
 
-_page_images: list[Image.Image] = []
 
 
 def pdf_to_images(path: str, dpi: int = 150) -> list[Image.Image]:
@@ -41,18 +40,15 @@ def pdf_to_images(path: str, dpi: int = 150) -> list[Image.Image]:
 
 
 def on_pdf_upload(pdf_file):
-    """Handle a PDF upload by rendering all pages and initialising the page slider."""
-    global _page_images
-
+    """Handle a PDF upload and return its pages in this Gradio session's state."""
     if pdf_file is None:
-        _page_images = []
-        return None, gr.update(visible=False, value=1), ""
+        return None, gr.update(visible=False, value=1), "", []
 
-    _page_images = pdf_to_images(pdf_file.name)
-    n = len(_page_images)
+    page_images = pdf_to_images(pdf_file.name)
+    n = len(page_images)
 
     return (
-        _page_images[0],
+        page_images[0],
         gr.update(
             minimum=1,
             maximum=n,
@@ -62,30 +58,31 @@ def on_pdf_upload(pdf_file):
             visible=True,
         ),
         f"Loaded {n} page{'s' if n != 1 else ''}.",
+        page_images,
     )
 
 
-def on_page_change(page_num: int):
-    """Return the PIL image for the selected 1-based page number."""
+def on_page_change(page_num: int, page_images: list[Image.Image]):
+    """Return the selected 1-based page from this Gradio session's state."""
     idx = int(page_num) - 1
-    if _page_images and 0 <= idx < len(_page_images):
-        return _page_images[idx]
+    if page_images and 0 <= idx < len(page_images):
+        return page_images[idx]
     return None
 
 
-def on_submit(page_num: int, question: str):
+def on_submit(page_num: int, question: str, page_images: list[Image.Image]):
     """Send the selected page image and question to Gemma 4 and return the answer text."""
-    if not _page_images:
+    if not page_images:
         return "Please upload a PDF first."
     if not question.strip():
         return "Please type a question."
 
     idx = int(page_num) - 1
-    if not (0 <= idx < len(_page_images)):
-        return f"Page {int(page_num)} is out of range (PDF has {len(_page_images)} pages)."
+    if not (0 <= idx < len(page_images)):
+        return f"Page {int(page_num)} is out of range (PDF has {len(page_images)} pages)."
 
     buf = io.BytesIO()
-    _page_images[idx].save(buf, format="PNG")
+    page_images[idx].save(buf, format="PNG")
     image_bytes = buf.getvalue()
 
     try:
@@ -107,6 +104,7 @@ def on_submit(page_num: int, question: str):
 # ── UI ────────────────────────────────────────────────────────────────────────
 
 with gr.Blocks(title="Image Question Answering") as demo:
+    page_images_state = gr.State([])
     gr.Markdown(
         "# Image Question Answering\n"
         "Upload a PDF, select a page, and ask any visual question — "
@@ -168,25 +166,25 @@ with gr.Blocks(title="Image Question Answering") as demo:
     pdf_input.change(
         fn=on_pdf_upload,
         inputs=[pdf_input],
-        outputs=[page_image, page_slider, status_box],
+        outputs=[page_image, page_slider, status_box, page_images_state],
     )
 
     page_slider.change(
         fn=on_page_change,
-        inputs=[page_slider],
+        inputs=[page_slider, page_images_state],
         outputs=[page_image],
     )
 
     submit_btn.click(
         fn=on_submit,
-        inputs=[page_slider, question_box],
+        inputs=[page_slider, question_box, page_images_state],
         outputs=[answer_box],
         show_progress="minimal",
     )
 
     question_box.submit(
         fn=on_submit,
-        inputs=[page_slider, question_box],
+        inputs=[page_slider, question_box, page_images_state],
         outputs=[answer_box],
         show_progress="minimal",
     )
