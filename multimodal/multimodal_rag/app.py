@@ -184,6 +184,8 @@ with st.sidebar:
         st.markdown('<div class="status-ok">● Ready</div>', unsafe_allow_html=True)
         if st.session_state.rag is None:
             st.session_state.rag = MultimodalRAG(api_key=api_key)
+        elif st.session_state.rag.api_key != api_key:
+            st.session_state.rag.update_api_key(api_key)
     else:
         st.markdown('<div class="status-missing">○ API key required</div>', unsafe_allow_html=True)
 
