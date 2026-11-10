@@ -55,10 +55,6 @@ uv sync
 
 Or with pip:
 
-```bash
-pip install -r requirements.txt
-```
-
 ### 3. Set Up Environment Variables
 
 ```bash
