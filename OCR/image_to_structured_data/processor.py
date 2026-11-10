@@ -7,7 +7,7 @@ import io
 def process_and_encode_image(image_file, max_size=(2048, 2048)):
     """Resizes image to fit API limits and converts to base64."""
     img = Image.open(image_file)
-    if img.mode in ("RGBA", "P"):
+    if img.mode not in ("L", "RGB"):
         img = img.convert("RGB")
     
     img.thumbnail(max_size, Image.Resampling.LANCZOS)
