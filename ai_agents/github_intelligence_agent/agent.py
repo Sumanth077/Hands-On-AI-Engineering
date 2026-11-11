@@ -5,7 +5,6 @@ Research anything on GitHub through natural language.
 Powered by Gemini 3 Flash + GitHub MCP Server via Haystack.
 """
 
-import os
 from textwrap import dedent
 
 from haystack.components.agents import Agent
@@ -47,18 +46,18 @@ def build_agent(github_pat: str, gemini_api_key: str, streaming_callback=None) -
         gemini_api_key: Google AI Gemini API key
         streaming_callback: Optional callable for streaming chunks to the UI
     """
-    os.environ["GITHUB_PAT"] = github_pat
-    os.environ["GOOGLE_API_KEY"] = gemini_api_key
-
     mcp_server_info = StreamableHttpServerInfo(
         url=GITHUB_MCP_URL,
-        token=Secret.from_env_var("GITHUB_PAT"),
+        token=Secret.from_token(github_pat),
     )
 
     toolset = MCPToolset(server_info=mcp_server_info)
     searchable_toolset = SearchableToolset(catalog=toolset)
 
-    generator = GoogleGenAIChatGenerator(model=MODEL_ID)
+    generator = GoogleGenAIChatGenerator(
+        model=MODEL_ID,
+        api_key=Secret.from_token(gemini_api_key),
+    )
 
     agent = Agent(
         system_prompt=SYSTEM_PROMPT,
