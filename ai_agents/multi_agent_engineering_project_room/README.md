@@ -4,7 +4,7 @@
 
 A shared engineering workspace built with [Switch Rooms](https://github.com/sandbox-quantum/switch). Two Codex agents inspect the same local repository from distinct roles, then leave a coordinated plan in one room conversation.
 
-The demo uses the public [Hands-On AI Engineering](https://github.com/Sumanth077/Hands-On-AI-Engineering) repository. It asks the agents to plan a repository-wide quality check that prevents unresolved Git conflict markers and Python syntax errors from reaching `main`. The agents only inspect and plan; they do not change code.
+The demo uses the public [Hands-On AI Engineering](https://github.com/Sumanth077/Hands-On-AI-Engineering) repository. It asks the agents to plan a repository-wide quality check that prevents unresolved Git conflict markers and Python syntax errors from reaching `main`.
 
 ## What the Demo Shows
 
@@ -38,7 +38,7 @@ The demo uses the public [Hands-On AI Engineering](https://github.com/Sumanth077
    Use the Hands-On AI Engineering repository as shared context. Work from evidence, state assumptions clearly, and coordinate practical engineering recommendations. Do not make code changes.
    ```
 
-## Demo
+## Try it
 
 Start with the architecture review:
 
@@ -52,8 +52,6 @@ Then hand the work to the implementation planner:
 @implementation-planner Based on the architecture review, identify the files to change, the implementation steps, and the checks we should add.
 ```
 
-In the recorded run, the architecture reviewer found that the repository is a collection of independent projects with no root CI workflow. It recommended a dependency-free repository checker plus a pull-request workflow. The implementation planner translated that into a proposed checker, tests, GitHub Actions workflow, contribution-guide updates, and branch-protection follow-up.
-
 ## Project Structure
 
 ```text
@@ -62,7 +60,7 @@ multi_agent_engineering_project_room/
 │   ├── architecture_reviewer.md
 │   └── implementation_planner.md
 ├── assets/
-│   └── demo.gif                 # Add the recorded demo here
+│   └── demo.gif                
 └── README.md
 ```
 
