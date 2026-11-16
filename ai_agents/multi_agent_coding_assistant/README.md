@@ -39,7 +39,7 @@ Multi-Agent Coding Assistant orchestrates a four-stage pipeline powered by Mistr
 ## Prerequisites
 
 - Python 3.9 or higher
-- A [Mistral AI API key](https://platform.mistral.ai) (free tier available)
+- A [Mistral AI API key](https://console.mistral.ai/) (free tier available)
 
 ## Installation
 
@@ -90,7 +90,7 @@ Open `http://localhost:8501` in your browser, describe a coding task, and click 
 
 | Variable | Description |
 |---|---|
-| `MISTRAL_API_KEY` | Your Mistral AI API key. Obtain one at [platform.mistral.ai](https://platform.mistral.ai) |
+| `MISTRAL_API_KEY` | Your Mistral AI API key. Obtain one at [console.mistral.ai](https://console.mistral.ai/) |
 
 If `MISTRAL_API_KEY` is not set, the app will prompt you to paste it directly in the UI.
 

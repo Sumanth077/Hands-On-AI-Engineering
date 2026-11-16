@@ -32,7 +32,7 @@ CartMate is a conversational support agent for NovaMart built with Streamlit and
 
 - Python 3.10 or higher
 - A [Mem0 Cloud](https://app.mem0.ai) account and API key (free tier available)
-- A [Mistral AI](https://platform.mistral.ai) account and API key (free tier available)
+- A [Mistral AI](https://console.mistral.ai/) account and API key (free tier available)
 
 ## Installation
 
@@ -78,7 +78,7 @@ Create a `.env` file in the project root with the following keys:
 | Variable | Description | Where to get it |
 |---|---|---|
 | `MEM0_API_KEY` | Mem0 Cloud API key for persistent memory storage | [app.mem0.ai](https://app.mem0.ai) |
-| `MISTRAL_API_KEY` | Mistral AI API key for LLM responses | [platform.mistral.ai](https://platform.mistral.ai) |
+| `MISTRAL_API_KEY` | Mistral AI API key for LLM responses | [console.mistral.ai](https://console.mistral.ai/) |
 
 ```env
 MEM0_API_KEY=your_mem0_api_key_here
