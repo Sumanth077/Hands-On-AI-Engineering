@@ -78,9 +78,16 @@ def _choice_review(
         answers = body["answers"]
         verdict_answer = answers["verdict"]
         verdict = str(verdict_answer["choice"])
-        confidence = float(verdict_answer["confidence"])
+        raw_confidence = verdict_answer["confidence"]
+        confidence = float(raw_confidence)
         issue_key = str(answers["issue"]["choice"])
-        issue = issues.get(issue_key, issue_key.replace("_", " "))
+        if verdict not in verdicts or issue_key not in issues:
+            raise ValueError("Jev returned a choice outside the requested criteria")
+        # Malformed evaluator output is unavailable, not a confident decision.
+        # The range comparison also rejects NaN and infinities.
+        if isinstance(raw_confidence, bool) or not 0.0 <= confidence <= 1.0:
+            raise ValueError("Jev confidence must be a probability between 0 and 1")
+        issue = issues[issue_key]
         threshold = jev_min_confidence()
         inconsistent = (verdict == actionable_verdict) == (issue_key == "none")
         if inconsistent and verdict == actionable_verdict:
