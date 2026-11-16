@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import jev_review
+import pytest
 
 
 def response(verdict: str, confidence: float, issue: str) -> dict:
@@ -89,3 +90,31 @@ def test_non_actionable_verdict_ignores_conflicting_issue(monkeypatch) -> None:
     assert review.status == "inconsistent"
     assert not review.actionable
     assert review.issue == "The answer is supported by the returned rows."
+
+
+@pytest.mark.parametrize("confidence", [-0.1, 1.1, float("inf"), float("nan"), True])
+def test_invalid_confidence_is_an_unavailable_review(monkeypatch, confidence) -> None:
+    monkeypatch.setattr(jev_review, "_post_jev", lambda _: response("clarify", confidence, "time_range"))
+    review = jev_review.review_question("Revenue?", "orders: created_at TEXT", [])
+    assert review.status == "error"
+    assert review.verdict == "unavailable"
+    assert review.confidence is None
+    assert not review.actionable
+
+
+@pytest.mark.parametrize("verdict,issue", [("unknown", "none"), ("clarify", "unknown")])
+def test_unknown_choices_are_unavailable_reviews(monkeypatch, verdict, issue) -> None:
+    monkeypatch.setattr(jev_review, "_post_jev", lambda _: response(verdict, 0.95, issue))
+    review = jev_review.review_question("Revenue?", "orders: created_at TEXT", [])
+    assert review.status == "error"
+    assert review.verdict == "unavailable"
+    assert not review.actionable
+
+
+@pytest.mark.parametrize("confidence", [0.0, 1.0])
+def test_probability_boundaries_are_valid(monkeypatch, confidence) -> None:
+    monkeypatch.setattr(jev_review, "_post_jev", lambda _: response("clarify", confidence, "time_range"))
+    review = jev_review.review_question("Revenue?", "orders: created_at TEXT", [])
+    assert review.confidence == confidence
+    assert review.status == ("ok" if confidence == 1.0 else "low_confidence")
+    assert review.actionable == (confidence == 1.0)
