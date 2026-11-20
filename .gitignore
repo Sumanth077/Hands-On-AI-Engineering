@@ -26,3 +26,4 @@ temp_*
 *$py.class
 .pytest_cache/
 .adk/
+ai_agents/personal_finance_agent/finance.db
