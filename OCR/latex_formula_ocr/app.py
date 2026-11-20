@@ -184,7 +184,13 @@ def build_katex_html(formulas: list) -> str:
       • Provides a per-formula copy button backed by the Clipboard API
     All formulas are rendered in a single iframe to share one CDN load.
     """
-    formulas_js = json.dumps(formulas)   # safe JSON array injected into JS
+    # Escape HTML-significant characters so OCR text cannot close this script.
+    formulas_js = (
+        json.dumps(formulas)
+        .replace("<", r"\u003c")
+        .replace(">", r"\u003e")
+        .replace("&", r"\u0026")
+    )
 
     # Per-formula card HTML (KaTeX rendering done in JS; only display code here)
     cards_html_parts = []
