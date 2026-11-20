@@ -13,12 +13,12 @@ assignees: ''
 
 **Category:**
 <!-- Select one or propose a new category -->
-- [ ] `agentic_rag/` - RAG systems with agentic capabilities
-- [ ] `multi_agent_systems/` - Multiple agents collaborating
-- [ ] `financial_agents/` - Finance-specific applications
-- [ ] `voice_agents/` - Voice-enabled AI applications
-- [ ] `data_analysis_agents/` - Data processing and analysis
-- [ ] `creative_agents/` - Content creation applications
+- [ ] `ai_agents/` - AI agents and multi-agent systems
+- [ ] `audio/` - Audio and voice applications
+- [ ] `fine_tuning/` - Model fine-tuning projects
+- [ ] `multimodal/` - Projects that work across multiple media types
+- [ ] `OCR/` - Optical character recognition projects
+- [ ] `rag_apps/` - Retrieval-augmented generation applications
 - [ ] New category: __________________
 
 ## 🎯 Project Description
@@ -46,8 +46,8 @@ assignees: ''
 
 ## ✅ Pre-Submission Checklist
 
-- [ ] Read the [CONTRIBUTING.md](../CONTRIBUTING.md)
-- [ ] Reviewed the [README template](../.github/README_TEMPLATE.md)
+- [ ] Read the [CONTRIBUTING.md](../../CONTRIBUTING.md)
+- [ ] Reviewed the [README template](../README_TEMPLATE.md)
 - [ ] Checked that no similar project exists
 - [ ] Have access to required APIs/services
 
