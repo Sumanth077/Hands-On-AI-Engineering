@@ -102,7 +102,8 @@ CROP_CALENDAR_DATA = {
 
 
 def _normalize_crop_name(crop_name: str) -> str:
-    return crop_name.strip().lower().replace("-", " ").split()[0]
+    words = crop_name.strip().lower().replace("-", " ").split()
+    return words[0] if words else ""
 
 
 def _build_crop_calendar_response(crop_name: str) -> str:

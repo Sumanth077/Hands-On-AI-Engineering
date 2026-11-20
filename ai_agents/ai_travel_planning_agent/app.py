@@ -27,6 +27,7 @@ from google.genai import types
 from google.genai.errors import ServerError
 
 from agents import root_agent
+from async_runner import run_coroutine
 
 # ---------------------------------------------------------------------------
 # Page config
@@ -230,15 +231,7 @@ def get_travel_plan(message: str) -> str:
     session_id: str = st.session_state.session_id
     user_id: str = st.session_state.user_id
 
-    try:
-        loop = asyncio.get_event_loop()
-        return loop.run_until_complete(
-            _run_agent_async(runner, session_id, user_id, message)
-        )
-    except RuntimeError:
-        return asyncio.run(
-            _run_agent_async(runner, session_id, user_id, message)
-        )
+    return run_coroutine(_run_agent_async(runner, session_id, user_id, message))
 
 # ---------------------------------------------------------------------------
 # Main chat UI

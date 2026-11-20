@@ -22,7 +22,7 @@ Today's date is {date.today().strftime("%B %d, %Y")}.
 Help users find hotels based on natural language queries. Extract:
 - Location (city, region, or country)
 - Check-in and check-out dates
-- Number of adults and rooms
+- Number of adults, children, and rooms
 - Price range, star rating, and amenities if mentioned
 
 Tool usage:

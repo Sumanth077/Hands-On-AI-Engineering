@@ -83,6 +83,8 @@ llm_agri_bot/
 ├── agent.py            # LangChain agent and Mistral setup
 
 ├── tools.py            # Weather, search, and crop calendar tools
+├── tests/
+│   └── test_crop_calendar.py
 
 ├── requirements.txt
 

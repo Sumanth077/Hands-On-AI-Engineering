@@ -161,7 +161,9 @@ The driver prints a labeled trace of the whole run:
 
 ### Reconnect to a running session
 
-Every step is a persisted event, so a dropped stream is recoverable. Persist `session.id`, `turnId`, and the last sequence number; on reconnect call `getTurn`, then `subscribeToTurn({ afterSequenceNumber })` if it is still running, or `listTurnEvents` if it already finished. The pattern is in `driver.ts`.
+The SDK supports recovering a stream when the client has a saved cursor, but this sample does not implement that behavior. `driver.ts` keeps `turnId` and the last sequence number in memory and prints them only after the stream ends. If the process stops before then, it has no saved cursor and cannot resume the turn.
+
+To make a client resumable, persist `session.id`, `turnId`, and the last sequence number as events arrive. After reconnect, call `getTurn`; if the turn is still running, continue with `subscribeToTurn({ afterSequenceNumber })`, or read completed events with `listTurnEvents`. This is a client-side pattern, not functionality provided by the current driver.
 
 ### Project structure
 

@@ -309,6 +309,14 @@ def _build_agent_message(
     )
 
 
+def _json_bool(data: dict, field: str, fallback: bool) -> bool:
+    """Return a JSON boolean field or reject malformed structured output."""
+    value = data.get(field, fallback)
+    if not isinstance(value, bool):
+        raise ValueError(f"{field} must be a JSON boolean")
+    return value
+
+
 # ---------------------------------------------------------------------------
 # Public API
 # ---------------------------------------------------------------------------
@@ -369,8 +377,8 @@ def triage(query: str, routing_confidence: float, llm: Llama) -> OrchestratorDec
     try:
         sentiment_score = float(data.get("sentiment_score", pre["sentiment_score"]))
         urgency_score = float(data.get("urgency_score", pre["urgency_score"]))
-        legal_flag = bool(data.get("legal_flag", pre["legal_flag"]))
-        repeat_contact = bool(data.get("repeat_contact", pre["repeat_contact"]))
+        legal_flag = _json_bool(data, "legal_flag", pre["legal_flag"])
+        repeat_contact = _json_bool(data, "repeat_contact", pre["repeat_contact"])
         reasoning = str(data.get("reasoning", ""))
         escalation_reasons = [str(r) for r in data.get("escalation_reasons", [])]
     except (TypeError, ValueError):

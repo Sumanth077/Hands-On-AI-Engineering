@@ -16,19 +16,12 @@ from langchain_core.messages import BaseMessage, ToolMessage
 from langchain_openai import ChatOpenAI
 from langgraph.graph import END, START, MessagesState, StateGraph
 from langgraph.prebuilt import ToolNode
+from sql_safety import _validate_read_only
 
 load_dotenv()
 
 DB_PATH = Path(__file__).parent / "chinook.db"
 TOP_K = 10
-
-FORBIDDEN_SQL = re.compile(
-    r"\b(INSERT|UPDATE|DELETE|DROP|CREATE|ALTER|TRUNCATE|REPLACE|"
-    r"GRANT|REVOKE|ATTACH|DETACH|MERGE|CALL|EXEC|EXECUTE)\b",
-    re.IGNORECASE,
-)
-READ_ONLY_SQL = re.compile(r"^\s*(SELECT|WITH|PRAGMA|EXPLAIN)\b", re.IGNORECASE | re.DOTALL)
-
 
 def _llm_context(state: MessagesState) -> list[HumanMessage]:
     """Text-only context for Kimi — never replay assistant tool_calls to the API."""
@@ -57,16 +50,6 @@ def _llm_context(state: MessagesState) -> list[HumanMessage]:
     if user_question:
         parts.append(f"User question: {user_question}")
     return [HumanMessage(content="\n\n".join(parts) if parts else "")]
-
-
-def _validate_read_only(query: str) -> str:
-    """Raise ValueError if the query contains any non-SELECT or mutating SQL statement."""
-    cleaned = query.strip().rstrip(";")
-    if FORBIDDEN_SQL.search(cleaned):
-        raise ValueError("Only read-only SELECT queries are allowed.")
-    if not READ_ONLY_SQL.match(cleaned):
-        raise ValueError("Only read-only SELECT queries are allowed.")
-    return cleaned
 
 
 class ReadOnlyQuerySQLDatabaseTool(QuerySQLDatabaseTool):

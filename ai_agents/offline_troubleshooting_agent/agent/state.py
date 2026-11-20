@@ -19,7 +19,7 @@ class InvestigationState(BaseModel):
 
 class InvestigationResult(BaseModel):
     likely_cause: str
-    confidence: float
+    confidence: float = Field(ge=0.0, le=1.0)
     recommendation: str
     supporting_evidence: list[str]
     retrieved_incident_ids: list[str]

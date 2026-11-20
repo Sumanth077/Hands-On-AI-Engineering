@@ -3,13 +3,13 @@ Cal Scheduling Agent: Streamlit UI for managing Cal.com appointments through nat
 """
 
 import os
-from datetime import date, datetime
 
 import streamlit as st
 from agno.agent import Agent
 from agno.models.google import Gemini
 from agno.tools.calcom import CalComTools
 from dotenv import load_dotenv
+from calendar_dates import today_in_timezone
 
 load_dotenv()
 
@@ -31,7 +31,7 @@ EXAMPLE_QUERIES = [
 
 def build_instructions(timezone: str = "UTC") -> str:
     """Return the system instruction string for the agent, injecting today's date and the user's timezone."""
-    today = datetime.now().strftime("%A, %B %d, %Y")
+    today = today_in_timezone(timezone)
     return f"""\
 You are a friendly and efficient calendar scheduling assistant with access to \
 the user's Cal.com calendar. Today is {today}.

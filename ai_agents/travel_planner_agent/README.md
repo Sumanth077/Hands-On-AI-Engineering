@@ -46,7 +46,7 @@ Built with LangChain and Streamlit, it combines real-time weather, currency conv
 ### 1. Clone the repository
 
 ```bash
-git clone git clone https://github.com/Sumanth077/Hands-On-AI-Engineering.git
+git clone https://github.com/Sumanth077/Hands-On-AI-Engineering.git
 cd Hands-On-AI-Engineering/ai_agents/travel_planner_agent
 ```
 

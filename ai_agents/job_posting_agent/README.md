@@ -100,6 +100,7 @@ NVIDIA_API_KEY=nvapi-your-key-here
 ```text
 job-posting-agent/
 ├── app.py                 # Streamlit UI
+├── script_json.py         # Safe JSON serialization for inline clipboard script
 ├── nvidia_client.py       # NVIDIA NIM client (chat completions + polling)
 ├── config.py              # Configuration helpers
 ├── prompts.py             # Agent system prompts
@@ -108,6 +109,8 @@ job-posting-agent/
 │   └── pipeline.py        # Multi-step agent orchestration
 ├── scripts/
 │   └── test_nvidia.py     # Optional API connectivity test
+├── tests/
+│   └── test_script_json.py
 ├── assets/
 │   └── demo.png           # Screenshot for README
 ├── requirements.txt
