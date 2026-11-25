@@ -1,0 +1,21 @@
+{
+  "label": "Offline demo — sample data. All projects, pages, claims, and dates below are fictional test data.",
+  "requirement": "Find self-hosted open-source PDF parsing projects that support table extraction, show recent maintenance activity, and use a permissive licence.",
+  "interpretation": {
+    "summary": "Sample scenario: self-hosted PDF parsing with documented table extraction and permissive licensing; prefer repository activity since 2026-05-25. This six-month window is a demo assumption, not a project-quality test.",
+    "criteria": [
+      {"id": "hosting", "label": "Self-hosted", "description": "Can run locally or on self-managed infrastructure", "required": true},
+      {"id": "tables", "label": "Table extraction", "description": "Documented PDF table extraction; no execution testing is implied", "required": true},
+      {"id": "licence", "label": "Permissive licence", "description": "Permissive code licence with any separate model-weight terms surfaced", "required": true},
+      {"id": "activity", "label": "Recent repository activity", "description": "Preference: activity on or after 2026-05-25; release dates recorded separately; recency is not quality", "required": false}
+    ],
+    "queries": ["self-hosted PDF parser table extraction permissive licence", "open source PDF parsing self hosted table extraction"]
+  },
+  "projects": [
+    {"slug": "atlas-pdf", "name": "AtlasPDF (fictional)", "hosting": "Run AtlasPDF locally with Python or Docker.", "tables": "Extract tables from PDF files using the table pipeline.", "licence": "MIT License", "licence_match": true, "release": "Latest release: v1.4.0, published 2026-10-15.", "activity": "Repository commit: 2026-11-20, improve table tests.", "recent": true, "docs": "The table pipeline exports CSV and preserves merged cells.", "terms": null, "licence_failure": false},
+    {"slug": "fog-pdf", "name": "FogPDF (fictional)", "hosting": "Run FogPDF on your own server with Docker.", "tables": "FogPDF documents table extraction for digital PDF pages.", "licence": null, "licence_match": null, "release": "Latest release: v0.9.0, published 2026-09-02.", "activity": "Repository commit: 2026-11-02, update parser documentation.", "recent": true, "docs": "Scanned documents need an external OCR engine.", "terms": null, "licence_failure": true},
+    {"slug": "quarry-pdf", "name": "QuarryPDF (fictional)", "hosting": "Self-host QuarryPDF with the supplied container.", "tables": "QuarryPDF supports table extraction from scanned PDFs.", "licence": "Code licence: GNU Affero General Public License v3.0.", "licence_match": false, "release": "Latest release: v2.0.0, published 2026-11-01.", "activity": "Repository commit: 2026-11-18, update OCR configuration.", "recent": true, "docs": "Model weights are licensed for non-commercial research only.", "terms": "README claims Apache-2.0 licensing.", "licence_failure": false},
+    {"slug": "slate-pdf", "name": "SlatePDF (fictional)", "hosting": "Run SlatePDF locally without a hosted service.", "tables": "Table extraction is not supported; output is plain text only.", "licence": "Apache License, Version 2.0", "licence_match": true, "release": "Latest release: v3.1.0, published 2026-10-05.", "activity": "Repository commit: 2026-11-04, fix text decoding.", "recent": true, "docs": "Use the text API for reading-order extraction.", "terms": null, "licence_failure": false},
+    {"slug": "sparrow-pdf", "name": "SparrowPDF (fictional)", "hosting": "Install SparrowPDF on self-managed infrastructure.", "tables": "SparrowPDF provides a PDF table extraction command.", "licence": "BSD 3-Clause License", "licence_match": true, "release": "Latest release: v0.6.0, published 2024-02-01.", "activity": "Latest visible repository commit: 2024-01-20, maintenance cleanup.", "recent": false, "docs": "Table extraction handles ruled digital tables; scanned PDFs are not supported.", "terms": null, "licence_failure": false}
+  ]
+}

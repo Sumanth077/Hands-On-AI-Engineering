@@ -1,0 +1,22 @@
+.env
+.env.*
+!.env.example
+.venv/
+.uv-cache/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+outputs/
+credentials*
+*.pem
+
+
+# Local tooling and generated artifacts
+.idea/
+.vscode/
+build/
+*.sqlite3
+*.sqlite3-wal
+*.sqlite3-shm
