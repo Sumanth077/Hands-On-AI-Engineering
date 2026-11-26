@@ -40,6 +40,7 @@ A curated collection of practical, production-ready AI projects across multiple 
 
 Intelligent ai agents for various automation tasks.
 
+- [**RepoScout**](./ai_agents/repo_scout) — Finds and compares open-source projects using OpenAI and concurrent Apify Server Actor requests, returning a shortlist with source-backed assessments.
 - [**Multi-Agent Research Assistant with Memory**](./ai_agents/research_assistant_with_memory) — Planner, Research, Writer, and Critic agents collaborate over a shared [Actian VectorAI DB](https://www.actian.com/databases/vectorai-db/) memory layer. Retrieves cited answers from PDFs, papers, manuals, and transcripts, self-grades them with a Critic feedback loop, and persists findings across sessions. Fully local via Ollama and BGE embeddings.
 - [**Multi-Agent Financial Analyst**](./ai_agents/multi_agent_financial_analyst) — Team of specialized agents for comprehensive financial analysis.
 - [**FinAgent**](./ai_agents/finagent) — Financial assistant agent for stock market analysis and insights.
