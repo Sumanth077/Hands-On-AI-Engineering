@@ -6,19 +6,35 @@
 
 ## Overview
 
-RepoScout helps developers turn a requirement into an evidence-linked comparison of
-open-source repositories. Instead of starting from a fixed list, it discovers public
-GitHub repositories, selects plausible candidates, retrieves their documentation,
-and assesses each required condition.
+Enter the kind of open-source project you need and its requirements, such as table
+extraction, self-hosting, a permissive licence, or recent maintenance. Choose how many
+candidates RepoScout may inspect.
 
-Apify **Web Search** discovers projects. Apify **Web Fetch** retrieves repository pages,
-READMEs, licence information, documentation, releases, and activity pages through
-bounded concurrent **Server Actor** requests. OpenAI plans the research, selects
-candidates, assesses retrieved evidence, and explains the shortlist. OpenAI's hosted
-web search and URL retrieval tools are not enabled.
+RepoScout discovers GitHub repositories and researches their public documentation.
+The comparison table shows how each candidate meets your criteria, with verdicts and
+source links. The shortlist highlights promising options and their tradeoffs. Findings
+reflect retrieved documentation; missing evidence remains **Needs review**.
 
-The result can include documented matches, exclusions, and unresolved findings.
-Every substantive assessment keeps citations back to retrieved source passages.
+## How RepoScout Uses Apify
+
+OpenAI interprets requirements and plans the research. Apify handles web retrieval:
+
+1. **Discover:** [Web Search](https://apify.com/apify/web-search) finds candidate
+   repositories using queries derived from your requirements.
+2. **Select:** The agent chooses plausible candidates and identifies sources to inspect.
+3. **Retrieve:** [Web Fetch](https://apify.com/apify/web-fetch) retrieves public READMEs,
+   documentation, licence terms, and release or repository-activity evidence.
+4. **Assess:** The application validates citations; OpenAI assesses the evidence and
+   prepares the comparison and shortlist.
+
+Independent requests run concurrently within configured limits through
+[Server Actor HTTP endpoints](https://docs.apify.com/actors/running/server-actors),
+returning results directly in their responses. This fits research started by a user's
+request: the agent can use returned evidence to choose its next step.
+
+Classic Actor usage instead starts a run, waits for completion, and retrieves dataset
+results. Classic runs can also run concurrently. Direct server responses simplify this
+interaction; they do not guarantee instant responses, better data, or faster retrieval.
 
 ## Features
 
@@ -226,7 +242,7 @@ normal research uses Server Actors. No benchmark runs automatically.
 | `GEMINI_MODEL` | Unset | Optional adapter requires `gemini-3.5-flash-lite` when selected |
 
 The UI and CLI candidate ceiling is chosen at submission. The configured OpenAI
-backend also enforces a fixed **$0.25 cumulative local spending guard**, reserving
+backend also enforces a fixed **$0.50 cumulative local spending guard**, reserving
 conservative input/output cost before each generation. It settles known usage and
 retains uncertain reservations after transport failures. It does not reset between
 sessions. Reaching the cap stops new model work; do not delete the ledger to bypass it.

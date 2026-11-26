@@ -119,3 +119,23 @@ def test_preference_requires_explicit_verbatim_user_wording(text, quote, require
     result = enforce_required_conditions(text, original)
     assert result.criteria[0].required is required
     assert original.criteria[0].required is False
+
+
+def test_authorized_cap_preserves_prior_spending_and_uncertain_reservations(tmp_path):
+    path = tmp_path / "preserved.sqlite3"
+    ledger = CostLedger(path)
+    with sqlite3.connect(path) as db:
+        db.execute(
+            "INSERT INTO attempts VALUES ('settled','old',250000000,249999900,'settled',100)"
+        )
+        db.execute("INSERT INTO attempts VALUES ('hold','old',10000000,NULL,'reserved',100)")
+        before = db.execute("SELECT * FROM attempts ORDER BY id").fetchall()
+    assert ledger.summary()["cap_usd"] == 0.50
+    assert ledger.summary()["committed_upper_bound_usd"] == 0.2599999
+    ledger.reserve("new", 4000, input_tokens=100)
+    with sqlite3.connect(path) as db:
+        after = db.execute(
+            "SELECT * FROM attempts WHERE id IN ('settled','hold') ORDER BY id"
+        ).fetchall()
+    assert after == before
+    assert ledger.summary()["unsettled_attempts"] == 2

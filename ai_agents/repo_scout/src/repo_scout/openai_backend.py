@@ -1,4 +1,4 @@
-"""Official OpenAI Responses SDK with a persistent, pre-request $0.25 reservation cap."""
+"""Official OpenAI Responses SDK with a persistent, pre-request cumulative reservation cap."""
 
 import hashlib
 import json
@@ -25,7 +25,7 @@ OUTPUT_RATE_NANO = 500
 BOUND_INPUT_RATE_NANO = 200
 BOUND_OUTPUT_RATE_NANO = 750
 CONTEXT_TOKEN_CEILING = 1_050_000
-CAP_NANO = 250_000_000
+CAP_NANO = 500_000_000
 DEFAULT_LEDGER = Path("outputs/openai-integration-budget.sqlite3")
 
 
@@ -85,7 +85,7 @@ class CostLedger:
             )
             if output_allowance < 256:
                 raise ModelBudgetError(
-                    "OpenAI $0.25 cost cap cannot reserve the next request. Research stopped; no retry or provider fallback."
+                    f"OpenAI ${CAP_NANO / 1e9:.2f} cost cap cannot reserve the next request. Research stopped; no retry or provider fallback."
                 )
             reservation = input_bound + output_allowance * BOUND_OUTPUT_RATE_NANO
             attempt = uuid4().hex
@@ -126,7 +126,7 @@ class CostLedger:
         with sqlite3.connect(self.path) as db:
             rows = db.execute("SELECT reserved,charged,status FROM attempts").fetchall()
         return {
-            "cap_usd": 0.25,
+            "cap_usd": CAP_NANO / 1e9,
             "attempts": len(rows),
             "committed_upper_bound_usd": sum(
                 row[1] if row[1] is not None else row[0] for row in rows
