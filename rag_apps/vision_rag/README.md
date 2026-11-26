@@ -26,9 +26,9 @@ A visual-first search engine that allows you to "talk" to your images and PDF do
 ## Setup & Execution
 
 ### 1. Requirements
-From the `vision_rag` directory, install dependencies:
+From the repository root, enter the project directory and install dependencies:
 ```bash
-cd vision_rag
+cd rag_apps/vision_rag
 pip install -r requirements.txt
 ```
 ### 2. Environment
