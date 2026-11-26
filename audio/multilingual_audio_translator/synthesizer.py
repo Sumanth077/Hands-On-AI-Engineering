@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import tempfile
 from pathlib import Path
 
@@ -59,6 +60,13 @@ def synthesize(text: str, target_language: str) -> str:
 
     audio = np.concatenate(chunks)
 
-    output = Path(tempfile.mkstemp(suffix=".wav")[1])
-    sf.write(str(output), audio, SAMPLE_RATE)
+    file_descriptor, output_path = tempfile.mkstemp(suffix=".wav")
+    output = Path(output_path)
+    try:
+        os.close(file_descriptor)
+        sf.write(str(output), audio, SAMPLE_RATE)
+    except Exception:
+        output.unlink(missing_ok=True)
+        raise
+
     return str(output)
