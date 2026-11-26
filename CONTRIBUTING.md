@@ -71,10 +71,12 @@ This helps us:
 
 **Current Categories:**
 
-- [`rag_apps/`](rag_apps/)
 - [`ai_agents/`](ai_agents/)
+- [`audio/`](audio/)
 - [`fine_tuning/`](fine_tuning/)
-- [`openclaw/`](openclaw/)
+- [`multimodal/`](multimodal/)
+- [`OCR/`](OCR/)
+- [`rag_apps/`](rag_apps/)
 
 **Adding a New Category:**
 
@@ -82,7 +84,6 @@ Categories are added **progressively** as projects are contributed.
 
 **Potential Future Categories:**
 - `mcp_agents/` - Model Context Protocol integrations
-- `fine_tuning/` - Model fine-tuning examples
 - `voice_agents/` - Voice-enabled AI applications
 - `llm_apps/` - General LLM-powered applications
 - `workflow_automation/` - AI workflow tools
