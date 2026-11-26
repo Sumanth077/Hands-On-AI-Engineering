@@ -39,6 +39,13 @@ def load_model():
 extractor = load_model()
 
 
+def _is_canonical_iso_date(value: str) -> bool:
+    try:
+        return date.fromisoformat(value).isoformat() == value
+    except ValueError:
+        return False
+
+
 # ---------------------------------------------------------------------------
 # Tabs
 # ---------------------------------------------------------------------------
@@ -118,24 +125,27 @@ with tab_upload:
                 )
 
                 if st.button("Save to Ledger", type="primary", use_container_width=True):
-                    try:
-                        parsed_items = json.loads(items_text)
-                    except json.JSONDecodeError:
-                        parsed_items = []
+                    if not _is_canonical_iso_date(receipt_date):
+                        st.error("Enter a valid date in YYYY-MM-DD format before saving.")
+                    else:
+                        try:
+                            parsed_items = json.loads(items_text)
+                        except json.JSONDecodeError:
+                            parsed_items = []
 
-                    record = {
-                        "vendor": vendor,
-                        "date": receipt_date,
-                        "line_items": parsed_items,
-                        "subtotal": subtotal,
-                        "tax": tax,
-                        "total": total,
-                        "category": category,
-                    }
-                    save_expense(record)
-                    del st.session_state["extracted"]
-                    st.success(f"Saved: {vendor} - ${total:.2f}")
-                    st.rerun()
+                        record = {
+                            "vendor": vendor,
+                            "date": receipt_date,
+                            "line_items": parsed_items,
+                            "subtotal": subtotal,
+                            "tax": tax,
+                            "total": total,
+                            "category": category,
+                        }
+                        save_expense(record)
+                        del st.session_state["extracted"]
+                        st.success(f"Saved: {vendor} - ${total:.2f}")
+                        st.rerun()
 
 
 # ===========================================================================
