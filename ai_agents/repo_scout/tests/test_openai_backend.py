@@ -195,8 +195,8 @@ def test_ledger_cap_is_atomic_and_cannot_be_raised_by_environment(tmp_path, monk
             return False
 
     with ThreadPoolExecutor(max_workers=4) as executor:
-        assert sum(executor.map(reserve, range(4))) == 1
-    assert CostLedger(path).summary()["cap_usd"] == 0.25
+        assert sum(executor.map(reserve, range(4))) == 2
+    assert CostLedger(path).summary()["cap_usd"] == 0.50
 
 
 def test_usage_bounds_and_unknown_model_fail_closed(tmp_path):
@@ -209,7 +209,8 @@ def test_usage_bounds_and_unknown_model_fail_closed(tmp_path):
     assert ledger.summary()["committed_upper_bound_usd"] == 0.213
 
 
-def test_smaller_output_allowance_fits_remaining_cap_without_reset(tmp_path):
+def test_smaller_output_allowance_fits_remaining_cap_without_reset(tmp_path, monkeypatch):
+    monkeypatch.setattr("repo_scout.openai_backend.CAP_NANO", 250_000_000)
     ledger = CostLedger(tmp_path / "budget.sqlite3")
     first, _ = ledger.reserve("first", 4000)
     ledger.settle(first, 180000, 3100, 4000)
