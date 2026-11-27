@@ -18,7 +18,7 @@ A sophisticated financial analysis system that leverages Mistral Small 4 (mistra
 
 ## Prerequisites
 
-- Python 3.8+
+- Python 3.10+
 - Mistral API key (for the Mistral Small 4 / mistral-small-latest model)
 - Claude Desktop (for MCP integration)
 - Firecrawl API key (optional, for enhanced news features)
